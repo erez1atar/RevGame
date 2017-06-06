@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="General"
+        android:key="general_key">
+
+        <CheckBoxPreference
+            android:key="@string/backgroung_music_pref_key"
+            android:title="Backgroung music"
+            android:icon="@drawable/sound_icon"
+            android:defaultValue="false">
+
+        </CheckBoxPreference>
+
+        <CheckBoxPreference
+            android:key="@string/cheers_sound_key"
+            android:title="Sound effects"
+            android:icon="@drawable/sound_icon"
+            android:defaultValue="false">
+
+        </CheckBoxPreference>
+
+        <EditTextPreference
+            android:key="@string/name_settings_key"
+            android:title="Nickname"
+            android:icon="@drawable/person_icon"
+            android:defaultValue="opponent">
+
+        </EditTextPreference>
+
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

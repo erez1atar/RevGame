@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "424329362578",
+    "project_id": "reversi-150009"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424329362578:android:881ab92458b3d3e2",
+        "android_client_info": {
+          "package_name": "reversi.android.game.com.r.reversi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC6UR6418_czQ5pzykWOBROqn-eLBwf4I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-98652193-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

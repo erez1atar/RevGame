@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="reversi.android.game.com.r.reversi.Presention.CreditsActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/credit_feture_graphic"
+        android:text="Feature graphic from : \n https://www.norio.be/android-feature-graphic-generator/"/>
+
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:text="music from : \n http://soundimage.org/fantasywonder/"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="font from : \n http://all-free-download.com"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="font author: ClaudeP"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="icons from : http://www.flaticon.com"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="icons author: @Dave Gandy, @MadeByOliver, @dinoSoftLabs"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:text="Is developer Mode"
+        android:visibility="invisible"
+        android:textSize="30dp"
+        android:id="@+id/developerMode_text"
+        android:textColor="@android:color/black">
+
+    </TextView>
+
+
+</LinearLayout>

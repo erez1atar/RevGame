@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/main_backgound"
+    android:orientation="vertical"
+    tools:context=".Presention.MainActivity">
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="One player"
+        android:textSize="20dp"
+        android:textColor="@android:color/black"
+        android:background="@drawable/btn_gridient_1"
+        android:id="@+id/computerButton" />
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Two players"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:id="@+id/buttonStart"
+        android:background="@drawable/black_btn_background"
+        android:layout_gravity="center_horizontal"/>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="20dp"
+        android:text="Join game(WIFI)"
+        android:background="@drawable/btn_gridient_1"
+        android:id="@+id/JoinGame"/>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="20dp"
+        android:text="Host game(WIFI)"
+        android:textColor="@android:color/white"
+        android:background="@drawable/black_btn_background"
+        android:id="@+id/hostButton"/>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textSize="20dp"
+        android:layout_weight="0.15"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Levels"
+        android:textSize="20dp"
+        android:drawableRight="@drawable/new_1"
+        android:background="@drawable/btn_gridient_1"
+        android:id="@+id/levelButton"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:text="Credits"
+        android:textSize="20dp"
+        android:background="@drawable/black_btn_background"
+        android:id="@+id/creditsButton"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="60sp"
+        android:id="@+id/reversi"
+        android:textAlignment="center"
+        android:text="Reversi"
+        />
+
+    <!--<Button-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="Help"-->
+        <!--android:id="@+id/helpButton"/>-->
+
+</LinearLayout>

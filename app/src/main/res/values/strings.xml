@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_name">Reversi</string>
+
+    <string name="banner_ad_unit_id">ca-app-pub-1765755909018734/3544306807</string>
+    <string name="inter_ad_unit_id">ca-app-pub-1765755909018734/5719044002</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_settings_activity">Settings_activity</string>
+
+    <string name="general_setting_key">general</string>
+
+    <string name="connection">connection</string>
+    <string name="connect">connect</string>
+
+    <string name="json_type">type</string>
+    <string name="json_actionType">actionType</string>
+    <string name="json_row">row</string>
+    <string name="json_col">col</string>
+    <string name="json_value">value</string>
+
+    <string name="turn_key">turn</string>
+    <string name="game_key">game</string>
+    <string name="action_key">action</string>
+    <string name="accelometer_key">accelometer_key</string>
+    <string name="name_key">name_key</string>
+    <string name="connection_key">connection_key</string>
+    <string name="disconnect_action_key">disconnect_action</string>
+
+    <string name="disconnect_value">disconnect_val</string>
+
+    <string name="row_key">row</string>
+    <string name="col_key">col</string>
+
+    <string name="tcp_connection_rec">connectionRec</string>
+    <string name="tcp_rec">tcpRec</string>
+    <string name="game_state">gameState</string>
+
+    <string name="start_game">startGame</string>
+    <string name="wait_for_opp_to_host">wait</string>
+    <string name="wait_for_opp_join">waitJoin</string>
+    <string name="connection_fail">fail</string>
+
+    <string name="ip_request">ipRec</string>
+    <string name="ip_address">ipAddress</string>
+    <string name="is_my_turn_key"></string>
+    <string name="multi_player_key">multiPlayer</string>
+    <string name="shake">shake</string>
+    <string name="computer_mode_key">computer_key</string>
+
+
+    <string name="my_turn_text">Your turn</string>
+    <string name="opponent_turn"> playing now</string>
+
+    <string name="settings_type_key">settingType</string>
+    <string name="shake_feature_pref_key">shake_feature</string>
+    <string name="backgroung_music_pref_key">background_music_key</string>
+    <string name="cheers_sound_key">cheers_music_key</string>
+    <string name="name_settings_key">name_key</string>
+
+
+</resources>

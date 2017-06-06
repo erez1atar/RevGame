@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <header
+        android:fragment="reversi.android.game.com.r.reversi.Settings.FragmentSettings"
+        android:title="General settings"
+        android:icon="@drawable/general_icon"
+        android:summary=""
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <extra
+            android:name="settingType"
+            android:value="general">
+
+        </extra>
+    </header>
+
+</preference-headers>
