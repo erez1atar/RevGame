@@ -220,11 +220,12 @@ public class GameController implements IController
                             {
                                 int level = App.getLevelsModeManager().getCurrentLevel();
                                 App.Instance.getGoogleAnalytics().TrackLevelWinEvent(level);
-                                App.getLevelsModeManager().setCurrentLevel(level + 1);
+
                                  if(iPresent != null)
                                 {
                                      iPresent.winLevel(players[1]);
                                 }
+                                App.getLevelsModeManager().setCurrentLevel(level + 1);
                             }
                             else if(iPresent != null)
                             {
