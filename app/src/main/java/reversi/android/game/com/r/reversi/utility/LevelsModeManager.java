@@ -392,7 +392,6 @@ public class LevelsModeManager
 
             case 25:
                 tiles.add(new Tile(7 , 1, GamePiece.PLAYER2));
-                tiles.add(new Tile(5 , 2, GamePiece.PLAYER2));
                 tiles.add(new Tile(7 , 0, GamePiece.PLAYER1));
                 tiles.add(new Tile(6 , 1, GamePiece.PLAYER2));
                 tiles.add(new Tile(5 , 2, GamePiece.PLAYER2));
@@ -586,7 +585,7 @@ public class LevelsModeManager
             case 24:
                 return 3;
             case 25:
-                return 9;
+                return 8;
         }
         return -1;
     }
