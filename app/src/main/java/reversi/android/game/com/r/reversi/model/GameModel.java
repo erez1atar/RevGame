@@ -130,4 +130,9 @@ public class GameModel implements IModel
     {
         return numOfRows;
     }
+
+    public List<List<GamePiece>> getGame()
+    {
+        return game;
+    }
 }

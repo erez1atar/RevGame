@@ -20,4 +20,5 @@ public interface IModel
     ArrayList<Tile> getEmptyTiles();
     int getNumOfCols();
     int getNumOfRows();
+    List<List<GamePiece>> getGame();
 }
