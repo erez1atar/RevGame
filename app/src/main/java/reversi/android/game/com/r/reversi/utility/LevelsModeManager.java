@@ -18,7 +18,7 @@ public class LevelsModeManager
     private SharedPreferences sharedPreferences;
     private static final String crntLevelStr = "LEVEL";
     private static final String FINISHED_LAST_LEVEL = "LAST_LEVEL_FINISHED";
-    int maxLevel = 25;
+    int maxLevel = 26;
     public class StartGameTile
     {
         public StartGameTile(int x, int y, PlayerType playerType)
@@ -402,6 +402,21 @@ public class LevelsModeManager
                 tiles.add(new Tile(0 , 6, GamePiece.PLAYER2));
 
                 break;
+
+            case 26 :
+                tiles.add(new Tile(3 , 2, GamePiece.PLAYER2));
+                tiles.add(new Tile(4 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(4 , 5, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(3 , 3, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 , 5, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 4, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 7, GamePiece.PLAYER1));
+                break;
         }
 
         return tiles;
@@ -467,6 +482,8 @@ public class LevelsModeManager
                 return 0;
             case 25:
                 return 0;
+            case 26:
+                return 0;
         }
         return -1;
     }
@@ -526,6 +543,8 @@ public class LevelsModeManager
                 return 8;
             case 25:
                 return 1;
+            case 26:
+                return 6;
 
         }
         return -1;
@@ -586,6 +605,8 @@ public class LevelsModeManager
                 return 3;
             case 25:
                 return 8;
+            case 26:
+                return 4;
         }
         return -1;
     }
