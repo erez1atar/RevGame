@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import java.util.List;
+
 import reversi.android.game.com.r.reversi.R;
+import reversi.android.game.com.r.reversi.board.GamePiece;
 import reversi.android.game.com.r.reversi.utility.App;
 
 /**
@@ -54,6 +57,19 @@ public class GameStateRouter
         intent.putExtra(App.Instance.getString(R.string.connection_key), App.Instance.getString(R.string.disconnect_value));
         localReceiver.sendBroadcast(intent);
     }
+
+    public static void sendRetryLevelStartGame(Boolean isMyTurn, Boolean multiPlayer, Boolean computerMode)
+    {
+        Intent intent = new Intent(App.Instance.getString(R.string.game_state));
+        intent.putExtra(App.Instance.getString(R.string.game_state),App.Instance.getString(R.string.start_game));
+        intent.putExtra(App.Instance.getString(R.string.is_my_turn_key), isMyTurn);
+        intent.putExtra(App.Instance.getString(R.string.multi_player_key), multiPlayer);
+        intent.putExtra(App.Instance.getString(R.string.computer_mode_key), computerMode);
+        intent.putExtra("retry", true);
+        Log.d("intent", "sendRetryLevelStartGame");
+        localReceiver.sendBroadcast(intent);
+    }
+
 
 
 }

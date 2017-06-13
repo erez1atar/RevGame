@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,6 +18,7 @@ import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.board.Player;
 import reversi.android.game.com.r.reversi.board.GamePiece;
 import reversi.android.game.com.r.reversi.board.Tile;
+import reversi.android.game.com.r.reversi.model.GameStateManager;
 import reversi.android.game.com.r.reversi.model.IModel;
 import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.LevelsModeManager;
@@ -38,6 +40,8 @@ public class GameController implements IController
     private IConnectionManager iConnectionManager;
     private MyAccelometer myAccelometer;
     private SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.Instance);
+    private GameStateManager gameStateManager;
+    private boolean toSaveStateThisTurn = true;
 
     public GameController(IModel gameModel, IPresent iPresent , IConnectionManager iConnectionManager)
     {
@@ -70,10 +74,41 @@ public class GameController implements IController
         return numOfPieces[1];
     }
 
+    @Override
+    public void startRetryGame(ArrayList<ArrayList<GamePiece>> gameBoard) {
+        Log.d("GameContoller", "startRetryGame");
+        turnIdx = 0;
+        gameModel.clearBoard();
+        gameStateManager = new GameStateManager();
+        ArrayList<Tile> initTiles = new ArrayList<>(4);
+        for(int i = 0 ; i < gameBoard.size() ; i++)
+        {
+            for(int j = 0 ; j < gameBoard.get(i).size() ; j++)
+            {
+                    initTiles.add(new Tile(i, j, gameBoard.get(i).get(j)));
+            }
+        }
+        IPresent iPresent = iPresentWeak.get();
+        if(iPresent != null)
+        {
+            iPresent.updateChanges(initTiles);
+        }
+        gameModel.setTiles(initTiles);
+        gameEndNormally = false;
+        iConnectionManager.sendTurnData(new TurnData(App.Instance.getString(R.string.action_key), App.Instance.getString(R.string.name_key), prefs.getString(App.Instance.getString(R.string.name_settings_key), "Opponent")));
+    }
+
+    @Override
+    public void saveGameStateToRetry() {
+        App.Instance.saveGameState(gameStateManager.getGameState());
+    }
+
     public void startGame()
     {
         turnIdx = 0;
+        toSaveStateThisTurn = true;
         gameModel.clearBoard();
+        gameStateManager = new GameStateManager();
         GamePiece element1 = players[0].getGamePiece();
         GamePiece element2 = players[1].getGamePiece();
         ArrayList<Tile> initTiles = new ArrayList<>(4);
@@ -173,6 +208,11 @@ public class GameController implements IController
                 ArrayList<Tile> tilesToChange = new ArrayList<>();
                 int numOfEnemies = getNumOfTilesToChange(tilesToChange, row , col);
 
+                if(toSaveStateThisTurn) {
+                    gameStateManager.saveState();
+                }
+                toSaveStateThisTurn = !toSaveStateThisTurn;
+
                 if (numOfEnemies > 0)
                 {
                     IPresent iPresent = iPresentWeak.get();
@@ -234,6 +274,7 @@ public class GameController implements IController
                         }
                         gameEndNormally = true;
                     }
+
 
             }
         }

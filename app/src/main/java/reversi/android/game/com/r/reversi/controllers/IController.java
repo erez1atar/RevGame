@@ -1,9 +1,11 @@
 package reversi.android.game.com.r.reversi.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import reversi.android.game.com.r.reversi.Connection.IConnectionManager;
 import reversi.android.game.com.r.reversi.Presention.IPresent;
+import reversi.android.game.com.r.reversi.board.GamePiece;
 import reversi.android.game.com.r.reversi.board.Player;
 import reversi.android.game.com.r.reversi.board.Tile;
 
@@ -13,6 +15,8 @@ import reversi.android.game.com.r.reversi.board.Tile;
 public interface IController
 {
     void startGame();
+    void startRetryGame(ArrayList<ArrayList<GamePiece>> gameBoard);
+    void saveGameStateToRetry();
     void onActionEvent(String actionType, String value, int row, int col);
     void onTileTouched(int row, int col);
     void setUp();

@@ -12,6 +12,8 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.List;
 
 import reversi.android.game.com.r.reversi.Connection.ComputerPlayer;
 import reversi.android.game.com.r.reversi.Connection.ConnectionManager;
@@ -19,6 +21,7 @@ import reversi.android.game.com.r.reversi.Connection.DummyConnection;
 import reversi.android.game.com.r.reversi.Connection.IConnectionManager;
 import reversi.android.game.com.r.reversi.Connection.LevelPlayer;
 import reversi.android.game.com.r.reversi.Presention.IPresent;
+import reversi.android.game.com.r.reversi.board.GamePiece;
 import reversi.android.game.com.r.reversi.controllers.GameController;
 import reversi.android.game.com.r.reversi.controllers.IController;
 import reversi.android.game.com.r.reversi.model.GameModel;
@@ -44,6 +47,7 @@ public class App extends Application
     private final static String developerModeStr = "dev_mode";
     private SharedPreferences sharedPreferences;
     private DifficultyManager difficultyManager;
+    private ArrayList<ArrayList<GamePiece>> gameState;
 
     public App()
     {
@@ -204,6 +208,16 @@ public class App extends Application
             difficultyManager = new DifficultyManager();
         }
         return difficultyManager;
+    }
+
+    public void saveGameState(ArrayList<ArrayList<GamePiece>> game)
+    {
+        this.gameState = game;
+    }
+
+    public ArrayList<ArrayList<GamePiece>>  getGameState()
+    {
+        return gameState;
     }
 
 

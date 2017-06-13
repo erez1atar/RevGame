@@ -2,27 +2,24 @@ package reversi.android.game.com.r.reversi.Presention;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,17 +39,19 @@ import reversi.android.game.com.r.reversi.board.Tile;
 import reversi.android.game.com.r.reversi.controllers.IController;
 import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.BitmapContainer;
-import reversi.android.game.com.r.reversi.utility.DifficultyManager;
 import reversi.android.game.com.r.reversi.utility.GoogleAnalyticsHelper;
-import reversi.android.game.com.r.reversi.utility.LevelsModeManager;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 
-public class GameActivity extends Activity implements IPresent
+public class GameActivity extends Activity implements IPresent,RewardedVideoAdListener
 {
     private int numOfRows;
     private int numOfCols;
@@ -76,6 +75,8 @@ public class GameActivity extends Activity implements IPresent
     private Button soundBtn;
     private Button musicBtn;
     private Button exitBtn;
+    private RewardedVideoAd mAd;;
+    private final static String SHOW_VIDEO = "show_video_key";
 
 
     private ArrayList<GameElementView> viewsBlink = new ArrayList<>(10);
@@ -86,6 +87,11 @@ public class GameActivity extends Activity implements IPresent
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        mAd = MobileAds.getRewardedVideoAdInstance(this);
+        mAd.setRewardedVideoAdListener(this);
+        loadRewardedVideoAd();
+
 
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/edosz.ttf");
         TextView turnText = (TextView)findViewById(R.id.turnText) ;
@@ -133,8 +139,17 @@ public class GameActivity extends Activity implements IPresent
 
         initBoard();
         initController(computerMode);
-
-        controller.startGame();
+        Boolean retryGame = getIntent().getBooleanExtra("retry", false);
+        Log.d("gameActivity", "retryGame = " + String.valueOf(retryGame));
+        if(retryGame)
+        {
+            Log.d("gameActivity", "controller start retry game");
+            controller.startRetryGame(App.Instance.getGameState());
+        }
+        else
+        {
+            controller.startGame();
+        }
         setTurnText();
         blinkOptionsTiles();
 
@@ -332,6 +347,7 @@ public class GameActivity extends Activity implements IPresent
     protected void onResume()
     {
         super.onResume();
+        mAd.resume(this);
         controller.setUp();
         IntentFilter filter = new IntentFilter();
         filter.addAction(getString(R.string.turn_key));
@@ -343,7 +359,15 @@ public class GameActivity extends Activity implements IPresent
     protected void onPause()
     {
         EventBus.unregisterToGameMSGS(controller);
+        mAd.pause(this);
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mAd.destroy(this);
+        super.onDestroy();
+
     }
 
     @Override
@@ -503,6 +527,14 @@ public class GameActivity extends Activity implements IPresent
                 });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
+                boolean show = prefs.getBoolean(GameActivity.SHOW_VIDEO, false);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(GameActivity.SHOW_VIDEO, !show);
+                editor.apply();
+                if (mAd.isLoaded() && show) {
+                    showDialog();
+                }
+
             }
         });
     }
@@ -672,4 +704,80 @@ public class GameActivity extends Activity implements IPresent
         return;
     }
 
+    @Override
+    public void onRewardedVideoAdLoaded() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened() {
+
+    }
+
+    @Override
+    public void onRewardedVideoStarted() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed() {
+        finish();
+    }
+
+    @Override
+    public void onRewarded(RewardItem rewardItem) {
+        controller.closeGame();
+        App.setIsLevelsMode(true);
+        GameStateRouter.sendRetryLevelStartGame(false, true, true);
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int i) {
+
+    }
+
+    private void loadRewardedVideoAd() {
+        mAd.loadAd("ca-app-pub-1765755909018734/4827186000", new AdRequest.Builder().build());
+    }
+
+    private void showDialog(){
+        final Dialog dialog = new Dialog(GameActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.video_dialog);
+
+        Button skipBtn = (Button) dialog.findViewById(R.id.video_dialog_skip_btn);
+        skipBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Button watchBtn = (Button) dialog.findViewById(R.id.video_dialog_watch_btn);
+        watchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAd.isLoaded()) {
+                    controller.saveGameStateToRetry();
+                    mAd.show();
+                }
+            }
+        });
+
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/edosz.ttf");
+        TextView watchTxt = (TextView) dialog.findViewById(R.id.watch_video_text);
+
+        skipBtn.setTypeface(type);
+        watchBtn.setTypeface(type);
+        watchTxt.setTypeface(type);
+
+        dialog.show();
+
+    }
 }

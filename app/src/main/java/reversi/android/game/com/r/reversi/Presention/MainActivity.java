@@ -292,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 intentToGame.putExtra(App.Instance.getString(R.string.is_my_turn_key), intent.getBooleanExtra(getString(R.string.is_my_turn_key), true));
                 intentToGame.putExtra(App.Instance.getString(R.string.multi_player_key), intent.getBooleanExtra(getString(R.string.multi_player_key), true));
                 intentToGame.putExtra(App.Instance.getString(R.string.computer_mode_key), intent.getBooleanExtra(App.Instance.getString(R.string.computer_mode_key), false));
+                intentToGame.putExtra("retry",intent.getBooleanExtra("retry", false));
                 startActivity(intentToGame);
                 if(alertDialog != null)
                 {
