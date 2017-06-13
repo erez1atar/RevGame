@@ -726,6 +726,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
 
     @Override
     public void onRewarded(RewardItem rewardItem) {
+        App.Instance.getGoogleAnalytics().TrackVideoRewarded();
         controller.closeGame();
         App.setIsLevelsMode(true);
         GameStateRouter.sendRetryLevelStartGame(false, true, true);
@@ -764,6 +765,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             @Override
             public void onClick(View v) {
                 if (mAd.isLoaded()) {
+                    App.Instance.getGoogleAnalytics().TrackVideoStarted();
                     controller.saveGameStateToRetry();
                     mAd.show();
                 }

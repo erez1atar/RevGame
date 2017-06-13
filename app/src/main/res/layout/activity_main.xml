@@ -83,10 +83,29 @@
         android:background="@drawable/btn_gridient_1"
         android:id="@+id/levelButton"/>
 
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textSize="20dp"
+        android:layout_weight="0.3"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:textSize="20dp"
+        android:drawableLeft="@drawable/google_play"
+        android:drawableRight="@drawable/google_play"
+        android:text="Rate Us"
+        android:textColor="@android:color/white"
+        android:background="@drawable/black_btn_background"
+        android:id="@+id/rate_us_btn"/>
+
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.8"/>
+        android:layout_weight="0.15"/>
 
     <Button
         android:layout_width="match_parent"

@@ -81,11 +81,21 @@ public class GameController implements IController
         gameModel.clearBoard();
         gameStateManager = new GameStateManager();
         ArrayList<Tile> initTiles = new ArrayList<>(4);
+        numOfPieces[0] = 0;
+        numOfPieces[1] = 0;
         for(int i = 0 ; i < gameBoard.size() ; i++)
         {
             for(int j = 0 ; j < gameBoard.get(i).size() ; j++)
             {
-                    initTiles.add(new Tile(i, j, gameBoard.get(i).get(j)));
+                initTiles.add(new Tile(i, j, gameBoard.get(i).get(j)));
+                if(gameBoard.get(i).get(j) == GamePiece.PLAYER1)
+                {
+                    ++numOfPieces[0];
+                }
+                else if (gameBoard.get(i).get(j) == GamePiece.PLAYER2)
+                {
+                    ++numOfPieces[1];
+                }
             }
         }
         IPresent iPresent = iPresentWeak.get();

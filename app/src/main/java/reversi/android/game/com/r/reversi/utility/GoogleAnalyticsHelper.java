@@ -24,6 +24,12 @@ public class GoogleAnalyticsHelper
     public final static String ONE_PLAYERS_GAME_PRESSED  = "one_players_game";
     public final static String LEVELS_PRESSED  = "levels_game";
 
+    private final static String VIDEO_CATEGORY = "VIDEO";
+
+    private final static String VIDEO_STARTED = "video_start";
+
+    private final static String VIDEO_REWARDED = "video_rewarded";
+
 
     public GoogleAnalyticsHelper()
     {
@@ -91,6 +97,32 @@ public class GoogleAnalyticsHelper
         mTracker.send(new HitBuilders.EventBuilder()
                 .setCategory("ERROR")
                 .setAction("invalid_item_" + row + "_" + col)
+                .build());
+    }
+
+    public void TrackVideoRewarded()
+    {
+        Log.d("GoogleAnalyticsHelper" , "TrackLevelWinEvent");
+        if(App.Instance.getIsDeveloperMode())
+        {
+            return;
+        }
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory(VIDEO_CATEGORY)
+                .setAction(VIDEO_REWARDED)
+                .build());
+    }
+
+    public void TrackVideoStarted()
+    {
+        Log.d("GoogleAnalyticsHelper" , "TrackLevelWinEvent");
+        if(App.Instance.getIsDeveloperMode())
+        {
+            return;
+        }
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory(VIDEO_CATEGORY)
+                .setAction(VIDEO_STARTED)
                 .build());
     }
 }
