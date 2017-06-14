@@ -41,7 +41,7 @@ public class GameController implements IController
     private MyAccelometer myAccelometer;
     private SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.Instance);
     private GameStateManager gameStateManager;
-    private boolean toSaveStateThisTurn = true;
+    private boolean toSaveStateThisTurn = false;
 
     public GameController(IModel gameModel, IPresent iPresent , IConnectionManager iConnectionManager)
     {

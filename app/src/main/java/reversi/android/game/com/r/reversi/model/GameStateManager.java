@@ -45,10 +45,10 @@ public class GameStateManager
 
     public ArrayList<ArrayList<GamePiece>> getGameState()
     {
-        int movesBack = gameState.size() - 3;
-        if(movesBack < 0)
+        int movesBack = gameState.size() - 4;
+        if(movesBack < 1)
         {
-            movesBack = 0;
+            movesBack = 1;
         }
         Log.d("getGameState", "idx = " + movesBack);
         return gameState.get(movesBack);
