@@ -18,7 +18,7 @@ public class LevelsModeManager
     private SharedPreferences sharedPreferences;
     private static final String crntLevelStr = "LEVEL";
     private static final String FINISHED_LAST_LEVEL = "LAST_LEVEL_FINISHED";
-    int maxLevel = 26;
+    int maxLevel = 28;
     public class StartGameTile
     {
         public StartGameTile(int x, int y, PlayerType playerType)
@@ -417,6 +417,39 @@ public class LevelsModeManager
                 tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
                 tiles.add(new Tile(0 , 7, GamePiece.PLAYER1));
                 break;
+
+            case 27:
+                tiles.add(new Tile(midRow -2 ,midCol -2, GamePiece.PLAYER1));
+                tiles.add(new Tile(midRow -1 , midCol -1, GamePiece.PLAYER1));
+                tiles.add(new Tile(midRow -1 , midCol -2, GamePiece.PLAYER2));
+                tiles.add(new Tile(midRow - 2 , midCol -1, GamePiece.PLAYER2));
+                tiles.add(new Tile(7 , 0, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 7, GamePiece.PLAYER1));
+                tiles.add(new Tile(1 , 7, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 , 7, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 , 7, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 7, GamePiece.PLAYER1));
+                break;
+
+            case 28:
+
+                tiles.add(new Tile(3 , 2, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 4, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(5 , 2, GamePiece.PLAYER2));
+                tiles.add(new Tile(5 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(5 , 4, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(4 , 2, GamePiece.PLAYER2));
+                tiles.add(new Tile(4 , 4, GamePiece.PLAYER2));
+
+
+                tiles.add(new Tile(4 , 3, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 , 7, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
+
+                break;
         }
 
         return tiles;
@@ -484,6 +517,10 @@ public class LevelsModeManager
                 return 0;
             case 26:
                 return 0;
+            case 27:
+                return 0;
+            case 28:
+                return 0;
         }
         return -1;
     }
@@ -545,6 +582,10 @@ public class LevelsModeManager
                 return 1;
             case 26:
                 return 6;
+            case 27:
+                return 8;
+            case 28:
+                return 3;
 
         }
         return -1;
@@ -607,6 +648,10 @@ public class LevelsModeManager
                 return 8;
             case 26:
                 return 4;
+            case 27:
+                return 2;
+            case 28:
+                return 8;
         }
         return -1;
     }
