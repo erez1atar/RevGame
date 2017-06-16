@@ -103,6 +103,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
 
+        if(App.getLevelsModeManager().getCurrentLevel() < 15)
+        {
+            rateBtn.setEnabled(false);
+            rateBtn.setVisibility(View.INVISIBLE);
+        }
+
         Button credits = (Button)findViewById(R.id.creditsButton);
         credits.setOnClickListener(new View.OnClickListener() {
             @Override
