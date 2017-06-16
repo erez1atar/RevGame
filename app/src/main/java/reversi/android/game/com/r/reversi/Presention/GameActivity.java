@@ -71,6 +71,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     private TextView player2Text;
     private TextView turnText;
     private String opponentName = "Opponent";
+    private Typeface type;
 
     private Button soundBtn;
     private Button musicBtn;
@@ -93,7 +94,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         loadRewardedVideoAd();
 
 
-        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/edosz.ttf");
+        type = Typeface.createFromAsset(getAssets(),"fonts/edosz.ttf");
         TextView turnText = (TextView)findViewById(R.id.turnText) ;
         turnText.setTypeface(type);
         TextView piece1 = (TextView)findViewById(R.id.player1Pieces) ;
@@ -438,30 +439,24 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             @Override
             public void run() {
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(GameActivity.this);
+                final Dialog dialog = new Dialog(GameActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.win_level_dialog);
+
+                TextView text = (TextView)dialog.findViewById(R.id.win_level_dialog_text);
                 if(App.getLevelsModeManager().isLastLevel())
                 {
-                    alertDialogBuilder.setMessage("More Level Coming soon!");
+                    text.setText("More Level Coming soon!");
                 }
                 else {
-                    alertDialogBuilder.setMessage("You Won !");
+                    text.setText("You Won !");
                 }
 
-                alertDialogBuilder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
+                Button nextBtn = (Button) dialog.findViewById(R.id.win_level_dialog_next);
+                nextBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (mInterstitialAd.isLoaded()) {
-                            Log.d("inter", "loaded");
-                            mInterstitialAd.show();
-                        } else {
-                            Log.d("inter", "not loaded");
-                            InnerEndGame();
-                        }
-                    }
-                });
-                alertDialogBuilder.setNegativeButton("Next", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
                         mInterstitialAd.setAdListener(new AdListener() {
                             @Override
                             public void onAdClosed() {
@@ -478,8 +473,24 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                         }
                     }
                 });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+
+                Button backBtn = (Button) dialog.findViewById(R.id.win_level_dialog_back);
+                backBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mInterstitialAd.isLoaded()) {
+                            Log.d("inter", "loaded");
+                            mInterstitialAd.show();
+                        } else {
+                            Log.d("inter", "not loaded");
+                            InnerEndGame();
+                        }
+                    }
+                });
+                backBtn.setTypeface(type);
+                nextBtn.setTypeface(type);
+                text.setTypeface(type);
+                dialog.show();
             }
         });
 
@@ -490,25 +501,18 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                final Dialog dialog = new Dialog(GameActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.loss_level_dialog);
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(GameActivity.this);
-                alertDialogBuilder.setMessage(winPlayer.getName() + " Won !");
+                TextView text = (TextView)dialog.findViewById(R.id.loss_level_dialog_text);
+                text.setText(winPlayer.getName() + " Won !");
 
-                alertDialogBuilder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
+                Button replayBtn = (Button) dialog.findViewById(R.id.loss_level_dialog_replay);
+                replayBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (mInterstitialAd.isLoaded()) {
-                            Log.d("inter", "loaded");
-                            mInterstitialAd.show();
-                        } else {
-                            Log.d("inter", "not loaded");
-                            InnerEndGame();
-                        }
-                    }
-                });
-                alertDialogBuilder.setNegativeButton("Replay", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
                         mInterstitialAd.setAdListener(new AdListener() {
                             @Override
                             public void onAdClosed() {
@@ -525,8 +529,25 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                         }
                     }
                 });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+
+                Button backBtn = (Button) dialog.findViewById(R.id.loss_level_dialog_back);
+                backBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mInterstitialAd.isLoaded()) {
+                            Log.d("inter", "loaded");
+                            mInterstitialAd.show();
+                        } else {
+                            Log.d("inter", "not loaded");
+                            InnerEndGame();
+                        }
+                    }
+                });
+                backBtn.setTypeface(type);
+                replayBtn.setTypeface(type);
+                text.setTypeface(type);
+                dialog.show();
+
                 boolean show = prefs.getBoolean(GameActivity.SHOW_VIDEO, false);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean(GameActivity.SHOW_VIDEO, !show);
@@ -772,7 +793,6 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             }
         });
 
-        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/edosz.ttf");
         TextView watchTxt = (TextView) dialog.findViewById(R.id.watch_video_text);
 
         skipBtn.setTypeface(type);

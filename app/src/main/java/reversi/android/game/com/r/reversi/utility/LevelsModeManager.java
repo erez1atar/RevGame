@@ -18,7 +18,7 @@ public class LevelsModeManager
     private SharedPreferences sharedPreferences;
     private static final String crntLevelStr = "LEVEL";
     private static final String FINISHED_LAST_LEVEL = "LAST_LEVEL_FINISHED";
-    int maxLevel = 28;
+    int maxLevel = 31;
     public class StartGameTile
     {
         public StartGameTile(int x, int y, PlayerType playerType)
@@ -450,6 +450,67 @@ public class LevelsModeManager
                 tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
 
                 break;
+
+            case 29:
+
+                tiles.add(new Tile(3 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 5, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(2 , 3, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 , 4, GamePiece.PLAYER1));
+
+
+                tiles.add(new Tile(0 , 7, GamePiece.PLAYER1));
+                tiles.add(new Tile(1 , 7, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 , 7, GamePiece.PLAYER1));
+                tiles.add(new Tile(5 , 7, GamePiece.PLAYER1));
+                tiles.add(new Tile(6 , 7, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 , 7, GamePiece.PLAYER1));
+                break;
+
+            case 30:
+
+                tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
+                tiles.add(new Tile(1 , 1, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 , 3, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 4, GamePiece.PLAYER1));
+                tiles.add(new Tile(5 , 5, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(1 , 0, GamePiece.PLAYER2));
+                tiles.add(new Tile(2 , 1, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 2, GamePiece.PLAYER2));
+                tiles.add(new Tile(4 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(5 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(6 , 5, GamePiece.PLAYER2));
+                break;
+
+            case 31:
+
+                tiles.add(new Tile(midRow  ,midCol -2, GamePiece.PLAYER1));
+                tiles.add(new Tile(midRow + 1 , midCol -1, GamePiece.PLAYER1));
+                tiles.add(new Tile(midRow + 1 , midCol -2, GamePiece.PLAYER2));
+                tiles.add(new Tile(midRow  , midCol -1, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(0 , 0, GamePiece.PLAYER2));
+                tiles.add(new Tile(0 , 1, GamePiece.PLAYER2));
+                tiles.add(new Tile(0 , 2, GamePiece.PLAYER2));
+                tiles.add(new Tile(0 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(0 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(0 , 5, GamePiece.PLAYER2));
+                tiles.add(new Tile(0 , 6, GamePiece.PLAYER2));
+                tiles.add(new Tile(0 , 7, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(7 , 0, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 , 1, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 , 3, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 , 4, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 , 5, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 , 6, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 , 7, GamePiece.PLAYER1));
+                break;
         }
 
         return tiles;
@@ -521,6 +582,12 @@ public class LevelsModeManager
                 return 0;
             case 28:
                 return 0;
+            case 29:
+                return 0;
+            case 30:
+                return 0;
+            case 31:
+                return 0;
         }
         return -1;
     }
@@ -586,6 +653,12 @@ public class LevelsModeManager
                 return 8;
             case 28:
                 return 3;
+            case 29:
+                return 8;
+            case 30:
+                return 6;
+            case 31:
+                return 10;
 
         }
         return -1;
@@ -652,6 +725,12 @@ public class LevelsModeManager
                 return 2;
             case 28:
                 return 8;
+            case 29:
+                return 3;
+            case 30:
+                return 6;
+            case 31:
+                return 10;
         }
         return -1;
     }
