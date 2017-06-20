@@ -135,11 +135,17 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         isMyTurn = getIntent().getBooleanExtra(getString(R.string.is_my_turn_key), false);
         multiPlayerGame = getIntent().getBooleanExtra(getString(R.string.multi_player_key), false);
         Boolean computerMode = getIntent().getBooleanExtra(getString(R.string.computer_mode_key), false);
-        numOfRows = getResources().getInteger(R.integer.numOfRows);
-        numOfCols = getResources().getInteger(R.integer.numOfCols);
+        numOfRows = App.Instance.getResources().getInteger(R.integer.numOfRows);
+        numOfCols = App.Instance.getResources().getInteger(R.integer.numOfCols);;
+        if(App.getIsLevelsMode()) {
+            numOfRows = App.getLevelsModeManager().getBoardSize();
+            numOfCols = App.getLevelsModeManager().getBoardSize();;
+            Log.d("App.getIsLevelsMode()", "true");
+        }
 
-        initBoard();
+
         initController(computerMode);
+        initBoard();
         Boolean retryGame = getIntent().getBooleanExtra("retry", false);
         Log.d("gameActivity", "retryGame = " + String.valueOf(retryGame));
         if(retryGame)
@@ -245,9 +251,11 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             {
                 if(App.getIsLevelsMode())
                 {
+                    App.createNewModel(App.getLevelsModeManager().getBoardSize());
                     controller = App.getController(this, App.getLevelPlayer());
                 }
                 else {
+                    App.createNewModel(getResources().getInteger(R.integer.numOfRows));
                     controller = App.getController(this, App.getComputerPlayer());
 
                 }
@@ -255,11 +263,13 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             }
             else
             {
+                App.createNewModel(getResources().getInteger(R.integer.numOfRows));
                 controller = App.getController(this, App.getConnectionManager());
             }
         }
         else
         {
+            App.createNewModel(getResources().getInteger(R.integer.numOfRows));
             controller = App.getController(this , App.getDummyConnection());
         }
     }

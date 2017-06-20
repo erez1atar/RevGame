@@ -43,18 +43,22 @@ public class GameController implements IController
     private GameStateManager gameStateManager;
     private boolean toSaveStateThisTurn = false;
 
-    public GameController(IModel gameModel, IPresent iPresent , IConnectionManager iConnectionManager)
+    public GameController(IPresent iPresent , IConnectionManager iConnectionManager)
     {
-        this.gameModel = gameModel;
         players = new Player[2];
         players[0] = new Player("Black player", GamePiece.PLAYER1);
         players[1] = new Player("White player", GamePiece.PLAYER2);
-        numOfCols = gameModel.getNumOfCols();
-        numOfRows = gameModel.getNumOfRows();
         this.iPresentWeak = new WeakReference<>(iPresent);
         numOfPieces = new int[]{0,0};
         this.iConnectionManager = iConnectionManager;
         //setAccelometerIfNeeded();
+    }
+
+    private void initModel()
+    {
+        this.gameModel = App.getModel();
+        numOfCols = gameModel.getNumOfCols();
+        numOfRows = gameModel.getNumOfRows();
     }
 
     public void setUp()
@@ -77,6 +81,7 @@ public class GameController implements IController
     @Override
     public void startRetryGame(ArrayList<ArrayList<GamePiece>> gameBoard) {
         Log.d("GameContoller", "startRetryGame");
+        initModel();
         turnIdx = 0;
         gameModel.clearBoard();
         gameStateManager = new GameStateManager();
@@ -115,6 +120,7 @@ public class GameController implements IController
 
     public void startGame()
     {
+        initModel();
         turnIdx = 0;
         toSaveStateThisTurn = true;
         gameModel.clearBoard();
@@ -138,6 +144,7 @@ public class GameController implements IController
             initTiles.add(new Tile(midRow, midCol, element1));
             initTiles.add(new Tile(midRow, midCol - 1, element2));
             initTiles.add(new Tile(midRow - 1, midCol, element2));
+            Log.d("startGame contoller", "rows = " + numOfRows);
             numOfPieces[0] = 2;
             numOfPieces[1] = 2;
         }
@@ -149,6 +156,7 @@ public class GameController implements IController
         gameModel.setTiles(initTiles);
         gameEndNormally = false;
         iConnectionManager.sendTurnData(new TurnData(App.Instance.getString(R.string.action_key), App.Instance.getString(R.string.name_key), prefs.getString(App.Instance.getString(R.string.name_settings_key), "Opponent")));
+        
     }
 
     @Override

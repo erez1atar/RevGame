@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -56,18 +57,20 @@ public class App extends Application
 
     public static IModel getModel()
     {
-        if(null == model)
-        {
-            model = new GameModel(Instance.getResources().getInteger(R.integer.numOfRows) ,Instance.getResources().getInteger(R.integer.numOfCols));
-        }
         return model;
+    }
+
+    public static void createNewModel(int boardSize)
+    {
+        Log.d("App", "createNewModel , size =" + boardSize);
+        model = new GameModel(boardSize, boardSize);
     }
 
     public static IController getController(IPresent iPresent, IConnectionManager iConnectionManager)
     {
         if(controller == null)
         {
-            controller = new GameController(getModel(), iPresent , iConnectionManager);
+            controller = new GameController(iPresent , iConnectionManager);
         }
         if(iPresent != null)
         {
