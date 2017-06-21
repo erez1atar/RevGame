@@ -43,6 +43,13 @@
         <activity android:name=".Presention.DeveloperArea" />
         <activity android:name=".Map.LevelsMapActivity"
             android:noHistory="true"></activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="8bc737928c363e36d14953fb77f6bdd4a05cf79c"
+            />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

@@ -25,6 +25,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 import com.google.android.gms.ads.MobileAds;
 
@@ -44,11 +46,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private Typeface type;
     private SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.Instance);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Fabric.with(this, new Crashlytics());
 
         type = Typeface.createFromAsset(getAssets(),"fonts/edosz.ttf");
         TextView com = (TextView)findViewById(R.id.computerButton) ;
