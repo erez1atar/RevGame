@@ -18,7 +18,7 @@ public class LevelsModeManager
     private SharedPreferences sharedPreferences;
     private static final String crntLevelStr = "LEVEL";
     private static final String FINISHED_LAST_LEVEL = "LAST_LEVEL_FINISHED";
-    int maxLevel = 35;
+    int maxLevel = 36;
     public class StartGameTile
     {
         public StartGameTile(int x, int y, PlayerType playerType)
@@ -596,6 +596,25 @@ public class LevelsModeManager
 
                 break;
 
+            case 36: // 10x10
+
+                tiles.add(new Tile(1 ,2, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 ,2, GamePiece.PLAYER2));
+                tiles.add(new Tile(4 ,3, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 ,3, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(6 ,7, GamePiece.PLAYER1));
+                tiles.add(new Tile(6 ,6, GamePiece.PLAYER2));
+                tiles.add(new Tile(5 ,7, GamePiece.PLAYER1));
+                tiles.add(new Tile(5 ,6, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
+                tiles.add(new Tile(9 , 9, GamePiece.PLAYER1));
+                tiles.add(new Tile(8 , 9, GamePiece.PLAYER1));
+                tiles.add(new Tile(9 , 8, GamePiece.PLAYER1));
+
+                break;
+
 
         }
 
@@ -682,6 +701,8 @@ public class LevelsModeManager
                 return 0;
             case 35:
                 return 0;
+            case 36:
+                return 0;
         }
         return -1;
     }
@@ -761,6 +782,8 @@ public class LevelsModeManager
                 return 11;
             case 35:
                 return 11;
+            case 36:
+                return 8;
 
         }
         return -1;
@@ -841,6 +864,8 @@ public class LevelsModeManager
                 return 6;
             case 35:
                 return 5;
+            case 36:
+                return 4;
         }
         return -1;
     }
@@ -919,6 +944,8 @@ public class LevelsModeManager
             case 34:
                 return 10;
             case 35:
+                return 10;
+            case 36:
                 return 10;
         }
         return -1;

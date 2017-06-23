@@ -1,6 +1,7 @@
 package reversi.android.game.com.r.reversi.Presention;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -20,6 +22,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -138,11 +141,41 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             public void onClick(View v) {
                 App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.ONE_PLAYERS_GAME_PRESSED);
                 App.setIsLevelsMode(false);
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                alertDialogBuilder.setTitle("Choose Difficulty");
 
-                final Spinner spinner = new Spinner(MainActivity.this);
-                spinner.setGravity(Gravity.CENTER_HORIZONTAL);
+                final Dialog dialog = new Dialog(MainActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.start_computer_game_dialog);
+
+                final TextView chooseDiffBtn = (TextView) dialog.findViewById(R.id.choose_diff_text);
+                final TextView boardSizeBtn = (TextView) dialog.findViewById(R.id.board_size_text);
+                boardSizeBtn.setTypeface(type);
+                chooseDiffBtn.setTypeface(type);
+
+                final Button boardSize8Btn = (Button) dialog.findViewById(R.id.board_size_8_btn);
+                final Button boardSize10Btn = (Button) dialog.findViewById(R.id.board_size_10_btn);
+
+                boardSize8Btn.setTypeface(type);
+                boardSize10Btn.setTypeface(type);
+                boardSize8Btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        App.getUserDefault().setBoardSize(8);
+                        boardSize8Btn.setTextColor(Color.BLACK);
+                        boardSize10Btn.setTextColor(Color.GRAY);
+                    }
+                });
+
+                boardSize10Btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        App.getUserDefault().setBoardSize(10);
+                        boardSize8Btn.setTextColor(Color.GRAY);
+                        boardSize10Btn.setTextColor(Color.BLACK);
+                    }
+                });
+
+                final Spinner spinner = (Spinner)dialog.findViewById(R.id.start_game_spinner_difficulty);
                 ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.difficulty));
                 String difficultyDefault = App.Instance.getDifficultyManager().getDifficulty();
                 spinner.setAdapter(spinnerArrayAdapter);
@@ -162,18 +195,21 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                     Log.d("spiiner ", "2");
                 }
 
-                alertDialogBuilder.setView(spinner);
 
-                alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                Button startGame = (Button) dialog.findViewById(R.id.start_game_btn);
+                startGame.setTypeface(type);
+                startGame.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
                         int dif  = spinner.getSelectedItemPosition();
                         switch (dif)
                         {
                             case  0 :
+                                Log.d("Spinner", "EASY");
                                 App.Instance.getDifficultyManager().setCurrentDifficulty(DifficultyManager.Difficulty.EASY_LEVEL_STR);
                                 break;
                             case  1 :
+                                Log.d("Spinner", "MEDIUM");
                                 App.Instance.getDifficultyManager().setCurrentDifficulty(DifficultyManager.Difficulty.MEDIUM_LEVEL_STR);
                                 break;
                             case  2 :
@@ -185,9 +221,19 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                     }
                 });
 
-
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                int defaultBoardSize = App.getUserDefault().getBoardSize();
+                switch (defaultBoardSize)
+                {
+                    case 8:
+                        boardSize8Btn.setTextColor(Color.BLACK);
+                        boardSize10Btn.setTextColor(Color.GRAY);
+                        break;
+                    case 10 :
+                        boardSize8Btn.setTextColor(Color.GRAY);
+                        boardSize10Btn.setTextColor(Color.BLACK);
+                        break;
+                }
+                dialog.show();
 
 
             }

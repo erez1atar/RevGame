@@ -255,7 +255,9 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                     controller = App.getController(this, App.getLevelPlayer());
                 }
                 else {
-                    App.createNewModel(getResources().getInteger(R.integer.numOfRows));
+                    numOfRows = App.getUserDefault().getBoardSize();
+                    numOfCols = App.getUserDefault().getBoardSize();
+                    App.createNewModel(App.getUserDefault().getBoardSize());
                     controller = App.getController(this, App.getComputerPlayer());
 
                 }

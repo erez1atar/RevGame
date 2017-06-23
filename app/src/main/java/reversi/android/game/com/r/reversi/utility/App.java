@@ -49,6 +49,7 @@ public class App extends Application
     private SharedPreferences sharedPreferences;
     private DifficultyManager difficultyManager;
     private ArrayList<ArrayList<GamePiece>> gameState;
+    private static UserDefaultsManager userDefaultsManager;
 
     public App()
     {
@@ -221,6 +222,15 @@ public class App extends Application
     public ArrayList<ArrayList<GamePiece>>  getGameState()
     {
         return gameState;
+    }
+
+    public static UserDefaultsManager getUserDefault()
+    {
+        if(userDefaultsManager == null)
+        {
+            userDefaultsManager = new UserDefaultsManager();
+        }
+        return userDefaultsManager;
     }
 
 
