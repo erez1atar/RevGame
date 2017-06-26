@@ -18,7 +18,7 @@ public class LevelsModeManager
     private SharedPreferences sharedPreferences;
     private static final String crntLevelStr = "LEVEL";
     private static final String FINISHED_LAST_LEVEL = "LAST_LEVEL_FINISHED";
-    int maxLevel = 36;
+    int maxLevel = 39;
     public class StartGameTile
     {
         public StartGameTile(int x, int y, PlayerType playerType)
@@ -598,23 +598,85 @@ public class LevelsModeManager
 
             case 36: // 10x10
 
+            tiles.add(new Tile(1 ,2, GamePiece.PLAYER1));
+            tiles.add(new Tile(2 ,2, GamePiece.PLAYER2));
+            tiles.add(new Tile(4 ,3, GamePiece.PLAYER1));
+            tiles.add(new Tile(3 ,3, GamePiece.PLAYER2));
+
+            tiles.add(new Tile(6 ,7, GamePiece.PLAYER1));
+            tiles.add(new Tile(6 ,6, GamePiece.PLAYER2));
+            tiles.add(new Tile(5 ,7, GamePiece.PLAYER1));
+            tiles.add(new Tile(5 ,6, GamePiece.PLAYER2));
+
+            tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
+            tiles.add(new Tile(9 , 9, GamePiece.PLAYER1));
+            tiles.add(new Tile(8 , 9, GamePiece.PLAYER1));
+            tiles.add(new Tile(9 , 8, GamePiece.PLAYER1));
+
+            break;
+
+            case 37: // 10x10
+
                 tiles.add(new Tile(1 ,2, GamePiece.PLAYER1));
                 tiles.add(new Tile(2 ,2, GamePiece.PLAYER2));
                 tiles.add(new Tile(4 ,3, GamePiece.PLAYER1));
                 tiles.add(new Tile(3 ,3, GamePiece.PLAYER2));
 
-                tiles.add(new Tile(6 ,7, GamePiece.PLAYER1));
-                tiles.add(new Tile(6 ,6, GamePiece.PLAYER2));
-                tiles.add(new Tile(5 ,7, GamePiece.PLAYER1));
-                tiles.add(new Tile(5 ,6, GamePiece.PLAYER2));
-
-                tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
-                tiles.add(new Tile(9 , 9, GamePiece.PLAYER1));
-                tiles.add(new Tile(8 , 9, GamePiece.PLAYER1));
-                tiles.add(new Tile(9 , 8, GamePiece.PLAYER1));
+                tiles.add(new Tile(1 , 9, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 , 9, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 , 9, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 9, GamePiece.PLAYER1));
+                tiles.add(new Tile(5 , 9, GamePiece.PLAYER1));
+                tiles.add(new Tile(6 , 9, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 , 9, GamePiece.PLAYER1));
 
                 break;
 
+            case 38: // 12x12
+
+                tiles.add(new Tile(2 ,2, GamePiece.PLAYER2));
+                tiles.add(new Tile(2 ,3, GamePiece.PLAYER2));
+                tiles.add(new Tile(2 ,4, GamePiece.PLAYER2));
+                tiles.add(new Tile(2 ,5, GamePiece.PLAYER2));
+                tiles.add(new Tile(2 ,6, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(3 ,2, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 ,3, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 ,4, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 ,5, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 ,6, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(11 , 11, GamePiece.PLAYER1));
+                tiles.add(new Tile(10 , 11, GamePiece.PLAYER1));
+                tiles.add(new Tile(9 , 11, GamePiece.PLAYER1));
+
+
+                break;
+
+            case 39: // 12x12
+
+                tiles.add(new Tile(2 ,2, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 ,3, GamePiece.PLAYER2));
+                tiles.add(new Tile(2 ,4, GamePiece.PLAYER2));
+                tiles.add(new Tile(2 ,5, GamePiece.PLAYER2));
+                tiles.add(new Tile(2 ,6, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(3 ,2, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 ,3, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 ,4, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 ,5, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 ,6, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(11 , 8, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
+                tiles.add(new Tile(1 , 0, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 , 0, GamePiece.PLAYER1));
+                tiles.add(new Tile(11 , 9, GamePiece.PLAYER1));
+                tiles.add(new Tile(11 , 10, GamePiece.PLAYER1));
+                tiles.add(new Tile(11 , 11, GamePiece.PLAYER1));
+
+
+                break;
 
         }
 
@@ -703,6 +765,12 @@ public class LevelsModeManager
                 return 0;
             case 36:
                 return 0;
+            case 37:
+                return 0;
+            case 38:
+                return 0;
+            case 39:
+                return 0;
         }
         return -1;
     }
@@ -784,6 +852,12 @@ public class LevelsModeManager
                 return 11;
             case 36:
                 return 8;
+            case 37:
+                return 9;
+            case 38:
+                return 8;
+            case 39:
+                return 12;
 
         }
         return -1;
@@ -866,6 +940,12 @@ public class LevelsModeManager
                 return 5;
             case 36:
                 return 4;
+            case 37:
+                return 2;
+            case 38:
+                return 5;
+            case 39:
+                return 5;
         }
         return -1;
     }
@@ -947,6 +1027,12 @@ public class LevelsModeManager
                 return 10;
             case 36:
                 return 10;
+            case 37:
+                return 10;
+            case 38:
+                return 12;
+            case 39:
+                return 12;
         }
         return -1;
     }
