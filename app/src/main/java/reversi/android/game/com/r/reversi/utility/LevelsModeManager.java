@@ -18,7 +18,7 @@ public class LevelsModeManager
     private SharedPreferences sharedPreferences;
     private static final String crntLevelStr = "LEVEL";
     private static final String FINISHED_LAST_LEVEL = "LAST_LEVEL_FINISHED";
-    int maxLevel = 39;
+    int maxLevel = 40;
     public class StartGameTile
     {
         public StartGameTile(int x, int y, PlayerType playerType)
@@ -678,6 +678,29 @@ public class LevelsModeManager
 
                 break;
 
+            case 40: // 12x12
+
+                tiles.add(new Tile(2 ,2, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 ,3, GamePiece.PLAYER2));
+                tiles.add(new Tile(4 ,4, GamePiece.PLAYER2));
+                tiles.add(new Tile(5 ,5, GamePiece.PLAYER2));
+                tiles.add(new Tile(6 ,6, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(0 ,0, GamePiece.PLAYER1));
+                tiles.add(new Tile(1 ,2, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 ,3, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 ,4, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 ,5, GamePiece.PLAYER1));
+                tiles.add(new Tile(5 ,6, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 ,8, GamePiece.PLAYER1));
+                tiles.add(new Tile(8 , 9, GamePiece.PLAYER1));
+                tiles.add(new Tile(9 , 10, GamePiece.PLAYER1));
+                tiles.add(new Tile(10 , 11, GamePiece.PLAYER1));
+
+
+
+                break;
+
         }
 
         return tiles;
@@ -771,6 +794,8 @@ public class LevelsModeManager
                 return 0;
             case 39:
                 return 0;
+            case 40:
+                return 0;
         }
         return -1;
     }
@@ -858,6 +883,8 @@ public class LevelsModeManager
                 return 8;
             case 39:
                 return 12;
+            case 40:
+                return 10;
 
         }
         return -1;
@@ -946,6 +973,8 @@ public class LevelsModeManager
                 return 5;
             case 39:
                 return 5;
+            case 40:
+                return 5;
         }
         return -1;
     }
@@ -1032,6 +1061,8 @@ public class LevelsModeManager
             case 38:
                 return 12;
             case 39:
+                return 12;
+            case 40:
                 return 12;
         }
         return -1;

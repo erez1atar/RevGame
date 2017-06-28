@@ -23,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,6 +51,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private Typeface type;
     private SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.Instance);
 
+    private Button rateBtn = null;
+    private Button hostButton = null;
+    private Button startButton = null;
+    private Button joinButton = null;
+    private Button computerModeGame = null;
+    private Button levelModeGame = null;
+    private Button credits = null;
+    private Animation pulse = null;
+    private Animation flip = null;
+    private TextView reversi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -71,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         level.setTypeface(type);
         TextView credits = (TextView)findViewById(R.id.creditsButton) ;
         credits.setTypeface(type);
-        TextView reversi = (TextView)findViewById(R.id.reversi) ;
+        reversi = (TextView)findViewById(R.id.reversi) ;
         reversi.setTypeface(type);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -89,8 +101,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private void initButton()
     {
+        pulse = AnimationUtils.loadAnimation(this, R.anim.heart_pulse);
+        flip = AnimationUtils.loadAnimation(this, R.anim.flip_rotation);
 
-        Button rateBtn = (Button)findViewById(R.id.rate_us_btn);
+        rateBtn = (Button)findViewById(R.id.rate_us_btn);
         rateBtn.setTypeface(type);
         rateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             rateBtn.setVisibility(View.INVISIBLE);
         }
 
-        Button credits = (Button)findViewById(R.id.creditsButton);
+        credits = (Button)findViewById(R.id.creditsButton);
         credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        Button levelModeGame = (Button)findViewById(R.id.levelButton);
+        levelModeGame = (Button)findViewById(R.id.levelButton);
         levelModeGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        Button computerModeGame = (Button)findViewById(R.id.computerButton);
+        computerModeGame = (Button)findViewById(R.id.computerButton);
         computerModeGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
 
             });
-        Button startButton = (Button)findViewById(R.id.buttonStart);
+        startButton = (Button)findViewById(R.id.buttonStart);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -253,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        Button joinButton = (Button)findViewById(R.id.JoinGame);
+        joinButton = (Button)findViewById(R.id.JoinGame);
         joinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -285,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        Button hostButton = (Button)findViewById(R.id.hostButton);
+        hostButton = (Button)findViewById(R.id.hostButton);
         hostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -314,6 +328,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
 
+
+
+
 //        Button helpButton = (Button)findViewById(R.id.helpButton);
 //        helpButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -338,6 +355,28 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         IntentFilter filter = new IntentFilter();
         filter.addAction(getString(R.string.game_state));
         localBroadcastManager.registerReceiver(receiver, filter);
+
+        rateBtn.startAnimation(pulse);
+        hostButton.startAnimation(pulse);
+        startButton.startAnimation(pulse);
+        joinButton.startAnimation(pulse);
+        computerModeGame.startAnimation(pulse);
+        levelModeGame.startAnimation(pulse);
+        credits.startAnimation(pulse);
+        reversi.startAnimation(flip);
+    }
+
+    @Override
+    protected void onPause() {
+        rateBtn.clearAnimation();
+        hostButton.clearAnimation();
+        startButton.clearAnimation();
+        joinButton.clearAnimation();
+        computerModeGame.clearAnimation();
+        levelModeGame.clearAnimation();
+        credits.clearAnimation();
+        reversi.clearAnimation();
+        super.onPause();
     }
 
     @Override
