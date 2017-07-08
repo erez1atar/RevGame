@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    android:background="@drawable/backgroung_game_gridient"
+    android:background="@drawable/background_gridient"
     android:id="@+id/gameLayout"
     tools:context=".Presention.GameActivity">
 
@@ -108,7 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        android:background="@drawable/menu_gridient"
+        android:background="@drawable/background_menu"
         android:layout_weight="0.8">
 
 

@@ -65,8 +65,8 @@ public class GameBoard extends GridLayout
     private void setCustomParam(GameElementView view)
     {
         GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-        param.height = height / numOfRows;
-        param.width = width / numOfCol;
+        param.height = height / numOfRows - 2;
+        param.width = width / numOfCol - 2;
         param.rightMargin = 1;
         param.topMargin = 1;
         param.leftMargin = 1;
