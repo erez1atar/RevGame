@@ -78,10 +78,16 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     private Button exitBtn;
     private RewardedVideoAd mAd;;
     private final static String SHOW_VIDEO = "show_video_key";
+    private ViewGroup.LayoutParams lp;
 
 
     private ArrayList<GameElementView> viewsBlink = new ArrayList<>(10);
     private SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.Instance);
+
+    private ImageView greatView;
+    private Animation fadeIn;
+    private Animation scaleIn;
+    private Animation rotate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -92,6 +98,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         mAd = MobileAds.getRewardedVideoAdInstance(this);
         mAd.setRewardedVideoAdListener(this);
         loadRewardedVideoAd();
+
+        this.initGreatMoveAnim();
 
 
         type = Typeface.createFromAsset(getAssets(),"fonts/edosz.ttf");
@@ -389,7 +397,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.d("updateChanges", "here");
+                int numOfPlayer2 = 0;
                 for (Tile tile : listOfChanges) {
                     if(isOptionsDisplay)
                     {
@@ -404,9 +412,77 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                     if (doCrowdSound) {
                         ReversyMediaPlayer.startCrowdsSound();
                     }
+                    if(tile.getGamePiece() == GamePiece.PLAYER2)
+                    {
+                        ++numOfPlayer2;
+                    }
+                }
+                if(numOfPlayer2 > (listOfChanges.size() / 2)) { // check if most of the tile is of player2, trying to avoid startgame
+                    if ((listOfChanges.size() >= numOfRows * 0.6 && (numOfRows <= 10)) || ((listOfChanges.size() >= numOfRows) && (numOfRows > 10))) {
+                        startGreatMoveAnim();
+                    }
                 }
             }
         });
+
+    }
+
+    private void initGreatMoveAnim()
+    {
+        greatView = new ImageView(this);
+        greatView.setImageResource(R.drawable.great);
+        lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        GameActivity.this.addContentView(greatView, lp);
+        greatView.setVisibility(View.INVISIBLE);
+    }
+    private void startGreatMoveAnim() {
+        Log.d("start", "start");
+        fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_out);
+        rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.one_rotation);
+        scaleIn =  AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_in);
+        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                greatView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                greatView.startAnimation(rotate);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+        rotate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                greatView.startAnimation(scaleIn);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+        scaleIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                Log.d("start anim", "start");
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                greatView.setVisibility(View.INVISIBLE);
+                greatView.clearAnimation();
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+        greatView.startAnimation(fadeIn);
 
     }
 
