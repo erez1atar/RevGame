@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.JOIN_PLAYERS_GAME_PRESSED);
                 App.setIsLevelsMode(false);
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                alertDialogBuilder.setMessage("Enter you host's ip address");
+                alertDialogBuilder.setMessage("Enter you host's ip address\n(You're both must be connected to the same WIFI)");
                 final EditText editText = new EditText(App.Instance);
                 editText.setTextColor(Color.BLUE);
                 alertDialogBuilder.setView(editText);
@@ -430,7 +430,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             else if(gameState.compareTo(getString(R.string.wait_for_opp_join)) == 0)
             {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                alertDialogBuilder.setMessage("Waiting..." + "\n" + "Your ip is " + App.wifiIpAddress());
+                alertDialogBuilder.setMessage("Waiting..." + "\n" + "Your ip is " + App.wifiIpAddress() + "\n  (You're both must be connected to the same WIFI)");
                 alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
             }
