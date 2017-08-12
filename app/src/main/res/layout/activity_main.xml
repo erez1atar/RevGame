@@ -12,119 +12,170 @@
     android:orientation="vertical"
     tools:context=".Presention.MainActivity">
 
-
-    <Button
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="One player"
-        android:textSize="20dp"
-        android:textColor="@android:color/black"
-        android:background="@drawable/btn_gridient_1"
-        android:id="@+id/computerButton" />
-    <android.support.v4.widget.Space
+        android:layout_weight="8"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:background="@drawable/main_backgound"
+        android:orientation="vertical"
+        >
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="One player"
+            android:textSize="20dp"
+            android:paddingLeft="30dip"
+            android:drawableLeft="@drawable/main_1_player"
+            android:textColor="@android:color/black"
+            android:background="@drawable/button_style_2"
+            android:id="@+id/computerButton" />
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Two players"
+            android:textSize="20dp"
+            android:paddingLeft="30dip"
+            android:textColor="@android:color/white"
+            android:drawableLeft="@drawable/main_2_players"
+            android:id="@+id/buttonStart"
+            android:background="@drawable/button_syle"
+            android:layout_gravity="center_horizontal"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:text="Join game(WIFI)"
+            android:paddingLeft="30dip"
+            android:drawableLeft="@drawable/main_2_connection"
+            android:background="@drawable/button_style_2"
+            android:id="@+id/JoinGame"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:text="Host game(WIFI)"
+            android:paddingLeft="30dip"
+            android:drawableLeft="@drawable/main_2_connection"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_syle"
+            android:id="@+id/hostButton"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:textSize="20dp"
+            android:layout_weight="0.15"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Levels"
+            android:textSize="20dp"
+            android:paddingLeft="30dip"
+            android:background="@drawable/button_style_2"
+            android:drawableLeft="@drawable/main_levels"
+            android:drawableRight="@drawable/new_1"
+            android:id="@+id/levelButton"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:textSize="20dp"
+            android:layout_weight="0.3"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:textSize="20dp"
+            android:paddingLeft="30dip"
+            android:paddingRight="30dip"
+            android:drawableLeft="@drawable/google_play"
+            android:drawableRight="@drawable/google_play"
+            android:text="Rate Us"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_syle"
+            android:id="@+id/rate_us_btn"/>
+
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:text="Credits"
+            android:textSize="20dp"
+            android:background="@drawable/button_style_2"
+            android:id="@+id/creditsButton"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.15"/>
+        android:orientation="horizontal"
+        android:layout_weight="1">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Two players"
-        android:textSize="20dp"
-        android:textColor="@android:color/white"
-        android:id="@+id/buttonStart"
-        android:background="@drawable/black_btn_background"
-        android:layout_gravity="center_horizontal"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:background="@drawable/circle_black_x"/>
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.15"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:textSize="60sp"
+            android:id="@+id/reversi"
+            android:textAlignment="center"
+            android:text="Reversi"
+            />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textSize="20dp"
-        android:text="Join game(WIFI)"
-        android:background="@drawable/btn_gridient_1"
-        android:id="@+id/JoinGame"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:background="@drawable/circle_white_x"/>
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.15"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textSize="20dp"
-        android:text="Host game(WIFI)"
-        android:textColor="@android:color/white"
-        android:background="@drawable/black_btn_background"
-        android:id="@+id/hostButton"/>
-
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textSize="20dp"
-        android:layout_weight="0.15"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Levels"
-        android:textSize="20dp"
-        android:drawableRight="@drawable/new_1"
-        android:background="@drawable/btn_gridient_1"
-        android:id="@+id/levelButton"/>
-
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textSize="20dp"
-        android:layout_weight="0.3"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:textSize="20dp"
-        android:drawableLeft="@drawable/google_play"
-        android:drawableRight="@drawable/google_play"
-        android:text="Rate Us"
-        android:textColor="@android:color/white"
-        android:background="@drawable/black_btn_background"
-        android:id="@+id/rate_us_btn"/>
-
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.15"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:text="Credits"
-        android:textSize="20dp"
-        android:background="@drawable/black_btn_background"
-        android:id="@+id/creditsButton"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textSize="60sp"
-        android:id="@+id/reversi"
-        android:textAlignment="center"
-        android:text="Reversi"
-        />
+    </LinearLayout>
 
     <!--<Button-->
         <!--android:layout_width="match_parent"-->
