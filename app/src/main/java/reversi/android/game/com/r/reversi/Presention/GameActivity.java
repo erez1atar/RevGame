@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ import reversi.android.game.com.r.reversi.controllers.IController;
 import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.BitmapContainer;
 import reversi.android.game.com.r.reversi.utility.GoogleAnalyticsHelper;
+import reversi.android.game.com.r.reversi.utility.LevelsModeManager;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -49,6 +51,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.plattysoft.leonids.ParticleSystem;
 
 
 public class GameActivity extends Activity implements IPresent,RewardedVideoAdListener
@@ -88,6 +91,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     private Animation fadeIn;
     private Animation scaleIn;
     private Animation rotate;
+    private Animation pulse;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -110,6 +115,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         TextView piece2 = (TextView)findViewById(R.id.player2Pieces) ;
         piece2.setTypeface(type);
 
+        pulse = AnimationUtils.loadAnimation(this, R.anim.heart_pulse_big);
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.inter_ad_unit_id));
@@ -306,6 +312,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     {
         player1Text = (TextView)findViewById(R.id.player1Pieces);
         player2Text = (TextView)findViewById(R.id.player2Pieces);
+        player1Text.setAnimation(pulse);
+        player2Text.setAnimation(pulse);
         turnText = (TextView)findViewById(R.id.turnText);
     }
 
@@ -409,6 +417,16 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
 
                     player1Text.setText(String.valueOf(controller.getNumOfPiecesP1()));
                     player2Text.setText(String.valueOf(controller.getNumOfPiecesP2()));
+                    if(controller.getNumOfPiecesP1() > controller.getNumOfPiecesP2())
+                    {
+                        player1Text.setTextColor(Color.RED);
+                        player2Text.setTextColor(Color.BLACK);
+                    }
+                    else
+                    {
+                        player1Text.setTextColor(Color.BLACK);
+                        player2Text.setTextColor(Color.RED);
+                    }
                     if (doCrowdSound) {
                         ReversyMediaPlayer.startCrowdsSound();
                     }
@@ -526,7 +544,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
+                GameActivity.this.confetiAnimation();
                 final Dialog dialog = new Dialog(GameActivity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setCancelable(false);
@@ -538,7 +556,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                     text.setText("More Level Coming soon!");
                 }
                 else {
-                    text.setText("You Won !");
+                    text.setText(String.format("You Won !\n  You're unlock level %d" , App.getLevelsModeManager().getCurrentLevel()));
                 }
 
                 Button nextBtn = (Button) dialog.findViewById(R.id.win_level_dialog_next);
@@ -889,5 +907,14 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
 
         dialog.show();
 
+    }
+
+    private void confetiAnimation()
+    {
+        new ParticleSystem(this, 100, R.drawable.android_confeti, 5000)
+                .setSpeedRange(0.1f, 0.25f)
+                .setRotationSpeedRange(90, 180)
+                .setInitialRotationRange(0, 360)
+                .oneShot(this.player2Text, 100);
     }
 }

@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    android:background="@drawable/background_gridient"
+    android:background="@drawable/game_background"
     android:id="@+id/gameLayout"
     tools:context=".Presention.GameActivity">
 
@@ -74,41 +74,62 @@
         android:id="@+id/player1Lay"
         android:layout_weight="0.9">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:id="@+id/player1Pic"/>
-
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/player1Pieces"
-            android:textAlignment="center"
-            android:textSize="30dp"/>
+            android:background="@drawable/border"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:id="@+id/player2Pic"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:id="@+id/player1Pic"/>
 
-        <TextView
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/player1Pieces"
+                android:textAlignment="center"
+                android:textSize="30dp"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/player2Pieces"
-            android:textAlignment="center"
-            android:textSize="30dp"/>
+            android:background="@drawable/border"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:id="@+id/player2Pic"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/player2Pieces"
+                android:textAlignment="center"
+                android:textSize="30dp"/>
+        </LinearLayout>
 
     </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        android:background="@drawable/background_menu"
+        android:background="@drawable/border_dark"
         android:layout_weight="0.8">
 
 
