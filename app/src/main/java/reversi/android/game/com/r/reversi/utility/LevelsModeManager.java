@@ -18,7 +18,7 @@ public class LevelsModeManager
     private SharedPreferences sharedPreferences;
     private static final String crntLevelStr = "LEVEL";
     private static final String FINISHED_LAST_LEVEL = "LAST_LEVEL_FINISHED";
-    int maxLevel = 51;
+    int maxLevel = 54;
     public class StartGameTile
     {
         public StartGameTile(int x, int y, PlayerType playerType)
@@ -1023,8 +1023,52 @@ public class LevelsModeManager
                 tiles.add(new Tile(5 , 8, GamePiece.PLAYER1));
                 tiles.add(new Tile(7 , 6, GamePiece.PLAYER1));
 
+                break;
+            case 52: // 11x11
 
 
+                tiles.add(new Tile(4 , 4, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(4 , 5, GamePiece.PLAYER2));
+                tiles.add(new Tile(5 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(5 , 5, GamePiece.PLAYER2));
+                tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
+
+                break;
+
+            case 53: // 6x6
+
+
+                tiles.add(new Tile(5 , 5, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 5, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 5, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(1 , 2, GamePiece.PLAYER2));
+                tiles.add(new Tile(2 , 1, GamePiece.PLAYER2));
+                tiles.add(new Tile(2 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(1 , 1, GamePiece.PLAYER1));
+
+                break;
+
+            case 54: // 9x9
+
+
+                tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 1, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 3, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 4, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 5, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 6, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 7, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 8, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(5 , 6, GamePiece.PLAYER2));
+                tiles.add(new Tile(6 , 5, GamePiece.PLAYER2));
+                tiles.add(new Tile(6 , 6, GamePiece.PLAYER1));
+                tiles.add(new Tile(5 , 5, GamePiece.PLAYER1));
 
                 break;
 
@@ -1040,19 +1084,14 @@ public class LevelsModeManager
         {
             case 1:
                 return 6;
-
             case 2:
                 return 4;
-
             case 3:
                 return 2;
-
             case 4:
                 return 3;
-
             case 5:
                 return 1;
-
             case 6:
                 return 1;
             case 7:
@@ -1061,92 +1100,9 @@ public class LevelsModeManager
                 return 0;
             case 9:
                 return 1;
-            case 10:
-                return 0;
-            case 11:
-                return 0;
-            case 12:
-                return 0;
-            case 13:
-                return 0;
-            case 14:
-                return 0;
-            case 15:
-                return 0;
-            case 16:
-                return 0;
-            case 17:
-                return 0;
-            case 18:
-                return 0;
-            case 19:
-                return 0;
-            case 20:
-                return 0;
-            case 21:
-                return 0;
-            case 22:
-                return 0;
-            case 23:
-                return 0;
-            case 24:
-                return 0;
-            case 25:
-                return 0;
-            case 26:
-                return 0;
-            case 27:
-                return 0;
-            case 28:
-                return 0;
-            case 29:
-                return 0;
-            case 30:
-                return 0;
-            case 31:
-                return 0;
-            case 32:
-                return 0;
-            case 33:
-                return 0;
-            case 34:
-                return 0;
-            case 35:
-                return 0;
-            case 36:
-                return 0;
-            case 37:
-                return 0;
-            case 38:
-                return 0;
-            case 39:
-                return 0;
-            case 40:
-                return 0;
-            case 41:
-                return 0;
-            case 42:
-                return 0;
-            case 43:
-                return 0;
-            case 44:
-                return 0;
-            case 45:
-                return 0;
-            case 46:
-                return 0;
-            case 47:
-                return 0;
-            case 48:
-                return 0;
-            case 49:
-                return 0;
-            case 50:
-                return 0;
-            case 51:
+            default:
                 return 0;
         }
-        return -1;
     }
 
     public int getNumberOfPiecesPlayerOneStarted() // COMPUTER
@@ -1256,6 +1212,12 @@ public class LevelsModeManager
                 return 10;
             case 51:
                 return 11;
+            case 52:
+                return 2;
+            case 53:
+                return 5;
+            case 54:
+                return 10;
 
         }
         return -1;
@@ -1368,6 +1330,12 @@ public class LevelsModeManager
                 return 6;
             case 51:
                 return 11;
+            case 52:
+                return 6;
+            case 53:
+                return 2;
+            case 54:
+                return 3;
 
         }
         return -1;
@@ -1480,6 +1448,12 @@ public class LevelsModeManager
                 return 12;
             case 51:
                 return 12;
+            case 52:
+                return 10;
+            case 53:
+                return 6;
+            case 54:
+                return 9;
         }
         return -1;
     }

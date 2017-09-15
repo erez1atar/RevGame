@@ -916,5 +916,15 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 .setRotationSpeedRange(90, 180)
                 .setInitialRotationRange(0, 360)
                 .oneShot(this.player2Text, 100);
+        new ParticleSystem(this, 100, R.drawable.android_confeti, 5000)
+                .setSpeedRange(0.1f, 0.25f)
+                .setRotationSpeedRange(90, 180)
+                .setInitialRotationRange(0, 360)
+                .oneShot(this.player1Text, 100);
+        new ParticleSystem(this, 100, R.drawable.android_confeti, 5000)
+                .setSpeedRange(0.1f, 0.25f)
+                .setRotationSpeedRange(90, 180)
+                .setInitialRotationRange(0, 360)
+                .oneShot(this.turnText, 100);
     }
 }
