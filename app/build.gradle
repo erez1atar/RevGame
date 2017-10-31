@@ -8,8 +8,8 @@ android {
         applicationId "reversi.android.game.com.r.reversi"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 54
-        versionName "6.5"
+        versionCode 55
+        versionName "6.6"
     }
     buildTypes {
         release {
