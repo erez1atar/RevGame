@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridLayout;
 
 /**
@@ -42,8 +43,7 @@ public class GameBoard extends GridLayout
     protected void onMeasure(int widthSpec, int heightSpec)
     {
         super.onMeasure(widthSpec, heightSpec);
-        height = MeasureSpec.getSize(heightSpec);
-        width = MeasureSpec.getSize(widthSpec);
+        this.fixBoardSize(MeasureSpec.getSize(heightSpec), MeasureSpec.getSize(widthSpec));
 
         int numOfViews = getChildCount();
         for(int i = 0 ; i < numOfViews; ++i)
@@ -51,6 +51,33 @@ public class GameBoard extends GridLayout
             View view = getChildAt(i);
             setCustomParam((GameElementView)view);
         }
+    }
+
+    private void fixBoardSize(int height , int width){ // to avoid black spaces on between elements
+
+        if(height > width){  // make widht and height to be equeal
+            this.setY(this.getY() + (height - width) / 2);
+            height = width;
+        }
+        else{
+            this.setX(this.getX() + (width - height) / 2);
+            width = height;
+        }
+
+        int mudoloY = height % numOfRows;
+        int mudoloX = width % numOfCol;
+
+        ViewGroup.LayoutParams params = this.getLayoutParams();
+
+        params.height = height - mudoloY;
+        this.height = params.height;
+
+        params.width = width - mudoloX;
+        this.width = params.width;
+
+        this.setLayoutParams(params);
+
+
     }
 
     private void init(AttributeSet attrs, int defStyle)
@@ -65,12 +92,12 @@ public class GameBoard extends GridLayout
     private void setCustomParam(GameElementView view)
     {
         GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-        param.height = height / numOfRows - 2;
-        param.width = width / numOfCol - 2;
-        param.rightMargin = 1;
-        param.topMargin = 1;
-        param.leftMargin = 1;
-        param.bottomMargin = 1;
+        param.height = height / numOfRows - 8;
+        param.width = width / numOfCol - 8;
+        param.rightMargin = 4;
+        param.topMargin = 4;
+        param.leftMargin = 4;
+        param.bottomMargin = 4;
         param.setGravity(Gravity.CENTER);
         param.columnSpec = GridLayout.spec(view.getCol());
         param.rowSpec = GridLayout.spec(view.getRow());

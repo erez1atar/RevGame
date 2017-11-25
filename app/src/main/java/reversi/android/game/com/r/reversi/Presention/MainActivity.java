@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        if(App.getLevelsModeManager().getCurrentLevel() < 15)
+        if(App.getLevelsModeManager().getCurrentLevel() < 7)
         {
             rateBtn.setEnabled(false);
             rateBtn.setVisibility(View.INVISIBLE);
@@ -356,7 +356,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         filter.addAction(getString(R.string.game_state));
         localBroadcastManager.registerReceiver(receiver, filter);
 
-        rateBtn.startAnimation(pulse);
+        if(rateBtn.getVisibility() == View.VISIBLE){
+            rateBtn.startAnimation(pulse);
+        }
         hostButton.startAnimation(pulse);
         startButton.startAnimation(pulse);
         joinButton.startAnimation(pulse);
