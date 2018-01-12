@@ -1,5 +1,6 @@
 package reversi.android.game.com.r.reversi.Presention;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -28,12 +29,15 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.games.GamesClient;
+import com.google.android.gms.ads.formats.NativeAd;
 
 import reversi.android.game.com.r.reversi.Map.LevelsMapActivity;
 import reversi.android.game.com.r.reversi.R;
@@ -44,7 +48,7 @@ import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.DifficultyManager;
 import reversi.android.game.com.r.reversi.utility.GoogleAnalyticsHelper;
 
-public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener
+public class MainActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private ActivityBroadCastReceiver receiver = new ActivityBroadCastReceiver();
     private AlertDialog alertDialog = null;
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private Button joinButton = null;
     private Button computerModeGame = null;
     private Button levelModeGame = null;
+    private Button settings = null;
+    private Button online = null;
     private Button credits = null;
     private Animation pulse = null;
     private Animation flip = null;
@@ -83,10 +89,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         level.setTypeface(type);
         TextView credits = (TextView)findViewById(R.id.creditsButton) ;
         credits.setTypeface(type);
+        TextView settings = (TextView)findViewById(R.id.settingBtn) ;
+        settings.setTypeface(type);
         reversi = (TextView)findViewById(R.id.reversi) ;
         reversi.setTypeface(type);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
         App.getLevelsModeManager().updateCurrentLevelIfMaxLevelsChanged();
 
         initButton();
@@ -140,6 +147,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
 
+        settings = (Button)findViewById(R.id.settingBtn);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
         levelModeGame = (Button)findViewById(R.id.levelButton);
         levelModeGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,6 +184,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
                 final Button boardSize8Btn = (Button) dialog.findViewById(R.id.board_size_8_btn);
                 final Button boardSize10Btn = (Button) dialog.findViewById(R.id.board_size_10_btn);
+
+                final ImageView xBtn = (ImageView) dialog.findViewById(R.id.start_x);
+                xBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
 
                 boardSize8Btn.setTypeface(type);
                 boardSize10Btn.setTypeface(type);
@@ -328,6 +352,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
 
+        online = (Button) findViewById(R.id.online);
+        online.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SignInActivity.class));
+            }
+        });
+
 
 
 
@@ -365,6 +397,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         computerModeGame.startAnimation(pulse);
         levelModeGame.startAnimation(pulse);
         credits.startAnimation(pulse);
+        settings.startAnimation(pulse);
         reversi.startAnimation(flip);
     }
 
@@ -378,6 +411,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         levelModeGame.clearAnimation();
         credits.clearAnimation();
         reversi.clearAnimation();
+        settings.clearAnimation();
         super.onPause();
     }
 

@@ -23,10 +23,15 @@
         android:orientation="vertical"
         >
 
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"/>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.4"
             android:text="One player"
             android:textSize="20dp"
             android:paddingLeft="30dip"
@@ -42,7 +47,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.4"
             android:text="Two players"
             android:textSize="20dp"
             android:paddingLeft="30dip"
@@ -60,7 +65,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.4"
             android:textSize="20dp"
             android:text="Join game(WIFI)"
             android:paddingLeft="30dip"
@@ -76,7 +81,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.4"
             android:textSize="20dp"
             android:text="Host game(WIFI)"
             android:paddingLeft="30dip"
@@ -94,7 +99,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.4"
             android:text="Levels"
             android:textSize="20dp"
             android:paddingLeft="30dip"
@@ -112,7 +117,56 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.4"
+            android:text="online"
+            android:textSize="20dp"
+            android:paddingLeft="30dip"
+            android:background="@drawable/button_style_2"
+            android:drawableLeft="@drawable/main_levels"
+            android:drawableRight="@drawable/new_1"
+            android:id="@+id/online"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:textSize="20dp"
+            android:layout_weight="0.3"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:textSize="60sp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:textColor="#FFFFFF"
+                android:id="@+id/reversi"
+                android:textAlignment="center"
+                android:text="Reversi"
+                />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
             android:textSize="20dp"
             android:paddingLeft="30dip"
             android:paddingRight="30dip"
@@ -132,7 +186,21 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.3"
+            android:text="Settings"
+            android:textSize="20dp"
+            android:background="@drawable/button_style_2"
+            android:id="@+id/settingBtn"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
             android:text="Credits"
             android:textSize="20dp"
             android:background="@drawable/button_style_2"
@@ -145,41 +213,6 @@
 
     </LinearLayout>
 
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="1">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scaleX="0.7"
-            android:scaleY="0.7"
-            android:background="@drawable/circle_black_x"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:textSize="60sp"
-            android:id="@+id/reversi"
-            android:textAlignment="center"
-            android:text="Reversi"
-            />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scaleX="0.7"
-            android:scaleY="0.7"
-            android:background="@drawable/circle_white_x"/>
-
-    </LinearLayout>
 
     <!--<Button-->
         <!--android:layout_width="match_parent"-->
