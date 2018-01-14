@@ -18,7 +18,8 @@ public class LevelsModeManager
     private SharedPreferences sharedPreferences;
     private static final String crntLevelStr = "LEVEL";
     private static final String FINISHED_LAST_LEVEL = "LAST_LEVEL_FINISHED";
-    int maxLevel = 56;
+    int maxLevel = 58;
+
     public class StartGameTile
     {
         public StartGameTile(int x, int y, PlayerType playerType)
@@ -1116,6 +1117,64 @@ public class LevelsModeManager
 
 
                 break;
+
+            case 57: // 10x10
+
+                tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 1, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 3, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(0 , 6, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 7, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 8, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 9, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(2 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 , 3, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(2 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 2, GamePiece.PLAYER2));
+                tiles.add(new Tile(4 , 2, GamePiece.PLAYER2));
+                tiles.add(new Tile(4 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(0 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(0 , 5, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(9 , 0, GamePiece.PLAYER2));
+                tiles.add(new Tile(9 , 1, GamePiece.PLAYER2));
+                tiles.add(new Tile(9 , 2, GamePiece.PLAYER2));
+                tiles.add(new Tile(9 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(9 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(9 , 5, GamePiece.PLAYER2));
+                tiles.add(new Tile(9 , 6, GamePiece.PLAYER2));
+                tiles.add(new Tile(9 , 7, GamePiece.PLAYER2));
+                tiles.add(new Tile(9 , 8, GamePiece.PLAYER2));
+                tiles.add(new Tile(9 , 9, GamePiece.PLAYER2));
+                break;
+
+            case 58: // 8x
+
+                tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
+                tiles.add(new Tile(0 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(1 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(5 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(6 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(5 , 6, GamePiece.PLAYER1));
+                tiles.add(new Tile(6 , 5, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(1 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(2 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(4 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(5 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(6 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(5 , 5, GamePiece.PLAYER2));
+                tiles.add(new Tile(6 , 6, GamePiece.PLAYER2));
+                break;
         }
 
         return tiles;
@@ -1266,6 +1325,10 @@ public class LevelsModeManager
                 return 8;
             case 56:
                 return 10;
+            case 57:
+                return 10;
+            case 58:
+                return 11;
 
         }
         return -1;
@@ -1388,6 +1451,10 @@ public class LevelsModeManager
                 return 6;
             case 56:
                 return 3;
+            case 57:
+                return 16;
+            case 58:
+                return 8;
         }
         return -1;
     }
@@ -1509,6 +1576,10 @@ public class LevelsModeManager
                 return 12;
             case 56:
                 return 12;
+            case 57:
+                return 10;
+            case 58:
+                return 8;
         }
         return -1;
     }

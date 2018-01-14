@@ -36,8 +36,6 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.games.GamesClient;
-import com.google.android.gms.ads.formats.NativeAd;
 
 import reversi.android.game.com.r.reversi.Map.LevelsMapActivity;
 import reversi.android.game.com.r.reversi.R;
@@ -62,7 +60,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
     private Button computerModeGame = null;
     private Button levelModeGame = null;
     private Button settings = null;
-    private Button online = null;
     private Button credits = null;
     private Animation pulse = null;
     private Animation flip = null;
@@ -349,14 +346,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
                     App.setIsLevelsMode(false);
                     App.getConnectionManager().startHostGame();
                 }
-            }
-        });
-
-        online = (Button) findViewById(R.id.online);
-        online.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SignInActivity.class));
             }
         });
 

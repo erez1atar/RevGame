@@ -112,25 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:textSize="20dp"
-            android:layout_weight="0.3"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.4"
-            android:text="online"
-            android:textSize="20dp"
-            android:paddingLeft="30dip"
-            android:background="@drawable/button_style_2"
-            android:drawableLeft="@drawable/main_levels"
-            android:drawableRight="@drawable/new_1"
-            android:id="@+id/online"/>
-
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:textSize="20dp"
-            android:layout_weight="0.3"/>
+            android:layout_weight="0.4"/>
 
         <LinearLayout
             android:layout_width="match_parent"
