@@ -73,7 +73,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     private TextView player1Text;
     private TextView player2Text;
     private TextView turnText;
-    private String opponentName = "Opponent";
+    private String opponentName = null;
     private Typeface type;
 
     private Button soundBtn;
@@ -99,6 +99,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        opponentName = getResources().getString(R.string.opponent);
 
         mAd = MobileAds.getRewardedVideoAdInstance(this);
         mAd.setRewardedVideoAdListener(this);
@@ -154,17 +156,14 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         if(App.getIsLevelsMode()) {
             numOfRows = App.getLevelsModeManager().getBoardSize();
             numOfCols = App.getLevelsModeManager().getBoardSize();;
-            Log.d("App.getIsLevelsMode()", "true");
         }
 
 
         initController(computerMode);
         initBoard();
         Boolean retryGame = getIntent().getBooleanExtra("retry", false);
-        Log.d("gameActivity", "retryGame = " + String.valueOf(retryGame));
         if(retryGame)
         {
-            Log.d("gameActivity", "controller start retry game");
             controller.startRetryGame(App.Instance.getGameState());
         }
         else
@@ -180,7 +179,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         {
             int level = App.getLevelsModeManager().getCurrentLevel();
             levelText.setVisibility(View.VISIBLE);
-            levelText.setText("Level " + String.valueOf(level));
+            levelText.setText(getString(R.string.level_string) + " "+ String.valueOf(level));
         }
         else
         {
@@ -275,7 +274,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                     controller = App.getController(this, App.getComputerPlayer());
 
                 }
-                opponentName = "Computer";
+                opponentName = getResources().getString(R.string.computer_string);
             }
             else
             {
@@ -362,13 +361,13 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             }
             else
             {
-                turnText.setText(opponentName + "'s turn");
+                turnText.setText(String.format(getResources().getString(R.string.base_turn_str), opponentName));
                 turnText.clearAnimation();
             }
         }
         else
         {
-            turnText.setText(controller.getCurrentPlayerTurn().getName() + "'s turn");
+            turnText.setText(String.format(getResources().getString(R.string.base_turn_str),controller.getCurrentPlayerTurn().getName()));
         }
     }
 
@@ -454,7 +453,6 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         greatView.setVisibility(View.INVISIBLE);
     }
     private void startGreatMoveAnim() {
-        Log.d("start", "start");
         fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_out);
         rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.one_rotation);
         scaleIn =  AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_in);
@@ -518,16 +516,14 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             public void run() {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(GameActivity.this);
-                alertDialogBuilder.setMessage(winPlayer.getName() + " Won !");
+                alertDialogBuilder.setMessage(String.format(getResources().getString(R.string.base_won_str),winPlayer.getName() ));
 
-                alertDialogBuilder.setPositiveButton("Back", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setPositiveButton(getResources().getString(R.string.back_string), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (mInterstitialAd.isLoaded()) {
-                            Log.d("inter", "loaded");
                             mInterstitialAd.show();
                         } else {
-                            Log.d("inter", "not loaded");
                             InnerEndGame();
                         }
                     }
@@ -556,7 +552,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                     text.setText("More Level Coming soon!");
                 }
                 else {
-                    text.setText(String.format("You Won !\n  You're unlock level %d" , App.getLevelsModeManager().getCurrentLevel()));
+                    text.setText(String.format(getResources().getString(R.string.win_and_unlock_lvl) , App.getLevelsModeManager().getCurrentLevel()));
                 }
 
                 Button nextBtn = (Button) dialog.findViewById(R.id.win_level_dialog_next);
@@ -571,10 +567,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                             }
                         });
                         if (mInterstitialAd.isLoaded()) {
-                            Log.d("inter", "loaded");
                             mInterstitialAd.show();
                         } else {
-                            Log.d("inter", "not loaded");
                             getToNextLevel();
                         }
                     }
@@ -585,10 +579,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                     @Override
                     public void onClick(View v) {
                         if (mInterstitialAd.isLoaded()) {
-                            Log.d("inter", "loaded");
                             mInterstitialAd.show();
                         } else {
-                            Log.d("inter", "not loaded");
                             InnerEndGame();
                         }
                     }
@@ -613,7 +605,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 dialog.setContentView(R.layout.loss_level_dialog);
 
                 TextView text = (TextView)dialog.findViewById(R.id.loss_level_dialog_text);
-                text.setText(winPlayer.getName() + " Won !");
+                text.setText(String.format(getResources().getString(R.string.base_won_str),winPlayer.getName()));
 
                 Button replayBtn = (Button) dialog.findViewById(R.id.loss_level_dialog_replay);
                 replayBtn.setOnClickListener(new View.OnClickListener() {
@@ -627,10 +619,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                             }
                         });
                         if (mInterstitialAd.isLoaded()) {
-                            Log.d("inter", "loaded");
                             mInterstitialAd.show();
                         } else {
-                            Log.d("inter", "not loaded");
                             replayLevel();
                         }
                     }
@@ -641,10 +631,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                     @Override
                     public void onClick(View v) {
                         if (mInterstitialAd.isLoaded()) {
-                            Log.d("inter", "loaded");
                             mInterstitialAd.show();
                         } else {
-                            Log.d("inter", "not loaded");
                             InnerEndGame();
                         }
                     }
@@ -696,7 +684,6 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             @Override
             public void run() {
                 isMyTurn = !isMyTurn;
-                Log.d("is my turn", "" + isMyTurn);
                 setTurnText();
                 blinkOptionsTiles();
             }
@@ -792,7 +779,6 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     protected void onStop()
     {
         super.onStop();
-        Log.d("gameActivity", "onStop");
         controller.closeGame();
     }
 
@@ -822,10 +808,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             }
         });
         if (mInterstitialAd.isLoaded()) {
-            Log.d("inter", "loaded");
             mInterstitialAd.show();
         } else {
-            Log.d("inter", "not loaded");
             finish();
         }
         return;

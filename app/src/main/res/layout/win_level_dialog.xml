@@ -59,14 +59,14 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/win_level_dialog_next"
-                android:text="Next"
+                android:text="@string/next_string"
                 android:layout_weight="1"/>
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:id="@+id/win_level_dialog_back"
-                android:text="Back"
+                android:text="@string/back_string"
                 android:layout_weight="1"/>
 
             <android.support.v4.widget.Space

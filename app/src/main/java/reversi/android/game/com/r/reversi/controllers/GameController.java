@@ -46,8 +46,8 @@ public class GameController implements IController
     public GameController(IPresent iPresent , IConnectionManager iConnectionManager)
     {
         players = new Player[2];
-        players[0] = new Player("Black player", GamePiece.PLAYER1);
-        players[1] = new Player("White player", GamePiece.PLAYER2);
+        players[0] = new Player(App.Instance.getResources().getString(R.string.black_player), GamePiece.PLAYER1);
+        players[1] = new Player(App.Instance.getResources().getString(R.string.white_player), GamePiece.PLAYER2);
         this.iPresentWeak = new WeakReference<>(iPresent);
         numOfPieces = new int[]{0,0};
         this.iConnectionManager = iConnectionManager;

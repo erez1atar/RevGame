@@ -417,7 +417,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         if (prefs.getBoolean(getString(R.string.backgroung_music_pref_key), false))
         {
             ReversyMediaPlayer.startBackgroundSound();
-            Log.d("music", "true");
         }
         else
         {
@@ -447,7 +446,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             else if(gameState.compareTo(getString(R.string.wait_for_opp_to_host)) == 0)
             {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                alertDialogBuilder.setMessage("Waiting ...");
+                alertDialogBuilder.setMessage(R.string.waiting);
                 alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
             }

@@ -310,6 +310,6 @@
         android:layout_weight="0.7"
         android:textSize="60sp"
         android:id="@+id/map_play_level"
-        android:text="PLAY"
+        android:text="@string/play_string"
         android:background="@drawable/backgroung_game_gridient"/>
 </LinearLayout>
