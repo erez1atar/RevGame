@@ -1,6 +1,7 @@
 package reversi.android.game.com.r.reversi.board;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 /**

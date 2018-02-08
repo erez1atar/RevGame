@@ -11,6 +11,8 @@ public class UserDefaultsManager
 {
     private SharedPreferences sharedPreferences;
     private final static String BOARD_SIZE = "board_size";
+    private final static String NOTIFICATION_WEEKLY_NUM = "weekly_noti";
+    private final static String SESSION_NUMBER = "session_num";
     private final int defaultBoardSize = 8;
     public UserDefaultsManager()
     {
@@ -28,5 +30,29 @@ public class UserDefaultsManager
     {
         int size = sharedPreferences.getInt(BOARD_SIZE, defaultBoardSize);
         return size;
+    }
+
+    public void setNotificationWeeklyNum(int num)
+    {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(NOTIFICATION_WEEKLY_NUM, num);
+        editor.apply();
+    }
+
+    public void increaseSessionNUm() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SESSION_NUMBER, this.getSessionNUmber() + 1);
+        editor.apply();
+    }
+
+    public int getNotificatioWeeklyNum()
+    {
+        int num = sharedPreferences.getInt(NOTIFICATION_WEEKLY_NUM, 0);
+        return num;
+    }
+
+    public int getSessionNUmber() {
+        int num = sharedPreferences.getInt(SESSION_NUMBER, 1);
+        return num;
     }
 }

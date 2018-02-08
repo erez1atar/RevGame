@@ -50,10 +50,19 @@ public class App extends Application
     private DifficultyManager difficultyManager;
     private ArrayList<ArrayList<GamePiece>> gameState;
     private static UserDefaultsManager userDefaultsManager;
+    private static Boolean updateSessionNum = false;
 
     public App()
     {
         Instance = this;
+        updateSessionNum = false;
+    }
+
+    public static void tryUpdateSession() {
+        if(!updateSessionNum) {
+            App.getUserDefault().increaseSessionNUm();
+            updateSessionNum = true;
+        }
     }
 
     public static IModel getModel()

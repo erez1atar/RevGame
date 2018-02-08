@@ -42,6 +42,7 @@ import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.Features.ReversyMediaPlayer;
 import reversi.android.game.com.r.reversi.Routers.GameStateRouter;
 import reversi.android.game.com.r.reversi.Settings.SettingsActivity;
+import reversi.android.game.com.r.reversi.notification.MyNotificationManager;
 import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.DifficultyManager;
 import reversi.android.game.com.r.reversi.utility.GoogleAnalyticsHelper;
@@ -70,6 +71,10 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        App.tryUpdateSession();
+        if(App.getUserDefault().getSessionNUmber() <= 1){
+            MyNotificationManager.scheduleWeeklyNotification();
+        }
 
         Fabric.with(this, new Crashlytics());
 

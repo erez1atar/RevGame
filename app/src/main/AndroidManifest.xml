@@ -44,6 +44,8 @@
         <activity android:name=".Map.LevelsMapActivity"
             android:noHistory="true"></activity>
 
+        <receiver android:name=".notification.NotificationReceiver"></receiver>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="8bc737928c363e36d14953fb77f6bdd4a05cf79c"
