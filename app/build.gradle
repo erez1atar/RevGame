@@ -8,8 +8,8 @@ android {
         applicationId "reversi.android.game.com.r.reversi"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 64
-        versionName "7.4"
+        versionCode 66
+        versionName "8.0"
     }
     buildTypes {
         release {
@@ -66,6 +66,7 @@ apply plugin: 'io.fabric'
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
+
 
 
 

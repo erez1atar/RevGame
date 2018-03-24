@@ -1,5 +1,6 @@
 package reversi.android.game.com.r.reversi.Presention;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -323,7 +324,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             for (int j = 0; j < numOfCols; ++j)
             {
                 GameElementView gameElementView = new GameElementView(this);
-                gameElementView.setImageBitmap(BitmapContainer.get(GamePiece.EMPTY));
+                //gameElementView.setImage(BitmapContainer.get(GamePiece.EMPTY));
                 gameElementView.setRow(i);
                 gameElementView.setCol(j);
                 gameBoard.addView(gameElementView);
@@ -339,7 +340,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         flashAnim.setStartOffset(20);
         flashAnim.setRepeatMode(Animation.REVERSE);
         flashAnim.setRepeatCount(Animation.INFINITE);
-        rotation = AnimationUtils.loadAnimation(this, R.anim.rotate);
+        rotation = AnimationUtils.loadAnimation(this, R.anim.flip_rotation);
     }
 
     private void initPictures()
@@ -411,8 +412,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                         stopViewsBlink();
                     }
                     GameElementView newView = gameBoard.getGameElementView(tile.getRow(), tile.getCol());
-                    newView.setImageBitmap(BitmapContainer.get(tile.getGamePiece()));
-                    newView.startAnimation(rotation);
+                    newView.setImageWithChangeAnimation(BitmapContainer.get(tile.getGamePiece()));
+
 
                     player1Text.setText(String.valueOf(controller.getNumOfPiecesP1()));
                     player2Text.setText(String.valueOf(controller.getNumOfPiecesP2()));
@@ -736,7 +737,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             Tile tile = tilesToBlink.get(i);
             GameElementView view = gameBoard.getGameElementView(tile.getRow(), tile.getCol());
             viewsBlink.add(view);
-            view.setImageBitmap(BitmapContainer.get(GamePiece.OPTION));
+            view.setImage(BitmapContainer.get(GamePiece.OPTION));
             //view.startAnimation(flashAnim);
         }
     }
@@ -747,7 +748,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         for(int i = 0 ; i < viewsBlink.size() ; ++i)
         {
             GameElementView view = viewsBlink.get(i);
-            view.setImageBitmap(BitmapContainer.get(GamePiece.EMPTY));
+            view.setImage(BitmapContainer.get(GamePiece.EMPTY));
             //view.clearAnimation();
         }
         viewsBlink.clear();

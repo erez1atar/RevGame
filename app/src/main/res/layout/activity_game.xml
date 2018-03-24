@@ -36,6 +36,7 @@
         android:textAlignment="center"
         android:textSize="30dp"
         android:id="@+id/turnText"
+        android:gravity="center"
         android:textColor="@android:color/black"
         />
 
@@ -92,8 +93,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/player1Pieces"
+                android:gravity="center"
                 android:textAlignment="center"
-                android:textSize="30dp"/>
+                android:textSize="30sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -115,7 +117,8 @@
                 android:layout_weight="1"
                 android:id="@+id/player2Pieces"
                 android:textAlignment="center"
-                android:textSize="30dp"/>
+                android:gravity="center"
+                android:textSize="30sp"/>
         </LinearLayout>
 
     </LinearLayout>

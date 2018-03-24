@@ -5,13 +5,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".utility.App"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
         <!-- This meta-data tag is required to use Google Play services. -->
@@ -41,17 +41,17 @@
             android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".Presention.Developer_area_password" />
         <activity android:name=".Presention.DeveloperArea" />
-        <activity android:name=".Map.LevelsMapActivity"
-            android:noHistory="true"></activity>
+        <activity
+            android:name=".Map.LevelsMapActivity"
+            android:noHistory="true" />
 
-        <receiver android:name=".notification.NotificationReceiver"></receiver>
+        <receiver android:name=".notification.NotificationReceiver" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="8bc737928c363e36d14953fb77f6bdd4a05cf79c"
-            />
-    </application>
+            android:value="8bc737928c363e36d14953fb77f6bdd4a05cf79c" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
+        <activity android:name=".Map.ScrollerMap"></activity>
+    </application>
 
 </manifest>

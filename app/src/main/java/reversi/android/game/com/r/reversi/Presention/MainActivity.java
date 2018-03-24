@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -38,6 +39,7 @@ import io.fabric.sdk.android.Fabric;
 import com.google.android.gms.ads.MobileAds;
 
 import reversi.android.game.com.r.reversi.Map.LevelsMapActivity;
+import reversi.android.game.com.r.reversi.Map.ScrollerMap;
 import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.Features.ReversyMediaPlayer;
 import reversi.android.game.com.r.reversi.Routers.GameStateRouter;
@@ -72,9 +74,9 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         App.tryUpdateSession();
-        if(App.getUserDefault().getSessionNUmber() <= 1){
+        /*if(App.getUserDefault().getSessionNUmber() <= 1){
             MyNotificationManager.scheduleWeeklyNotification();
-        }
+        }*/
 
         Fabric.with(this, new Crashlytics());
 
@@ -162,7 +164,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         levelModeGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LevelsMapActivity.class);
+                Intent intent = new Intent(MainActivity.this, ScrollerMap.class);
                 startActivity(intent);;
             }
         });
@@ -178,6 +180,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setCancelable(false);
                 dialog.setContentView(R.layout.start_computer_game_dialog);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 final TextView chooseDiffBtn = (TextView) dialog.findViewById(R.id.choose_diff_text);
                 final TextView boardSizeBtn = (TextView) dialog.findViewById(R.id.board_size_text);
@@ -216,7 +219,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
                 });
 
                 final Spinner spinner = (Spinner)dialog.findViewById(R.id.start_game_spinner_difficulty);
-                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.difficulty));
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, getResources().getStringArray(R.array.difficulty));
                 String difficultyDefault = App.Instance.getDifficultyManager().getDifficulty();
                 spinner.setAdapter(spinnerArrayAdapter);
                 if(difficultyDefault.compareTo(DifficultyManager.Difficulty.EASY_LEVEL_STR) == 0)

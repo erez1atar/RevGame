@@ -18,37 +18,68 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"
-    android:text="music from : \n http://soundimage.org/fantasywonder/"/>
+        android:autoLink="web"
+    android:text="http://soundimage.org/fantasywonder/"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="font from : \n http://all-free-download.com"/>
+        android:autoLink="web"
+        android:text="Thanks for music"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="font author: ClaudeP"/>
+        android:autoLink="web"
+        android:text="http://all-free-download.com"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="icons from : http://www.flaticon.com"/>
+        android:text="Thanks for fonts , font author: ClaudeP"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="icons author: @Dave Gandy, @MadeByOliver, @dinoSoftLabs"/>
+        android:autoLink="web"
+        android:text="http://www.flaticon.com"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="Thanks to Leaonid for confeti animation \n https://github.com/plattysoft/Leonids"/>
+        android:text="Thanks for ui buttons ,icons author: @Dave Gandy, @MadeByOliver, @dinoSoftLabs"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:autoLink="web"
+        android:text="https://github.com/plattysoft/Leonids"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Thanks to Leaonid for confeti animation "/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:autoLink="web"
+        android:text="https://icons8.com"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Thanks for map buttons and game pieces"/>
 
     <TextView
         android:layout_width="match_parent"
