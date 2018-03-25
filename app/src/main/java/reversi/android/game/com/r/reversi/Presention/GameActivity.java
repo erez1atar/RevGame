@@ -347,8 +347,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     {
         ImageView player1Pic = (ImageView)findViewById(R.id.player1Pic);
         ImageView player2Pic = (ImageView)findViewById(R.id.player2Pic);
-        player1Pic.setImageResource(R.drawable.black_ball_menu);
-        player2Pic.setImageResource(R.drawable.white_ball_menu);
+        player1Pic.setImageResource(R.drawable.black_new);
+        player2Pic.setImageResource(R.drawable.white_ball);
     }
 
     private void setTurnText()

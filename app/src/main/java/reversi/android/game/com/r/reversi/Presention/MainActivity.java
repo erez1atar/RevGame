@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
     private ActivityBroadCastReceiver receiver = new ActivityBroadCastReceiver();
     private AlertDialog alertDialog = null;
     private Typeface type;
-    private SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.Instance);
+    private SharedPreferences prefs = null;
 
     private Button rateBtn = null;
     private Button hostButton = null;
@@ -77,7 +77,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         /*if(App.getUserDefault().getSessionNUmber() <= 1){
             MyNotificationManager.scheduleWeeklyNotification();
         }*/
-
+        prefs = PreferenceManager.getDefaultSharedPreferences(App.Instance);
         Fabric.with(this, new Crashlytics());
 
         type = Typeface.createFromAsset(getAssets(),"fonts/edosz.ttf");
