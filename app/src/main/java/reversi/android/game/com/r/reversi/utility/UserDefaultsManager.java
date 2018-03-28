@@ -13,6 +13,7 @@ public class UserDefaultsManager
     private final static String BOARD_SIZE = "board_size";
     private final static String NOTIFICATION_WEEKLY_NUM = "weekly_noti";
     private final static String SESSION_NUMBER = "session_num";
+    private final static String UI_STYLE = "ui_style";
     private final int defaultBoardSize = 8;
     public UserDefaultsManager()
     {
@@ -54,5 +55,17 @@ public class UserDefaultsManager
     public int getSessionNUmber() {
         int num = sharedPreferences.getInt(SESSION_NUMBER, 1);
         return num;
+    }
+
+    public void setUIString(String ui)
+    {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(UI_STYLE, ui);
+        editor.apply();
+    }
+
+    public String getUIString() {
+        String ui = sharedPreferences.getString(UI_STYLE, "GREEN");
+        return ui;
     }
 }

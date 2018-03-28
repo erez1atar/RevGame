@@ -97,6 +97,8 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         settings.setTypeface(type);
         reversi = (TextView)findViewById(R.id.reversi) ;
         reversi.setTypeface(type);
+        TextView style = (TextView)findViewById(R.id.pick_style) ;
+        style.setTypeface(type);
 
         App.getLevelsModeManager().updateCurrentLevelIfMaxLevelsChanged();
 
@@ -105,13 +107,50 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 //        reversiPic.setImageResource(R.drawable.reversi);
         initBackgroundMusicIfNeeded();
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-1765755909018734~4242310807");
-
+        this.changeUI();
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+
+    }
+
+    private void changeUI() {
+        int button_res = 0;
+        if(App.getUserDefault().getUIString().equals("BLUE")) {
+            button_res = R.drawable.button_syle_blue;
+        }
+        else {
+            button_res = R.drawable.button_syle;
+        }
+        rateBtn.setBackgroundResource(button_res);
+        hostButton.setBackgroundResource(button_res);
+        startButton.setBackgroundResource(button_res);
+        joinButton.setBackgroundResource(button_res);
+        computerModeGame.setBackgroundResource(button_res);
+        levelModeGame.setBackgroundResource(button_res);
+        settings.setBackgroundResource(button_res);
+        credits.setBackgroundResource(button_res);
 
     }
 
     private void initButton()
     {
+        Button blue = (Button)findViewById(R.id.pic_blue);
+        Button green = (Button)findViewById(R.id.pic_green);
+        blue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                App.getUserDefault().setUIString("BLUE");
+                MainActivity.this.changeUI();
+            }
+        });
+
+        green.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                App.getUserDefault().setUIString("GREEN");
+                MainActivity.this.changeUI();
+            }
+        });
+
         pulse = AnimationUtils.loadAnimation(this, R.anim.heart_pulse);
         flip = AnimationUtils.loadAnimation(this, R.anim.flip_rotation);
 
@@ -179,7 +218,12 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
                 final Dialog dialog = new Dialog(MainActivity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setCancelable(false);
-                dialog.setContentView(R.layout.start_computer_game_dialog);
+                if(App.getUserDefault().getUIString().equals("BLUE")) {
+                    dialog.setContentView(R.layout.start_computer_game_dialog_blue);
+                }
+                else {
+                    dialog.setContentView(R.layout.start_computer_game_dialog);
+                }
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 final TextView chooseDiffBtn = (TextView) dialog.findViewById(R.id.choose_diff_text);
@@ -219,7 +263,9 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
                 });
 
                 final Spinner spinner = (Spinner)dialog.findViewById(R.id.start_game_spinner_difficulty);
-                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, getResources().getStringArray(R.array.difficulty));
+                boolean isBlueStyle = App.getUserDefault().getUIString().equals("BLUE");
+
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(MainActivity.this,isBlueStyle ? R.layout.spinner_item_blue : R.layout.spinner_item, getResources().getStringArray(R.array.difficulty));
                 String difficultyDefault = App.Instance.getDifficultyManager().getDifficulty();
                 spinner.setAdapter(spinnerArrayAdapter);
                 if(difficultyDefault.compareTo(DifficultyManager.Difficulty.EASY_LEVEL_STR) == 0)

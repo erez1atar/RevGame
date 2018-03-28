@@ -7,12 +7,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
+import android.os.Build;
 import android.text.Layout;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import reversi.android.game.com.r.reversi.Presention.GameActivity;
 import reversi.android.game.com.r.reversi.utility.BitmapContainer;
 
 /**
@@ -25,10 +29,10 @@ public class GameElementView extends RelativeLayout
     private Context context = null;
     private ImageView image = null;
 
-    public GameElementView(Context context)
+    public GameElementView(Context context, String color)
     {
         super(context);
-        this.setBackground(new BitmapDrawable(context.getResources(),BitmapContainer.get(GamePiece.EMPTY)));
+        this.setBackground(new BitmapDrawable(context.getResources(),BitmapContainer.get(GamePiece.EMPTY,color)));
         this.context = context;
     }
 
@@ -86,6 +90,11 @@ public class GameElementView extends RelativeLayout
                 oa2.start();
             }
         });
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            // only for and newer versions
+            this.setImage(bitmapTarget);
+            return;
+        }
         oa1.start();
     }
 }

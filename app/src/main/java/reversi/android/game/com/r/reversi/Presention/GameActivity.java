@@ -22,6 +22,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -100,6 +101,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        this.changeUI();
 
         opponentName = getResources().getString(R.string.opponent);
 
@@ -323,13 +326,35 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         for (int i = 0; i < numOfRows; ++i) {
             for (int j = 0; j < numOfCols; ++j)
             {
-                GameElementView gameElementView = new GameElementView(this);
+                GameElementView gameElementView = new GameElementView(this, App.getUserDefault().getUIString());
                 //gameElementView.setImage(BitmapContainer.get(GamePiece.EMPTY));
                 gameElementView.setRow(i);
                 gameElementView.setCol(j);
                 gameBoard.addView(gameElementView);
             }
         }
+    }
+
+    private void changeUI() {
+        int border_res = 0;
+        int border_dark_res = 0;
+
+        LinearLayout playersPanel = (LinearLayout)findViewById(R.id.player1Lay);
+        LinearLayout player1Panel = (LinearLayout)findViewById(R.id.game_player_1_stat_panel);
+        LinearLayout player2Panel = (LinearLayout)findViewById(R.id.game_player_2_stat_panel);
+        LinearLayout menu = (LinearLayout)findViewById(R.id.menu_game);
+
+        if(App.getUserDefault().getUIString().equals("BLUE")) {
+            border_res = R.drawable.border_blue;
+            border_dark_res = R.drawable.border_dark_blue;
+        }
+        else {
+            border_res = R.drawable.border;
+            border_dark_res = R.drawable.border_dark;
+        }
+        player1Panel.setBackgroundResource(border_res);
+        player2Panel.setBackgroundResource(border_res);
+        menu.setBackgroundResource(border_dark_res);
     }
 
     private void initAnimation()
@@ -347,8 +372,10 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     {
         ImageView player1Pic = (ImageView)findViewById(R.id.player1Pic);
         ImageView player2Pic = (ImageView)findViewById(R.id.player2Pic);
+
         player1Pic.setImageResource(R.drawable.black_new);
         player2Pic.setImageResource(R.drawable.white_ball);
+
     }
 
     private void setTurnText()
@@ -412,8 +439,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                         stopViewsBlink();
                     }
                     GameElementView newView = gameBoard.getGameElementView(tile.getRow(), tile.getCol());
-                    newView.setImageWithChangeAnimation(BitmapContainer.get(tile.getGamePiece()));
-
+                    newView.setImageWithChangeAnimation(BitmapContainer.get(tile.getGamePiece(),App.getUserDefault().getUIString()));
 
                     player1Text.setText(String.valueOf(controller.getNumOfPiecesP1()));
                     player2Text.setText(String.valueOf(controller.getNumOfPiecesP2()));
@@ -737,7 +763,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             Tile tile = tilesToBlink.get(i);
             GameElementView view = gameBoard.getGameElementView(tile.getRow(), tile.getCol());
             viewsBlink.add(view);
-            view.setImage(BitmapContainer.get(GamePiece.OPTION));
+            view.setImage(BitmapContainer.get(GamePiece.OPTION, App.getUserDefault().getUIString()));
             //view.startAnimation(flashAnim);
         }
     }
@@ -748,7 +774,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         for(int i = 0 ; i < viewsBlink.size() ; ++i)
         {
             GameElementView view = viewsBlink.get(i);
-            view.setImage(BitmapContainer.get(GamePiece.EMPTY));
+            view.setImage(BitmapContainer.get(GamePiece.EMPTY,App.getUserDefault().getUIString()));
             //view.clearAnimation();
         }
         viewsBlink.clear();
