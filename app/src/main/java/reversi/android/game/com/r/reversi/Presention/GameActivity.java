@@ -1,6 +1,5 @@
 package reversi.android.game.com.r.reversi.Presention;
 
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +42,7 @@ import reversi.android.game.com.r.reversi.board.Tile;
 import reversi.android.game.com.r.reversi.controllers.IController;
 import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.BitmapContainer;
+import reversi.android.game.com.r.reversi.utility.DialogUtility;
 import reversi.android.game.com.r.reversi.utility.GoogleAnalyticsHelper;
 import reversi.android.game.com.r.reversi.utility.LevelsModeManager;
 
@@ -542,12 +543,17 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             @Override
             public void run() {
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(GameActivity.this);
-                alertDialogBuilder.setMessage(String.format(getResources().getString(R.string.base_won_str),winPlayer.getName() ));
+                final Dialog dialog = new Dialog(GameActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
 
-                alertDialogBuilder.setPositiveButton(getResources().getString(R.string.back_string), new DialogInterface.OnClickListener() {
+                dialog.setContentView(R.layout.end_game_dialog);
+                TextView text = (TextView)dialog.findViewById(R.id.end_game_message);
+                text.setText(String.format(getResources().getString(R.string.base_won_str),winPlayer.getName() ));
+                Button backBtn = (Button)dialog.findViewById(R.id.end_game_back_btn);
+                backBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
                         if (mInterstitialAd.isLoaded()) {
                             mInterstitialAd.show();
                         } else {
@@ -555,8 +561,10 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                         }
                     }
                 });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                Button[] btns = {backBtn};
+                DialogUtility.setBackGround(dialog, btns);
+                dialog.show();
+
             }
         });
 
@@ -615,6 +623,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 backBtn.setTypeface(type);
                 nextBtn.setTypeface(type);
                 text.setTypeface(type);
+                Button[] btns = {backBtn,nextBtn};
+                DialogUtility.setBackGround(dialog,btns);
                 dialog.show();
             }
         });
@@ -667,6 +677,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 backBtn.setTypeface(type);
                 replayBtn.setTypeface(type);
                 text.setTypeface(type);
+                Button[] btns = {replayBtn,backBtn};
+                DialogUtility.setBackGround(dialog,btns);
                 dialog.show();
 
                 boolean show = prefs.getBoolean(GameActivity.SHOW_VIDEO, false);
@@ -674,8 +686,9 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 editor.putBoolean(GameActivity.SHOW_VIDEO, !show);
                 editor.apply();
                 if (mAd.isLoaded() && show) {
-                    showDialog();
+                    showVideoDialog();
                 }
+
 
             }
         });
@@ -884,13 +897,13 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         mAd.loadAd("ca-app-pub-1765755909018734/4827186000", new AdRequest.Builder().build());
     }
 
-    private void showDialog(){
+    private void showVideoDialog(){
         final Dialog dialog = new Dialog(GameActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.video_dialog);
 
-        Button skipBtn = (Button) dialog.findViewById(R.id.video_dialog_skip_btn);
+        Button skipBtn = (Button) dialog.findViewById(R.id.video_x);
         skipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -915,6 +928,9 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         skipBtn.setTypeface(type);
         watchBtn.setTypeface(type);
         watchTxt.setTypeface(type);
+
+        Button[] btns = {watchBtn};
+        DialogUtility.setBackGround(dialog, btns);
 
         dialog.show();
 

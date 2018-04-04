@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/backgroung_game_gridient"
-    android:orientation="horizontal" android:layout_width="350dp"
+    android:background="@drawable/dialog_shape"
+    android:id="@+id/dialog_head"
+    android:orientation="vertical" android:layout_width="350dp"
     android:layout_height="180dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="0.4">
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/x"
+            android:id="@+id/video_x"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -59,14 +89,8 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:id="@+id/video_dialog_skip_btn"
-                android:text="@string/skip_string"
-                android:layout_weight="1"/>
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:id="@+id/video_dialog_watch_btn"
+                android:background="@drawable/btn_rounded_backgorund"
                 android:text="@string/watch_string"
                 android:layout_weight="1"/>
 
@@ -79,5 +103,13 @@
 
 
     </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"/>
+
 
 </LinearLayout>

@@ -30,6 +30,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ import reversi.android.game.com.r.reversi.Routers.GameStateRouter;
 import reversi.android.game.com.r.reversi.Settings.SettingsActivity;
 import reversi.android.game.com.r.reversi.notification.MyNotificationManager;
 import reversi.android.game.com.r.reversi.utility.App;
+import reversi.android.game.com.r.reversi.utility.DialogUtility;
 import reversi.android.game.com.r.reversi.utility.DifficultyManager;
 import reversi.android.game.com.r.reversi.utility.GoogleAnalyticsHelper;
 
@@ -218,13 +220,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
                 final Dialog dialog = new Dialog(MainActivity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setCancelable(false);
-                if(App.getUserDefault().getUIString().equals("BLUE")) {
-                    dialog.setContentView(R.layout.start_computer_game_dialog_blue);
-                }
-                else {
-                    dialog.setContentView(R.layout.start_computer_game_dialog);
-                }
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setContentView(R.layout.start_computer_game_dialog);
 
                 final TextView chooseDiffBtn = (TextView) dialog.findViewById(R.id.choose_diff_text);
                 final TextView boardSizeBtn = (TextView) dialog.findViewById(R.id.board_size_text);
@@ -322,6 +318,8 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
                         boardSize10Btn.setTextColor(Color.BLACK);
                         break;
                 }
+                Button[] btns = {startGame, boardSize8Btn, boardSize10Btn};
+                DialogUtility.setBackGround(dialog, btns);
                 dialog.show();
 
 
