@@ -42,6 +42,7 @@ public class GameController implements IController
     private SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.Instance);
     private GameStateManager gameStateManager;
     private boolean toSaveStateThisTurn = false;
+    private int numOfPassTurn = 0;
 
     public GameController(IPresent iPresent , IConnectionManager iConnectionManager)
     {
@@ -291,7 +292,24 @@ public class GameController implements IController
                             }
                         }
                         gameEndNormally = true;
+                        return;
                     }
+                    if(!checkPlayerNoMovesAvailable()) {
+                        numOfPassTurn = 0;
+                    }
+                    if(checkPlayerNoMovesAvailable()) {
+                        numOfPassTurn++;
+                    }
+                    if(checkPlayerNoMovesAvailable() || turnIdx != 0) {
+                        Log.d("erez","no moves");
+                        turnIdx = 1 - turnIdx;
+                        iPresentWeak.get().onTurnChange();
+                        iPresent.updateChanges(new ArrayList<Tile>());
+                        Log.d("erez","try send turn data");
+                        iConnectionManager.sendTurnData(new TurnData(row, col, App.Instance.getString(R.string.game_key), App.Instance.getString(R.string.turn_key))); // TODO: 23/03/2016
+
+                    }
+
 
 
             }
@@ -299,23 +317,31 @@ public class GameController implements IController
 
         private Boolean checkEndOfGame()
         {
-            if(numOfPieces[0] == 0  ||  numOfPieces[1] == 0 ||(numOfPieces[0] + numOfPieces[1] == numOfRows * numOfCols))
+            if(numOfPieces[0] == 0  ||  numOfPieces[1] == 0 ||(numOfPieces[0] + numOfPieces[1] == numOfRows * numOfCols) || numOfPassTurn >= 2)
             {
                 return true;
             }
             ArrayList<Tile> emptyTiles = gameModel.getEmptyTiles();
-            ArrayList<Tile> tilesToChange = new ArrayList<>();
-            int totalMovesAvailable = 0;
-            for (Tile tile: emptyTiles)
-            {
-                totalMovesAvailable += getNumOfTilesToChange(tilesToChange, tile.getRow(), tile.getCol());
-            }
-            if(totalMovesAvailable == 0)
-            {
+            if(emptyTiles.size() == 0) {
                 return true;
             }
             return false;
         }
+    }
+
+    private boolean checkPlayerNoMovesAvailable() {
+        ArrayList<Tile> emptyTiles = gameModel.getEmptyTiles();
+        ArrayList<Tile> tilesToChange = new ArrayList<>();
+        int totalMovesAvailable = 0;
+        for (Tile tile: emptyTiles)
+        {
+            totalMovesAvailable += getNumOfTilesToChange(tilesToChange, tile.getRow(), tile.getCol());
+        }
+        if(totalMovesAvailable == 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     public int getNumOfTilesToChange(ArrayList<Tile> tilesToChange, int row, int col)

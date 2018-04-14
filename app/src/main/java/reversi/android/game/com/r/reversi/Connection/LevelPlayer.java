@@ -83,10 +83,6 @@ public class LevelPlayer implements IConnectionManager {
             points.add(new PointWithEnemies(tile.getRow(), tile.getCol(),enemies));
         }
         Collections.sort(points, new CustomComparator());
-        for(int j = 0 ; j < points.size() ; j++)
-        {
-            Log.d("Array", "" + points.get(j).enemies);
-        }
         return points;
     }
 

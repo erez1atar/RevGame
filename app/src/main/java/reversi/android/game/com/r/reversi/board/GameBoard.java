@@ -122,7 +122,6 @@ public class GameBoard extends GridLayout
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        Log.d("onTouch", "here");
         if(MotionEvent.ACTION_UP == event.getAction())
         {
             int row = (int)((event.getY() / height) * numOfRows);
