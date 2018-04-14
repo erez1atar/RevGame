@@ -22,6 +22,7 @@ public class GoogleAnalyticsHelper
     public final static String JOIN_PLAYERS_GAME_PRESSED  = "join_game";
     public final static String TWO_PLAYERS_GAME_PRESSED  = "two_players_game";
     public final static String ONE_PLAYERS_GAME_PRESSED  = "one_players_game";
+    public final static String MULTI_PLAYER_GAME_SECCES  = "multi_player_success";
     public final static String LEVELS_PRESSED  = "levels_game";
 
     private final static String VIDEO_CATEGORY = "VIDEO";

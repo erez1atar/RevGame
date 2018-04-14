@@ -284,6 +284,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             else
             {
                 App.createNewModel(getResources().getInteger(R.integer.numOfRows));
+                App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.MULTI_PLAYER_GAME_SECCES);
                 controller = App.getController(this, App.getConnectionManager());
             }
         }
