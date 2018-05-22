@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import reversi.android.game.com.r.reversi.Presention.GameActivity;
@@ -25,27 +24,46 @@ public class ScrollerMap extends Activity {
         setContentView(R.layout.activity_scroller_map);
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         String preStrLevel = "map_level_";
 
         int maxLevel = App.getLevelsModeManager().getMaxLevel();
-        int userLevel = App.getLevelsModeManager().getCurrentLevel();
+        int userLevel = App.getLevelsModeManager().getGreatestLevel();
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/edosz.ttf");
         int level = 1;
+        Animation pulse = AnimationUtils.loadAnimation(this, R.anim.levels_btn_anim);
         for( ; level <= maxLevel ; level++ )
         {
-
+            final int currentLevel = level;
             StringBuilder builder = new StringBuilder(preStrLevel);
             builder.append( String.valueOf(level));
             int resID = getResources().getIdentifier(builder.toString(), "id", getPackageName());
             Button levelBtn = (Button)findViewById(resID);
+            levelBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    App.setIsInLevelsMode(currentLevel);
+                    ScrollerMap.this.enterGame();
+                }
+            });
             if(level <= userLevel)
             {
+                levelBtn.startAnimation(pulse);
                 levelBtn.setBackgroundResource(R.drawable.unlock);
+                levelBtn.setEnabled(true);
                 if(level == userLevel)
                 {
-                    levelBtn.setEnabled(true);
                     levelBtn.setTextColor(Color.YELLOW);
                 }
+                else
+                {
+                    levelBtn.setTextColor(Color.BLACK);
+                }
+
             }
             else
             {
@@ -69,22 +87,15 @@ public class ScrollerMap extends Activity {
             }
             level++;
         }
+    }
 
-
-        Button playBtn = (Button)findViewById(R.id.map_play_level);
-        playBtn.setTypeface(type);
-        playBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.LEVELS_PRESSED);
-                App.setIsLevelsMode(true);
-                Intent intentToGame = new Intent(ScrollerMap.this, GameActivity.class);
-                intentToGame.putExtra(App.Instance.getString(R.string.is_my_turn_key), false);
-                intentToGame.putExtra(App.Instance.getString(R.string.multi_player_key), true);
-                intentToGame.putExtra(App.Instance.getString(R.string.computer_mode_key), true);
-                startActivity(intentToGame);
-            }
-        });
+    private void enterGame() {
+        App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.LEVELS_PRESSED);
+        Intent intentToGame = new Intent(ScrollerMap.this, GameActivity.class);
+        intentToGame.putExtra(App.Instance.getString(R.string.is_my_turn_key), false);
+        intentToGame.putExtra(App.Instance.getString(R.string.multi_player_key), true);
+        intentToGame.putExtra(App.Instance.getString(R.string.computer_mode_key), true);
+        startActivity(intentToGame);
     }
 
     private void focusOnUserLevel(String preStrLevel , int userLevel) {

@@ -14,6 +14,7 @@ import reversi.android.game.com.r.reversi.board.Tile;
  */
 public interface IController
 {
+
     void startGame();
     void startRetryGame(ArrayList<ArrayList<GamePiece>> gameBoard);
     void saveGameStateToRetry();
@@ -28,4 +29,7 @@ public interface IController
     void setIConnection(IConnectionManager iConnectionManager);
     void closeGame();
     int getNumOfTilesToChange(ArrayList<Tile> tilesToChange, int row, int col);
+
+    void TESTwinGame();
+    void TESTlossGame();
 }

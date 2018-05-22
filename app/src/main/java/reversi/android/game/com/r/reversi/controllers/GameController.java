@@ -6,13 +6,13 @@ import android.util.Log;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import reversi.android.game.com.r.reversi.Connection.IConnectionManager;
 import reversi.android.game.com.r.reversi.Connection.TurnData;
 import reversi.android.game.com.r.reversi.Features.MyAccelometer;
+import reversi.android.game.com.r.reversi.Presention.GameActivity;
 import reversi.android.game.com.r.reversi.Presention.IPresent;
 import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.board.Player;
@@ -133,10 +133,10 @@ public class GameController implements IController
         if(App.getIsLevelsMode())
         {
             LevelsModeManager levelsModeManager = App.getLevelsModeManager();
-            App.Instance.getGoogleAnalytics().TrackLevelStartEvent(App.getLevelsModeManager().getCurrentLevel());
-            initTiles = levelsModeManager.getStartGameDetails();
-            numOfPieces[0] = levelsModeManager.getNumberOfPiecesPlayerOneStarted();
-            numOfPieces[1] = levelsModeManager.getNumberOfPiecesPlayerTwoStarted();
+            App.Instance.getGoogleAnalytics().TrackLevelStartEvent(App.getActiveLevel());
+            initTiles = levelsModeManager.getStartGameDetails(App.getActiveLevel());
+            numOfPieces[0] = levelsModeManager.getNumberOfPiecesPlayerOneStarted(App.getActiveLevel());
+            numOfPieces[1] = levelsModeManager.getNumberOfPiecesPlayerTwoStarted(App.getActiveLevel());
         }
         else
         {
@@ -207,6 +207,44 @@ public class GameController implements IController
         executorService.execute(turnThread);
     }
 
+    public void TESTwinGame()  {
+
+        IPresent iPresent = iPresentWeak.get();
+        if(App.getIsLevelsMode())
+        {
+            int level = App.getActiveLevel();
+            // dont report to analytics its test
+            iPresent.winLevel(players[1], GameResult.END_GAME_NO_AVAILABLE_MOVES);
+
+            App.getLevelsModeManager().trySetGreatestLevel(level + 1);
+        }
+        else if(iPresent != null)
+        {
+            iPresent.endGame(players[1], GameResult.END_GAME_NO_AVAILABLE_MOVES);
+        }
+
+        gameEndNormally = true;
+    }
+    public void TESTlossGame()  {
+
+        IPresent iPresent = iPresentWeak.get();
+        if(App.getIsLevelsMode())
+        {
+            int level = App.getActiveLevel();
+            // dont report to analytics its test
+            iPresent.lossLevel(players[0], GameResult.END_GAME_NO_AVAILABLE_MOVES);
+
+        }
+
+        else if(iPresent != null)
+        {
+            iPresent.endGame(players[0],  GameResult.END_GAME_NO_AVAILABLE_MOVES);
+        }
+
+        gameEndNormally = true;
+    }
+
+
     private class TurnCalculate implements Runnable
     {
         private int row;
@@ -253,41 +291,42 @@ public class GameController implements IController
                     {
                         iConnectionManager.sendTurnData(new TurnData(row, col, App.Instance.getString(R.string.game_key), App.Instance.getString(R.string.turn_key))); // TODO: 23/03/2016
                     }
-                    if(checkEndOfGame())
+                    GameResult endGameResult = checkEndOfGame();
+                    if(endGameResult == GameResult.END_GAME_NO_AVAILABLE_MOVES || endGameResult == GameResult.END_GAME)
                     {
                         if(numOfPieces[0] > numOfPieces[1])
                         {
                             if(App.getIsLevelsMode())
                             {
-                                int level = App.getLevelsModeManager().getCurrentLevel();
+                                int level = App.getActiveLevel();
                                 App.Instance.getGoogleAnalytics().TrackLevelLossEvent(level);
                                 if(iPresent != null)
                                 {
-                                    iPresent.lossLevel(players[0]);
+                                    iPresent.lossLevel(players[0], endGameResult);
                                 }
                             }
 
                             else if(iPresent != null)
                             {
-                                iPresent.endGame(players[0]);
+                                iPresent.endGame(players[0], endGameResult);
                             }
                         }
                         else
                         {
                             if(App.getIsLevelsMode())
                             {
-                                int level = App.getLevelsModeManager().getCurrentLevel();
+                                int level = App.getActiveLevel();
                                 App.Instance.getGoogleAnalytics().TrackLevelWinEvent(level);
 
                                  if(iPresent != null)
                                 {
-                                     iPresent.winLevel(players[1]);
+                                     iPresent.winLevel(players[1], endGameResult);
                                 }
-                                App.getLevelsModeManager().setCurrentLevel(level + 1);
+                                App.getLevelsModeManager().trySetGreatestLevel(level + 1);
                             }
                             else if(iPresent != null)
                             {
-                                iPresent.endGame(players[1]);
+                                iPresent.endGame(players[1], endGameResult);
                             }
                         }
                         gameEndNormally = true;
@@ -297,11 +336,11 @@ public class GameController implements IController
             }
         }
 
-        private Boolean checkEndOfGame()
+        private GameResult checkEndOfGame()
         {
             if(numOfPieces[0] == 0  ||  numOfPieces[1] == 0 ||(numOfPieces[0] + numOfPieces[1] == numOfRows * numOfCols))
             {
-                return true;
+                return GameResult.END_GAME;
             }
             ArrayList<Tile> emptyTiles = gameModel.getEmptyTiles();
             ArrayList<Tile> tilesToChange = new ArrayList<>();
@@ -312,9 +351,9 @@ public class GameController implements IController
             }
             if(totalMovesAvailable == 0)
             {
-                return true;
+                return GameResult.END_GAME_NO_AVAILABLE_MOVES;
             }
-            return false;
+            return GameResult.NOT_END;
         }
     }
 

@@ -65,13 +65,18 @@
     <string name="next_string">следующий</string>
     <string name="level_string">уровень</string>
     <string name="computer_string">компьютер</string>
-    <string name="base_won_str">"%s выиграл!"</string>
+    <string name="base_won_regular_str">"%s выиграл!"</string>
     <string name="base_turn_str">Очередь %s"</string>
-    <string name="win_and_unlock_lvl">Ты победил !\n  Уровень разблокировки %d</string>
+    <string name="win_regular_and_unlock_lvl">Ты победил !\n  Уровень разблокировки %d</string>
+    <string name="win_regular_level">Ты победил !</string>
     <string name="opponent">противник</string>
     <string name="waiting">ждущий...</string>
     <string name="black_player">Черный игрок</string>
     <string name="white_player">Белый игрок</string>
+
+    <string name="base_won_after_no_moves_str">"%s выиграл!"</string>
+    <string name="win_after_no_moves_and_unlock_lvl">Ты победил !\n  Уровень разблокировки %d</string>
+    <string name="win_after_no_moves_level">Ты победил !</string>
 
 
 </resources>

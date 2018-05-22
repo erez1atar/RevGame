@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,12 +38,12 @@ import reversi.android.game.com.r.reversi.board.GameElementView;
 import reversi.android.game.com.r.reversi.board.GamePiece;
 import reversi.android.game.com.r.reversi.board.Player;
 import reversi.android.game.com.r.reversi.board.Tile;
+import reversi.android.game.com.r.reversi.controllers.GameResult;
 import reversi.android.game.com.r.reversi.controllers.IController;
 import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.BitmapContainer;
 import reversi.android.game.com.r.reversi.utility.DialogUtility;
 import reversi.android.game.com.r.reversi.utility.GoogleAnalyticsHelper;
-import reversi.android.game.com.r.reversi.utility.LevelsModeManager;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -95,6 +94,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     private Animation scaleIn;
     private Animation rotate;
     private Animation pulse;
+
+    private int numOfClicksonTest = 0;
 
 
     @Override
@@ -159,8 +160,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         numOfRows = App.Instance.getResources().getInteger(R.integer.numOfRows);
         numOfCols = App.Instance.getResources().getInteger(R.integer.numOfCols);;
         if(App.getIsLevelsMode()) {
-            numOfRows = App.getLevelsModeManager().getBoardSize();
-            numOfCols = App.getLevelsModeManager().getBoardSize();;
+            numOfRows = App.getLevelsModeManager().getBoardSize(App.getActiveLevel());
+            numOfCols = App.getLevelsModeManager().getBoardSize(App.getActiveLevel());;
         }
 
 
@@ -182,7 +183,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         levelText.setTypeface(type);
         if (App.getIsLevelsMode())
         {
-            int level = App.getLevelsModeManager().getCurrentLevel();
+            int level = App.getActiveLevel();
             levelText.setVisibility(View.VISIBLE);
             levelText.setText(getString(R.string.level_string) + " "+ String.valueOf(level));
         }
@@ -269,7 +270,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             {
                 if(App.getIsLevelsMode())
                 {
-                    App.createNewModel(App.getLevelsModeManager().getBoardSize());
+                    App.createNewModel(App.getLevelsModeManager().getBoardSize(App.getActiveLevel()));
                     controller = App.getController(this, App.getLevelPlayer());
                 }
                 else {
@@ -374,6 +375,28 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     {
         ImageView player1Pic = (ImageView)findViewById(R.id.player1Pic);
         ImageView player2Pic = (ImageView)findViewById(R.id.player2Pic);
+
+        if(App.Instance.getIsDeveloperMode()) {
+            player1Pic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    numOfClicksonTest++;
+                    if(numOfClicksonTest > 10) {
+                        controller.TESTlossGame();
+                    }
+                }
+            });
+
+            player2Pic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    numOfClicksonTest++;
+                    if(numOfClicksonTest > 10) {
+                        controller.TESTwinGame();
+                    }
+                }
+            });
+        }
 
         player1Pic.setImageResource(R.drawable.black_new);
         player2Pic.setImageResource(R.drawable.white_ball);
@@ -538,7 +561,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     }
 
     @Override
-    public void endGame(final Player winPlayer)
+    public void endGame(final Player winPlayer, final GameResult gameResult)
     {
         runOnUiThread(new Runnable() {
             @Override
@@ -550,11 +573,22 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
 
                 dialog.setContentView(R.layout.end_game_dialog);
                 TextView text = (TextView)dialog.findViewById(R.id.end_game_message);
-                text.setText(String.format(getResources().getString(R.string.base_won_str),winPlayer.getName() ));
+                if(gameResult == GameResult.END_GAME) {
+                    text.setText(String.format(getResources().getString(R.string.base_won_regular_str),winPlayer.getName() ));
+                }
+                else if(gameResult == GameResult.END_GAME_NO_AVAILABLE_MOVES) {
+                    text.setText(String.format(getResources().getString(R.string.base_won_after_no_moves_str),winPlayer.getName() ));
+                }
                 Button backBtn = (Button)dialog.findViewById(R.id.end_game_back_btn);
                 backBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        mInterstitialAd.setAdListener(new AdListener() {
+                            @Override
+                            public void onAdClosed() {
+                                InnerEndGame();
+                            }
+                        });
                         if (mInterstitialAd.isLoaded()) {
                             mInterstitialAd.show();
                         } else {
@@ -572,7 +606,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     }
 
     @Override
-    public void winLevel(final Player winPlayer) {
+    public void winLevel(final Player winPlayer, final GameResult gameResult) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -583,28 +617,47 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 dialog.setContentView(R.layout.win_level_dialog);
 
                 TextView text = (TextView)dialog.findViewById(R.id.win_level_dialog_text);
-                if(App.getLevelsModeManager().isLastLevel())
+                if(App.getLevelsModeManager().isLastLevel(App.getActiveLevel()))
                 {
                     text.setText("More Level Coming soon!");
                 }
                 else {
-                    text.setText(String.format(getResources().getString(R.string.win_and_unlock_lvl) , App.getLevelsModeManager().getCurrentLevel()));
+                    if(App.getActiveLevel() + 1 != App.getLevelsModeManager().getGreatestLevel()) {
+                        if(gameResult == GameResult.END_GAME_NO_AVAILABLE_MOVES) {
+                            text.setText(String.format(getResources().getString(R.string.win_after_no_moves_level)));
+                        }
+                        else if(gameResult == GameResult.END_GAME) {
+                            text.setText(String.format(getResources().getString(R.string.win_regular_level)));
+                        }
+                    }
+                    else {
+                        if(gameResult == GameResult.END_GAME_NO_AVAILABLE_MOVES) {
+                            text.setText(String.format(getResources().getString(R.string.win_after_no_moves_and_unlock_lvl) , App.getActiveLevel() + 1));
+                        }
+                        else if(gameResult == GameResult.END_GAME) {
+                            text.setText(String.format(getResources().getString(R.string.win_regular_and_unlock_lvl) , App.getActiveLevel() + 1));
+                        }
+                    }
+
                 }
 
                 Button nextBtn = (Button) dialog.findViewById(R.id.win_level_dialog_next);
                 nextBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialog.dismiss();
                         mInterstitialAd.setAdListener(new AdListener() {
                             @Override
                             public void onAdClosed() {
                                 //requestNewInterstitial();
+                                finish();
                                 getToNextLevel();
                             }
                         });
                         if (mInterstitialAd.isLoaded()) {
                             mInterstitialAd.show();
                         } else {
+                            finish();
                             getToNextLevel();
                         }
                     }
@@ -614,6 +667,14 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 backBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialog.dismiss();
+                        mInterstitialAd.setAdListener(new AdListener() {
+                            @Override
+                            public void onAdClosed() {
+                                //requestNewInterstitial();
+                                InnerEndGame();
+                            }
+                        });
                         if (mInterstitialAd.isLoaded()) {
                             mInterstitialAd.show();
                         } else {
@@ -633,7 +694,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     }
 
     @Override
-    public void lossLevel(final Player winPlayer) {
+    public void lossLevel(final Player winPlayer, final GameResult gameResult) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -643,7 +704,13 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 dialog.setContentView(R.layout.loss_level_dialog);
 
                 TextView text = (TextView)dialog.findViewById(R.id.loss_level_dialog_text);
-                text.setText(String.format(getResources().getString(R.string.base_won_str),winPlayer.getName()));
+                if(gameResult == GameResult.END_GAME) {
+                    text.setText(String.format(getResources().getString(R.string.base_won_regular_str),winPlayer.getName()));
+                }
+                else if(gameResult == GameResult.END_GAME_NO_AVAILABLE_MOVES) {
+                    text.setText(String.format(getResources().getString(R.string.base_won_after_no_moves_str),winPlayer.getName()));
+                }
+
 
                 Button replayBtn = (Button) dialog.findViewById(R.id.loss_level_dialog_replay);
                 replayBtn.setOnClickListener(new View.OnClickListener() {
@@ -653,12 +720,14 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                             @Override
                             public void onAdClosed() {
                                 //requestNewInterstitial();
+                                finish();
                                 replayLevel();
                             }
                         });
                         if (mInterstitialAd.isLoaded()) {
                             mInterstitialAd.show();
                         } else {
+                            finish();
                             replayLevel();
                         }
                     }
@@ -668,6 +737,12 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 backBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        mInterstitialAd.setAdListener(new AdListener() {
+                            @Override
+                            public void onAdClosed() {
+                                InnerEndGame();
+                            }
+                        });
                         if (mInterstitialAd.isLoaded()) {
                             mInterstitialAd.show();
                         } else {
@@ -697,8 +772,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
 
     private void InnerEndGame()
     {
-        Intent intentEndGame = new Intent(GameActivity.this, MainActivity.class);
-        startActivity(intentEndGame);
+        finish();
         controller.closeGame();
     }
 
@@ -706,7 +780,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     {
         controller.closeGame();
         App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.LEVELS_PRESSED);
-        App.setIsLevelsMode(true);
+        App.setIsInLevelsMode(App.getActiveLevel() + 1);
         GameStateRouter.sendStartGame(false, true, true);
     }
 
@@ -714,7 +788,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     {
         controller.closeGame();
         App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.LEVELS_PRESSED);
-        App.setIsLevelsMode(true);
+        App.setIsInLevelsMode(App.getActiveLevel());
         GameStateRouter.sendStartGame(false, true, true);
     }
 
@@ -880,7 +954,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     public void onRewarded(RewardItem rewardItem) {
         App.Instance.getGoogleAnalytics().TrackVideoRewarded();
         controller.closeGame();
-        App.setIsLevelsMode(true);
+        App.setIsInLevelsMode(App.getActiveLevel());
         GameStateRouter.sendRetryLevelStartGame(false, true, true);
     }
 

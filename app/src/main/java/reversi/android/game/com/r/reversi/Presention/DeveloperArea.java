@@ -1,6 +1,6 @@
 package reversi.android.game.com.r.reversi.Presention;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +10,7 @@ import android.widget.EditText;
 import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.utility.App;
 
-public class DeveloperArea extends AppCompatActivity {
+public class DeveloperArea extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class DeveloperArea extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int levelToSet = Integer.valueOf(level.getText().toString());
-                App.getLevelsModeManager().setCurrentLevel(levelToSet);
+                App.getLevelsModeManager().forceSetGreatestLevel(levelToSet);
             }
         });
     }

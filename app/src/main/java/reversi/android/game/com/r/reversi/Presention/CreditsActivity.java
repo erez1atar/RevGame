@@ -1,5 +1,6 @@
 package reversi.android.game.com.r.reversi.Presention;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import org.w3c.dom.Text;
 import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.utility.App;
 
-public class CreditsActivity extends AppCompatActivity {
+public class CreditsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

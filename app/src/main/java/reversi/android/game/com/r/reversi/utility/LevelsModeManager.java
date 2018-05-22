@@ -2,7 +2,6 @@ package reversi.android.game.com.r.reversi.utility;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
@@ -16,7 +15,7 @@ import reversi.android.game.com.r.reversi.board.Tile;
 public class LevelsModeManager
 {
     private SharedPreferences sharedPreferences;
-    private static final String crntLevelStr = "LEVEL";
+    private static final String GREATEST_LEVEL = "LEVEL";
     private static final String FINISHED_LAST_LEVEL = "LAST_LEVEL_FINISHED";
     int maxLevel = 58;
 
@@ -44,12 +43,12 @@ public class LevelsModeManager
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.Instance);
     }
 
-    public int getCurrentLevel()
+    public int getGreatestLevel()
     {
-        return sharedPreferences.getInt(crntLevelStr, 1);
+        return sharedPreferences.getInt(GREATEST_LEVEL, 1);
     }
 
-    public void setCurrentLevel(int level)
+    public void forceSetGreatestLevel(int level)
     {
         if(level > maxLevel)
         {
@@ -59,14 +58,33 @@ public class LevelsModeManager
             return;
         }
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(crntLevelStr, level);
+        editor.putInt(GREATEST_LEVEL, level);
         editor.apply();
+
+
     }
 
-    public ArrayList<Tile> getStartGameDetails()
+    public void trySetGreatestLevel(int level)
+    {
+        if(level > maxLevel)
+        {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(FINISHED_LAST_LEVEL, true);
+            editor.apply();
+            return;
+        }
+        int lastGreatest = this.getGreatestLevel();
+        if(level > lastGreatest) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt(GREATEST_LEVEL, level);
+            editor.apply();
+        }
+
+    }
+
+    public ArrayList<Tile> getStartGameDetails(int level)
     {
         ArrayList<Tile> tiles = new ArrayList<>();
-        int level = getCurrentLevel();
         int numOfCols = App.getModel().getNumOfCols();
         int numOfRows =  App.getModel().getNumOfRows();
         int midRow = numOfRows / 2;
@@ -1180,9 +1198,8 @@ public class LevelsModeManager
         return tiles;
     }
 
-    public int getDifficulty()
+    public int getDifficulty(int level)
     {
-        int level = getCurrentLevel();
         switch (level)
         {
             case 1:
@@ -1208,9 +1225,8 @@ public class LevelsModeManager
         }
     }
 
-    public int getNumberOfPiecesPlayerOneStarted() // COMPUTER
+    public int getNumberOfPiecesPlayerOneStarted(int level) // COMPUTER
     {
-        int level = getCurrentLevel();
         switch (level)
         {
             case 1:
@@ -1334,9 +1350,8 @@ public class LevelsModeManager
         return -1;
     }
 
-    public int getNumberOfPiecesPlayerTwoStarted()
+    public int getNumberOfPiecesPlayerTwoStarted(int level)
     {
-        int level = getCurrentLevel();
         switch (level)
         {
             case 1:
@@ -1459,9 +1474,8 @@ public class LevelsModeManager
         return -1;
     }
 
-    public int getBoardSize()
+    public int getBoardSize(int level)
     {
-        int level = getCurrentLevel();
         switch (level)
         {
             case 1:
@@ -1588,18 +1602,18 @@ public class LevelsModeManager
         return maxLevel;
     }
 
-    public boolean isLastLevel()
+    public boolean isLastLevel(int level)
     {
-        return getCurrentLevel() == maxLevel;
+        return level == maxLevel;
     }
 
     public void updateCurrentLevelIfMaxLevelsChanged()
     {
-        int level = getCurrentLevel();
+        int level = getGreatestLevel();
         boolean finishTheLastLevel = sharedPreferences.getBoolean(FINISHED_LAST_LEVEL, false);
         if(finishTheLastLevel && level < maxLevel)
         {
-            setCurrentLevel(level + 1);
+            trySetGreatestLevel(level + 1);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(FINISHED_LAST_LEVEL, false);
             editor.apply();

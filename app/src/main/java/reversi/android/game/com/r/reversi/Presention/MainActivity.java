@@ -10,17 +10,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +26,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,13 +34,11 @@ import io.fabric.sdk.android.Fabric;
 
 import com.google.android.gms.ads.MobileAds;
 
-import reversi.android.game.com.r.reversi.Map.LevelsMapActivity;
 import reversi.android.game.com.r.reversi.Map.ScrollerMap;
 import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.Features.ReversyMediaPlayer;
 import reversi.android.game.com.r.reversi.Routers.GameStateRouter;
 import reversi.android.game.com.r.reversi.Settings.SettingsActivity;
-import reversi.android.game.com.r.reversi.notification.MyNotificationManager;
 import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.DialogUtility;
 import reversi.android.game.com.r.reversi.utility.DifficultyManager;
@@ -177,7 +170,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             }
         });
 
-        if(App.getLevelsModeManager().getCurrentLevel() < 7)
+        if(App.getLevelsModeManager().getGreatestLevel() < 7)
         {
             rateBtn.setEnabled(false);
             rateBtn.setVisibility(View.INVISIBLE);
@@ -215,7 +208,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             @Override
             public void onClick(View v) {
                 App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.ONE_PLAYERS_GAME_PRESSED);
-                App.setIsLevelsMode(false);
+                App.setNOTLevelsMode();
 
                 final Dialog dialog = new Dialog(MainActivity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -333,7 +326,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             {
                 App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.TWO_PLAYERS_GAME_PRESSED);
                 Intent intentToGame = new Intent(MainActivity.this, GameActivity.class);
-                App.setIsLevelsMode(false);
+                App.setNOTLevelsMode();
                 intentToGame.putExtra(App.Instance.getString(R.string.is_my_turn_key), true);
                 intentToGame.putExtra(App.Instance.getString(R.string.multi_player_key), false);
                 startActivity(intentToGame);
@@ -346,7 +339,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             public void onClick(View v)
             {
                 App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.JOIN_PLAYERS_GAME_PRESSED);
-                App.setIsLevelsMode(false);
+                App.setNOTLevelsMode();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                 alertDialogBuilder.setMessage("Enter you host's ip address\n(You're both must be connected to the same WIFI)");
                 final EditText editText = new EditText(App.Instance);
@@ -395,7 +388,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
                 }
                 else
                 {
-                    App.setIsLevelsMode(false);
+                    App.setNOTLevelsMode();
                     App.getConnectionManager().startHostGame();
                 }
             }
@@ -485,6 +478,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             if(gameState.compareTo(getString(R.string.start_game)) == 0)
             {
                 Intent intentToGame = new Intent(MainActivity.this, GameActivity.class);
+                intentToGame.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 intentToGame.putExtra(App.Instance.getString(R.string.is_my_turn_key), intent.getBooleanExtra(getString(R.string.is_my_turn_key), true));
                 intentToGame.putExtra(App.Instance.getString(R.string.multi_player_key), intent.getBooleanExtra(getString(R.string.multi_player_key), true));
                 intentToGame.putExtra(App.Instance.getString(R.string.computer_mode_key), intent.getBooleanExtra(App.Instance.getString(R.string.computer_mode_key), false));

@@ -64,7 +64,7 @@ public class LevelPlayer implements IConnectionManager {
 
     private PointWithEnemies getSelectedPointByLevel(ArrayList<PointWithEnemies> choices)
     {
-        int idx = App.getLevelsModeManager().getDifficulty();
+        int idx = App.getLevelsModeManager().getDifficulty(App.getActiveLevel());
         if(idx > choices.size() - 1)
         {
             return choices.get(choices.size() - 1);

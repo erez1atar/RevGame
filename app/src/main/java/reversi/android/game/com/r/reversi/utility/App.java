@@ -51,6 +51,7 @@ public class App extends Application
     private ArrayList<ArrayList<GamePiece>> gameState;
     private static UserDefaultsManager userDefaultsManager;
     private static Boolean updateSessionNum = false;
+    private static int activeLevel = 0;
 
     public App()
     {
@@ -153,9 +154,18 @@ public class App extends Application
         return isLevelsMode;
     }
 
-    public static void setIsLevelsMode(boolean levelsMode)
+    public static void setNOTLevelsMode()
     {
-        isLevelsMode = levelsMode;
+        isLevelsMode = false;
+    }
+
+    public static void setIsInLevelsMode(int level) {
+        isLevelsMode = true;
+        activeLevel = level;
+    }
+
+    public static int getActiveLevel() {
+        return activeLevel;
     }
 
     public static LevelsModeManager getLevelsModeManager()

@@ -51,7 +51,10 @@
             android:name="io.fabric.ApiKey"
             android:value="8bc737928c363e36d14953fb77f6bdd4a05cf79c" />
 
-        <activity android:name=".Map.ScrollerMap"></activity>
+        <activity android:name=".Map.ScrollerMap"
+                    android:screenOrientation="portrait">
+
+        </activity>
     </application>
 
 </manifest>

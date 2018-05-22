@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import reversi.android.game.com.r.reversi.Presention.GameActivity;
-import reversi.android.game.com.r.reversi.Presention.MainActivity;
 import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.GoogleAnalyticsHelper;
@@ -25,7 +23,7 @@ public class LevelsMapActivity extends Activity {
         String preStrLevel = "map_level_";
 
         int maxLevel = App.getLevelsModeManager().getMaxLevel();
-        int userLevel = App.getLevelsModeManager().getCurrentLevel();
+        int userLevel = App.getLevelsModeManager().getGreatestLevel();
         int tmpUserLevel = userLevel;
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/edosz.ttf");
         int i = 1;
@@ -66,7 +64,7 @@ public class LevelsMapActivity extends Activity {
             @Override
             public void onClick(View v) {
                 App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.LEVELS_PRESSED);
-                App.setIsLevelsMode(true);
+                App.setIsInLevelsMode(App.getLevelsModeManager().getGreatestLevel());
                 Intent intentToGame = new Intent(LevelsMapActivity.this, GameActivity.class);
                 intentToGame.putExtra(App.Instance.getString(R.string.is_my_turn_key), false);
                 intentToGame.putExtra(App.Instance.getString(R.string.multi_player_key), true);
