@@ -287,10 +287,10 @@ public class GameController implements IController
                     }
                     turnIdx = 1 - turnIdx;
                     iPresentWeak.get().onTurnChange();
-                    if(!arrivedFromConn)
+                    /*if(!arrivedFromConn)
                     {
                         iConnectionManager.sendTurnData(new TurnData(row, col, App.Instance.getString(R.string.game_key), App.Instance.getString(R.string.turn_key))); // TODO: 23/03/2016
-                    }
+                    }*/
                     GameResult endGameResult = checkEndOfGame();
                     if(endGameResult == GameResult.END_GAME_NO_AVAILABLE_MOVES || endGameResult == GameResult.END_GAME)
                     {
@@ -330,38 +330,91 @@ public class GameController implements IController
                             }
                         }
                         gameEndNormally = true;
+                        return;
                     }
+                    if(iConnectionManager.isMoveTurnOnNoAvailable()) {
+                        if(!arrivedFromConn){
 
+                            boolean noMovesAvialable = checkPlayerNoMovesAvailable();
+                            if(noMovesAvialable) {
+                                turnIdx = 1 - turnIdx;
+                                iPresentWeak.get().onTurnChange();
+                                iPresentWeak.get().onNoMovesAvailable();
+                            }
+                            else {
+                                iConnectionManager.sendTurnData(new TurnData(row, col, App.Instance.getString(R.string.game_key), App.Instance.getString(R.string.turn_key))); // TODO: 23/03/2016
+                            }
+                        }
+                        else {
+                            boolean noMovesAvialable = checkPlayerNoMovesAvailable();
+                            if(noMovesAvialable) {
+                                iPresentWeak.get().onNoMovesAvailable();
+                                turnIdx = 1 - turnIdx;
+                                iPresentWeak.get().onTurnChange();
+                                iConnectionManager.sendTurnData(new TurnData(-10, -10, App.Instance.getString(R.string.game_key), App.Instance.getString(R.string.turn_key)));
+                            }
+                        }
+                    }
+                    else {
+                        if(!arrivedFromConn)
+                        {
+                            iConnectionManager.sendTurnData(new TurnData(row, col, App.Instance.getString(R.string.game_key), App.Instance.getString(R.string.turn_key))); // TODO: 23/03/2016
+                        }
+                    }
 
             }
         }
 
         private GameResult checkEndOfGame()
         {
-            if(numOfPieces[0] == 0  ||  numOfPieces[1] == 0 ||(numOfPieces[0] + numOfPieces[1] == numOfRows * numOfCols))
+            if(numOfPieces[0] == 0  ||  numOfPieces[1] == 0 ||(numOfPieces[0] + numOfPieces[1] == numOfRows * numOfCols) || checkNoAvialableMovesAnyPlayer())
             {
                 return GameResult.END_GAME;
             }
             ArrayList<Tile> emptyTiles = gameModel.getEmptyTiles();
-            ArrayList<Tile> tilesToChange = new ArrayList<>();
-            int totalMovesAvailable = 0;
-            for (Tile tile: emptyTiles)
-            {
-                totalMovesAvailable += getNumOfTilesToChange(tilesToChange, tile.getRow(), tile.getCol());
-            }
-            if(totalMovesAvailable == 0)
-            {
+            if(emptyTiles.size() == 0) {
                 return GameResult.END_GAME_NO_AVAILABLE_MOVES;
             }
             return GameResult.NOT_END;
         }
     }
 
-    public int getNumOfTilesToChange(ArrayList<Tile> tilesToChange, int row, int col)
+    private boolean checkPlayerNoMovesAvailable() {
+        ArrayList<Tile> emptyTiles = gameModel.getEmptyTiles();
+        ArrayList<Tile> tilesToChange = new ArrayList<>();
+        int totalMovesAvailable = 0;
+        for (Tile tile: emptyTiles)
+        {
+            totalMovesAvailable += getNumOfTilesToChange(tilesToChange, tile.getRow(), tile.getCol());
+        }
+        if(totalMovesAvailable == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkNoAvialableMovesAnyPlayer() {
+        ArrayList<Tile> emptyTiles = gameModel.getEmptyTiles();
+        ArrayList<Tile> tilesToChange = new ArrayList<>();
+        int totalMovesAvailable = 0;
+        for (Tile tile: emptyTiles)
+        {
+            totalMovesAvailable += getPlayerNumOfTilesToChange(tilesToChange, tile.getRow(), tile.getCol(),0);
+            totalMovesAvailable += getPlayerNumOfTilesToChange(tilesToChange, tile.getRow(), tile.getCol(),1);
+        }
+        if(totalMovesAvailable == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public int getPlayerNumOfTilesToChange(ArrayList<Tile> tilesToChange, int row, int col, int turnPlayerIdx)
     {
         int numOfEnemies;
-        GamePiece otherPlayerPiece = players[1 - turnIdx].getGamePiece();
-        GamePiece thisPlayerPiece = players[turnIdx].getGamePiece();
+        GamePiece otherPlayerPiece = players[1 - turnPlayerIdx].getGamePiece();
+        GamePiece thisPlayerPiece = players[turnPlayerIdx].getGamePiece();
         numOfEnemies = turn(tilesToChange, row, col, -1, -1, otherPlayerPiece, thisPlayerPiece)
                 + turn(tilesToChange, row, col, 0, -1, otherPlayerPiece, thisPlayerPiece)
                 + turn(tilesToChange, row, col, 1, -1, otherPlayerPiece, thisPlayerPiece)
@@ -371,6 +424,12 @@ public class GameController implements IController
                 + turn(tilesToChange, row, col, -1, 1, otherPlayerPiece, thisPlayerPiece)
                 + turn(tilesToChange, row, col, -1, 0, otherPlayerPiece, thisPlayerPiece);
         return numOfEnemies;
+    }
+
+    public int getNumOfTilesToChange(ArrayList<Tile> tilesToChange, int row, int col)
+    {
+        return getPlayerNumOfTilesToChange(tilesToChange, row, col, turnIdx);
+
     }
 
 

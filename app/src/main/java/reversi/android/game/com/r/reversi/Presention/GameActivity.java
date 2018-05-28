@@ -90,6 +90,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     private SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.Instance);
 
     private ImageView greatView;
+    private ImageView noMoves;
     private Animation fadeIn;
     private Animation scaleIn;
     private Animation rotate;
@@ -503,6 +504,12 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         GameActivity.this.addContentView(greatView, lp);
         greatView.setVisibility(View.INVISIBLE);
+
+        noMoves = new ImageView(this);
+        noMoves.setImageResource(R.drawable.no_moves);
+        lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        GameActivity.this.addContentView(noMoves, lp);
+        noMoves.setVisibility(View.INVISIBLE);
     }
     private void startGreatMoveAnim() {
         fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_out);
@@ -551,6 +558,45 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             public void onAnimationRepeat(Animation animation) {}
         });
         greatView.startAnimation(fadeIn);
+
+    }
+
+    private void starNoMovesAnim() {
+        fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_out);
+        scaleIn =  AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_in);
+        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                noMoves.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                noMoves.startAnimation(scaleIn);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+
+        scaleIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                Log.d("start anim", "start");
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                noMoves.setVisibility(View.INVISIBLE);
+                noMoves.clearAnimation();
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+        noMoves.startAnimation(fadeIn);
 
     }
 
@@ -801,6 +847,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 isMyTurn = !isMyTurn;
                 setTurnText();
                 blinkOptionsTiles();
+
             }
         });
     }
@@ -831,6 +878,11 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     public void updateOpponentName(String name)
     {
         opponentName = name;
+    }
+
+    @Override
+    public void onNoMovesAvailable() {
+        starNoMovesAnim();
     }
 
     private void blinkOptionsTiles()

@@ -21,4 +21,5 @@ public interface IPresent
     void onConnectionError();
     void responseToShake();
     void updateOpponentName(String name);
+    void onNoMovesAvailable();
 }

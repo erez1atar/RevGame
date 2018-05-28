@@ -9,5 +9,6 @@ public interface IConnectionManager
     void startJoinGame(String ip);
     void sendTurnData(TurnData turnData);
     void disconnect();
+    boolean isMoveTurnOnNoAvailable();
 
 }

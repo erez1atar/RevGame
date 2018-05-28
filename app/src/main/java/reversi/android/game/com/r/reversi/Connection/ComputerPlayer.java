@@ -109,10 +109,6 @@ public class ComputerPlayer implements IConnectionManager
             points.add(new ComputerPlayer.PointWithEnemies(tile.getRow(), tile.getCol(),enemies));
         }
         Collections.sort(points, new ComputerPlayer.CustomComparator());
-        for(int j = 0 ; j < points.size() ; j++)
-        {
-            Log.d("Array", "" + points.get(j).enemies);
-        }
         return points;
     }
 
@@ -139,4 +135,9 @@ public class ComputerPlayer implements IConnectionManager
     }
     @Override
     public void disconnect() {}
+
+    @Override
+    public boolean isMoveTurnOnNoAvailable() {
+        return true;
+    }
 }

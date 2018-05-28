@@ -28,4 +28,9 @@ public class ConnectionManager implements IConnectionManager
     {
         iConnection.disconnect();
     }
+
+    @Override
+    public boolean isMoveTurnOnNoAvailable() {
+        return false;
+    }
 }
