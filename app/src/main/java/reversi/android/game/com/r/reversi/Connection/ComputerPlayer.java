@@ -135,4 +135,9 @@ public class ComputerPlayer implements IConnectionManager
     }
     @Override
     public void disconnect() {}
+
+    @Override
+    public boolean isMoveTurnOnNoAvailable() {
+        return true;
+    }
 }
