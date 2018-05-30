@@ -12,7 +12,6 @@ import java.util.concurrent.Executors;
 import reversi.android.game.com.r.reversi.Connection.IConnectionManager;
 import reversi.android.game.com.r.reversi.Connection.TurnData;
 import reversi.android.game.com.r.reversi.Features.MyAccelometer;
-import reversi.android.game.com.r.reversi.Presention.GameActivity;
 import reversi.android.game.com.r.reversi.Presention.IPresent;
 import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.board.Player;
@@ -214,13 +213,13 @@ public class GameController implements IController
         {
             int level = App.getActiveLevel();
             // dont report to analytics its test
-            iPresent.winLevel(players[1], GameResult.END_GAME_NO_AVAILABLE_MOVES);
+            iPresent.winLevel(players[1], GameResult.END_GAME_PLAYER_NO_AVAILABLE_MOVES);
 
             App.getLevelsModeManager().trySetGreatestLevel(level + 1);
         }
         else if(iPresent != null)
         {
-            iPresent.endGame(players[1], GameResult.END_GAME_NO_AVAILABLE_MOVES);
+            iPresent.endGame(players[1], GameResult.END_GAME_PLAYER_NO_AVAILABLE_MOVES);
         }
 
         gameEndNormally = true;
@@ -232,13 +231,13 @@ public class GameController implements IController
         {
             int level = App.getActiveLevel();
             // dont report to analytics its test
-            iPresent.lossLevel(players[0], GameResult.END_GAME_NO_AVAILABLE_MOVES);
+            iPresent.lossLevel(players[0], GameResult.END_GAME_PLAYER_NO_AVAILABLE_MOVES);
 
         }
 
         else if(iPresent != null)
         {
-            iPresent.endGame(players[0],  GameResult.END_GAME_NO_AVAILABLE_MOVES);
+            iPresent.endGame(players[0],  GameResult.END_GAME_PLAYER_NO_AVAILABLE_MOVES);
         }
 
         gameEndNormally = true;
@@ -287,12 +286,15 @@ public class GameController implements IController
                     }
                     turnIdx = 1 - turnIdx;
                     iPresentWeak.get().onTurnChange();
-                    /*if(!arrivedFromConn)
-                    {
-                        iConnectionManager.sendTurnData(new TurnData(row, col, App.Instance.getString(R.string.game_key), App.Instance.getString(R.string.turn_key))); // TODO: 23/03/2016
-                    }*/
+                    if(!iConnectionManager.isMoveTurnOnNoAvailable()) {
+                        if(!arrivedFromConn)
+                        {
+                            iConnectionManager.sendTurnData(new TurnData(row, col, App.Instance.getString(R.string.game_key), App.Instance.getString(R.string.turn_key))); // TODO: 23/03/2016
+                        }
+                    }
+
                     GameResult endGameResult = checkEndOfGame();
-                    if(endGameResult == GameResult.END_GAME_NO_AVAILABLE_MOVES || endGameResult == GameResult.END_GAME)
+                    if(endGameResult != GameResult.NOT_END)
                     {
                         if(numOfPieces[0] > numOfPieces[1])
                         {
@@ -355,25 +357,35 @@ public class GameController implements IController
                             }
                         }
                     }
-                    else {
-                        if(!arrivedFromConn)
-                        {
-                            iConnectionManager.sendTurnData(new TurnData(row, col, App.Instance.getString(R.string.game_key), App.Instance.getString(R.string.turn_key))); // TODO: 23/03/2016
-                        }
-                    }
 
             }
         }
 
         private GameResult checkEndOfGame()
         {
-            if(numOfPieces[0] == 0  ||  numOfPieces[1] == 0 ||(numOfPieces[0] + numOfPieces[1] == numOfRows * numOfCols) || checkNoAvialableMovesAnyPlayer())
+            if(numOfPieces[0] == 0  ||  numOfPieces[1] == 0 ||(numOfPieces[0] + numOfPieces[1] == numOfRows * numOfCols))
             {
                 return GameResult.END_GAME;
             }
             ArrayList<Tile> emptyTiles = gameModel.getEmptyTiles();
             if(emptyTiles.size() == 0) {
-                return GameResult.END_GAME_NO_AVAILABLE_MOVES;
+                return GameResult.END_GAME;
+            }
+            if(checkNoAvialableMovesAnyPlayer()) {
+                return GameResult.END_GAME_NO_MOVES_ANY;
+            }
+            // in case is not move turn status
+            if(!iConnectionManager.isMoveTurnOnNoAvailable()) {
+                ArrayList<Tile> tilesToChange = new ArrayList<>();
+                int totalMovesAvailable = 0;
+                for (Tile tile: emptyTiles)
+                {
+                    totalMovesAvailable += getNumOfTilesToChange(tilesToChange, tile.getRow(), tile.getCol());
+                }
+                if(totalMovesAvailable == 0)
+                {
+                    return GameResult.END_GAME_PLAYER_NO_AVAILABLE_MOVES;
+                }
             }
             return GameResult.NOT_END;
         }

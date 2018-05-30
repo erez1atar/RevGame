@@ -74,9 +74,12 @@
     <string name="black_player">Black player</string>
     <string name="white_player">White player</string>
 
-    <string name="base_won_after_no_moves_str">"The player have no legal moves available\nAccording to the current result\n\n %s Won !"</string>
-    <string name="win_after_no_moves_and_unlock_lvl">The player have no legal moves available\nAccording to the current result\n\n You Won !\n You have unlock level %d</string>
-    <string name="win_after_no_moves_level">The player have no legal moves available\nAccording to the current result\n\n You Won !</string>
+    <string name="base_won_after_player_no_moves_str">"The player have no legal moves available\nAccording to the current result\n\n %s Won !"</string>
+    <string name="win_after_player_no_moves_and_unlock_lvl">The player have no legal moves available\nAccording to the current result\n\n You Won !\n You have unlock level %d</string>
+    <string name="win_after_player_no_moves_level">The player have no legal moves available\nAccording to the current result\n\n You Won !</string>
 
 
+    <string name="base_won_after_any_no_moves_str">"Any player have legal moves available\nAccording to the current result\n\n %s Won !"</string>
+    <string name="win_after_any_no_moves_and_unlock_lvl">Any player have legal moves available\nAccording to the current result\n\n You Won !\n You have unlock level %d</string>
+    <string name="win_after_any_no_moves_level">Any player have legal moves available\nAccording to the current result\n\n You Won !</string>
 </resources>

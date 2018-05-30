@@ -96,6 +96,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     private Animation rotate;
     private Animation pulse;
 
+    private boolean animationRunning = false;
+
     private int numOfClicksonTest = 0;
 
 
@@ -512,91 +514,106 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         noMoves.setVisibility(View.INVISIBLE);
     }
     private void startGreatMoveAnim() {
-        fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_out);
-        rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.one_rotation);
-        scaleIn =  AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_in);
-        fadeIn.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                greatView.setVisibility(View.VISIBLE);
-            }
+        if(!animationRunning) {
+            animationRunning = true;
+            fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_out);
+            rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.one_rotation);
+            scaleIn =  AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_in);
+            fadeIn.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    greatView.setVisibility(View.VISIBLE);
+                }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                greatView.startAnimation(rotate);
-            }
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    greatView.startAnimation(rotate);
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
-        });
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            });
 
-        rotate.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {}
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                greatView.startAnimation(scaleIn);
-            }
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
-        });
+            rotate.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {}
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    greatView.startAnimation(scaleIn);
+                }
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            });
 
-        scaleIn.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                Log.d("start anim", "start");
-            }
+            scaleIn.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    Log.d("start anim", "start");
+                }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                greatView.setVisibility(View.INVISIBLE);
-                greatView.clearAnimation();
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    greatView.setVisibility(View.INVISIBLE);
+                    greatView.clearAnimation();
+                    animationRunning = false;
 
-            }
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
-        });
-        greatView.startAnimation(fadeIn);
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            });
+            greatView.startAnimation(fadeIn);
+        }
+
 
     }
 
     private void starNoMovesAnim() {
-        fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_out);
-        scaleIn =  AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_in);
-        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onAnimationStart(Animation animation) {
-                noMoves.setVisibility(View.VISIBLE);
-            }
+            public void run() {
+                if(!animationRunning) {
+                    animationRunning = true;
+                    fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_out);
+                    scaleIn =  AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_in);
+                    fadeIn.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                            noMoves.setVisibility(View.VISIBLE);
+                        }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                noMoves.startAnimation(scaleIn);
-            }
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            noMoves.startAnimation(scaleIn);
+                        }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {}
+                    });
+
+
+                    scaleIn.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                            Log.d("start anim", "start");
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            noMoves.setVisibility(View.INVISIBLE);
+                            noMoves.clearAnimation();
+                            animationRunning = false;
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {}
+                    });
+                    noMoves.startAnimation(fadeIn);
+                }
+            }
         });
 
-
-        scaleIn.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                Log.d("start anim", "start");
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                noMoves.setVisibility(View.INVISIBLE);
-                noMoves.clearAnimation();
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
-        });
-        noMoves.startAnimation(fadeIn);
 
     }
 
@@ -622,8 +639,11 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 if(gameResult == GameResult.END_GAME) {
                     text.setText(String.format(getResources().getString(R.string.base_won_regular_str),winPlayer.getName() ));
                 }
-                else if(gameResult == GameResult.END_GAME_NO_AVAILABLE_MOVES) {
-                    text.setText(String.format(getResources().getString(R.string.base_won_after_no_moves_str),winPlayer.getName() ));
+                else if(gameResult == GameResult.END_GAME_PLAYER_NO_AVAILABLE_MOVES) {
+                    text.setText(String.format(getResources().getString(R.string.base_won_after_player_no_moves_str),winPlayer.getName() ));
+                }
+                else if(gameResult == GameResult.END_GAME_NO_MOVES_ANY) {
+                    text.setText(String.format(getResources().getString(R.string.base_won_after_any_no_moves_str),winPlayer.getName() ));
                 }
                 Button backBtn = (Button)dialog.findViewById(R.id.end_game_back_btn);
                 backBtn.setOnClickListener(new View.OnClickListener() {
@@ -669,16 +689,22 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 }
                 else {
                     if(App.getActiveLevel() + 1 != App.getLevelsModeManager().getGreatestLevel()) {
-                        if(gameResult == GameResult.END_GAME_NO_AVAILABLE_MOVES) {
-                            text.setText(String.format(getResources().getString(R.string.win_after_no_moves_level)));
+                        if(gameResult == GameResult.END_GAME_PLAYER_NO_AVAILABLE_MOVES) {
+                            text.setText(String.format(getResources().getString(R.string.win_after_player_no_moves_level)));
+                        }
+                        else if(gameResult == GameResult.END_GAME_NO_MOVES_ANY) {
+                            text.setText(String.format(getResources().getString(R.string.win_after_any_no_moves_level)));
                         }
                         else if(gameResult == GameResult.END_GAME) {
                             text.setText(String.format(getResources().getString(R.string.win_regular_level)));
                         }
                     }
                     else {
-                        if(gameResult == GameResult.END_GAME_NO_AVAILABLE_MOVES) {
-                            text.setText(String.format(getResources().getString(R.string.win_after_no_moves_and_unlock_lvl) , App.getActiveLevel() + 1));
+                        if(gameResult == GameResult.END_GAME_PLAYER_NO_AVAILABLE_MOVES) {
+                            text.setText(String.format(getResources().getString(R.string.win_after_player_no_moves_and_unlock_lvl) , App.getActiveLevel() + 1));
+                        }
+                        else if(gameResult == GameResult.END_GAME_NO_MOVES_ANY) {
+                            text.setText(String.format(getResources().getString(R.string.win_after_any_no_moves_and_unlock_lvl) , App.getActiveLevel() + 1));
                         }
                         else if(gameResult == GameResult.END_GAME) {
                             text.setText(String.format(getResources().getString(R.string.win_regular_and_unlock_lvl) , App.getActiveLevel() + 1));
@@ -753,8 +779,11 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 if(gameResult == GameResult.END_GAME) {
                     text.setText(String.format(getResources().getString(R.string.base_won_regular_str),winPlayer.getName()));
                 }
-                else if(gameResult == GameResult.END_GAME_NO_AVAILABLE_MOVES) {
-                    text.setText(String.format(getResources().getString(R.string.base_won_after_no_moves_str),winPlayer.getName()));
+                else if(gameResult == GameResult.END_GAME_PLAYER_NO_AVAILABLE_MOVES) {
+                    text.setText(String.format(getResources().getString(R.string.base_won_after_player_no_moves_str),winPlayer.getName()));
+                }
+                else if(gameResult == GameResult.END_GAME_NO_MOVES_ANY) {
+                    text.setText(String.format(getResources().getString(R.string.base_won_after_any_no_moves_str),winPlayer.getName()));
                 }
 
 
