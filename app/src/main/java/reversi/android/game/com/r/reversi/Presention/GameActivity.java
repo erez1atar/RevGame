@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import io.fabric.sdk.android.services.common.Crash;
 import reversi.android.game.com.r.reversi.Connection.EventBus;
 import reversi.android.game.com.r.reversi.Features.ReversyMediaPlayer;
 import reversi.android.game.com.r.reversi.R;
@@ -45,6 +46,7 @@ import reversi.android.game.com.r.reversi.utility.BitmapContainer;
 import reversi.android.game.com.r.reversi.utility.DialogUtility;
 import reversi.android.game.com.r.reversi.utility.GoogleAnalyticsHelper;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -107,6 +109,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        Crashlytics.log(Log.DEBUG,"[GAME_ACTIVITY]","on create");
         this.changeUI();
 
         opponentName = getResources().getString(R.string.opponent);
@@ -167,7 +170,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             numOfCols = App.getLevelsModeManager().getBoardSize(App.getActiveLevel());;
         }
 
-
+        Crashlytics.log(Log.DEBUG,"[GAME_ACTIVITY]","levels mode="+ String.valueOf(App.getIsLevelsMode()) + " rows " + String.valueOf(numOfRows) + "col " + numOfCols);
+        Crashlytics.log(Log.DEBUG,"[GAME_ACTIVITY]","levels mode="+ String.valueOf(App.getIsLevelsMode()) + " lvl " + App.getActiveLevel());
         initController(computerMode);
         initBoard();
         Boolean retryGame = getIntent().getBooleanExtra("retry", false);
@@ -853,6 +857,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
 
     private void getToNextLevel()
     {
+        Crashlytics.log(Log.DEBUG,"[GAME_ACTIVITY]"," go to next lvl " + App.getActiveLevel() + 1);
         controller.closeGame();
         App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.LEVELS_PRESSED);
         App.setIsInLevelsMode(App.getActiveLevel() + 1);
@@ -861,6 +866,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
 
     private void replayLevel()
     {
+        Crashlytics.log(Log.DEBUG,"[GAME_ACTIVITY]"," replayLevel lvl " + App.getActiveLevel() );
         controller.closeGame();
         App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.LEVELS_PRESSED);
         App.setIsInLevelsMode(App.getActiveLevel());
@@ -1033,6 +1039,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
 
     @Override
     public void onRewarded(RewardItem rewardItem) {
+        Crashlytics.log(Log.DEBUG,"[GAME_ACTIVITY]","on video rewarded");
         App.Instance.getGoogleAnalytics().TrackVideoRewarded();
         controller.closeGame();
         App.setIsInLevelsMode(App.getActiveLevel());

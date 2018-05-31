@@ -5,12 +5,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ScrollView;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsListener;
+
+import io.fabric.sdk.android.services.common.Crash;
 import reversi.android.game.com.r.reversi.Presention.GameActivity;
 import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.utility.App;
@@ -43,9 +48,11 @@ public class ScrollerMap extends Activity {
             builder.append( String.valueOf(level));
             int resID = getResources().getIdentifier(builder.toString(), "id", getPackageName());
             Button levelBtn = (Button)findViewById(resID);
+            final int lvl = level;
             levelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Crashlytics.log(Log.ERROR,"[SCROLL_MAP]"," lvl clicked " + String.valueOf(lvl));
                     App.setIsInLevelsMode(currentLevel);
                     ScrollerMap.this.enterGame();
                 }
@@ -90,6 +97,7 @@ public class ScrollerMap extends Activity {
     }
 
     private void enterGame() {
+        Crashlytics.log(Log.ERROR,"[SCROLL_MAP]"," enter game ");
         App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.LEVELS_PRESSED);
         Intent intentToGame = new Intent(ScrollerMap.this, GameActivity.class);
         intentToGame.putExtra(App.Instance.getString(R.string.is_my_turn_key), false);

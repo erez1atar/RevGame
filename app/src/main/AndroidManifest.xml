@@ -41,9 +41,6 @@
             android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".Presention.Developer_area_password" />
         <activity android:name=".Presention.DeveloperArea" />
-        <activity
-            android:name=".Map.LevelsMapActivity"
-            android:noHistory="true" />
 
         <receiver android:name=".notification.NotificationReceiver" />
 

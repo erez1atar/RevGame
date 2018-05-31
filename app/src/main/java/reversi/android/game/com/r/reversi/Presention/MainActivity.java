@@ -154,6 +154,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         rateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Crashlytics.log(Log.DEBUG,"[MAIN]"," rate us button clicked");
                 Uri uri = Uri.parse("market://details?id=" + App.Instance.getPackageName());
                 Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                 // To count with Play market backstack, After pressing back button,
@@ -180,6 +181,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Crashlytics.log(Log.DEBUG,"[MAIN]"," credits button clicked");
                 Intent intent = new Intent(MainActivity.this, CreditsActivity.class);
                 startActivity(intent);
             }
@@ -189,6 +191,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Crashlytics.log(Log.DEBUG,"[MAIN]"," settings button clicked");
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
@@ -198,6 +201,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         levelModeGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Crashlytics.log(Log.DEBUG,"[MAIN]"," levels mode button clicked");
                 Intent intent = new Intent(MainActivity.this, ScrollerMap.class);
                 startActivity(intent);;
             }
@@ -207,6 +211,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         computerModeGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Crashlytics.log(Log.DEBUG,"[MAIN]","computer mode button clicked");
                 App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.ONE_PLAYERS_GAME_PRESSED);
                 App.setNOTLevelsMode();
 
@@ -280,6 +285,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
                     @Override
                     public void onClick(View v) {
                         int dif  = spinner.getSelectedItemPosition();
+                        Crashlytics.log(Log.DEBUG,"[MAIN]","start computer game button clicked dificulty " + String.valueOf(dif));
                         switch (dif)
                         {
                             case  0 :
@@ -324,6 +330,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             @Override
             public void onClick(View v)
             {
+                Crashlytics.log(Log.DEBUG,"[MAIN]","start button two plyers clicked");
                 App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.TWO_PLAYERS_GAME_PRESSED);
                 Intent intentToGame = new Intent(MainActivity.this, GameActivity.class);
                 App.setNOTLevelsMode();
@@ -338,6 +345,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             @Override
             public void onClick(View v)
             {
+                Crashlytics.log(Log.DEBUG,"[MAIN]","join game clicked");
                 App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.JOIN_PLAYERS_GAME_PRESSED);
                 App.setNOTLevelsMode();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -370,6 +378,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             @Override
             public void onClick(View v)
             {
+                Crashlytics.log(Log.DEBUG,"[MAIN]"," host game clicked");
                 App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.HOST_GAME_PRESSED);
                 if(App.wifiIpAddress() == null)
                 {
@@ -417,6 +426,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
     protected void onResume()
     {
         super.onResume();
+        Crashlytics.log(Log.DEBUG,"[MAIN]"," on resume");
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter filter = new IntentFilter();
         filter.addAction(getString(R.string.game_state));
