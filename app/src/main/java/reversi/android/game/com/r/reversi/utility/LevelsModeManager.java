@@ -17,7 +17,7 @@ public class LevelsModeManager
     private SharedPreferences sharedPreferences;
     private static final String GREATEST_LEVEL = "LEVEL";
     private static final String FINISHED_LAST_LEVEL = "LAST_LEVEL_FINISHED";
-    int maxLevel = 58;
+    int maxLevel = 60;
 
     public class StartGameTile
     {
@@ -111,6 +111,8 @@ public class LevelsModeManager
                 tiles.add(new Tile(midRow, 1 , GamePiece.PLAYER2));
                 tiles.add(new Tile(midRow - 1 , 2, GamePiece.PLAYER2));
 
+                tiles.add(new Tile(7 , 7, GamePiece.BLOCK));
+
                 break;
             case 3:
                 tiles.add(new Tile(midRow -1 ,midCol -1, GamePiece.PLAYER1));
@@ -130,6 +132,9 @@ public class LevelsModeManager
                 tiles.add(new Tile(9 , 0, GamePiece.PLAYER1));
                 tiles.add(new Tile(9 , 3, GamePiece.PLAYER1));
                 tiles.add(new Tile(9 , 7, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(2 , 5, GamePiece.BLOCK));
+                tiles.add(new Tile(3 , 5, GamePiece.BLOCK));
                 break;
 
             case 5:
@@ -162,6 +167,8 @@ public class LevelsModeManager
                 tiles.add(new Tile(1 , 1, GamePiece.PLAYER1));
                 tiles.add(new Tile(6 , 6, GamePiece.PLAYER1));
                 tiles.add(new Tile(1 , 4, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(7 , 4, GamePiece.BLOCK));
                 break;
 
             case 7:
@@ -197,6 +204,10 @@ public class LevelsModeManager
                 tiles.add(new Tile(0 , 3, GamePiece.PLAYER1));
                 tiles.add(new Tile(numOfRows - 1 , 3, GamePiece.PLAYER1));
                 tiles.add(new Tile(numOfRows - 1 , 0, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(2 , 1, GamePiece.BLOCK));
+                tiles.add(new Tile(3 , 1, GamePiece.BLOCK));
+                tiles.add(new Tile(9 , 9, GamePiece.BLOCK));
                 break;
 
             case 10:
@@ -318,6 +329,8 @@ public class LevelsModeManager
                 tiles.add(new Tile(5 ,2, GamePiece.PLAYER2));
                 tiles.add(new Tile(6 ,1, GamePiece.PLAYER2));
                 tiles.add(new Tile(7 ,0, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(2 ,3, GamePiece.BLOCK));
 
                 break;
 
@@ -888,6 +901,11 @@ public class LevelsModeManager
                 tiles.add(new Tile(0 , 1, GamePiece.PLAYER1));
                 tiles.add(new Tile(1 , 1, GamePiece.PLAYER1));
 
+                tiles.add(new Tile(1 , 9, GamePiece.BLOCK));
+                tiles.add(new Tile(0 , 9, GamePiece.BLOCK));
+                tiles.add(new Tile(1 , 8, GamePiece.BLOCK));
+                tiles.add(new Tile(0 , 8, GamePiece.BLOCK));
+
                 break;
 
             case 47: // 10x10
@@ -1193,6 +1211,57 @@ public class LevelsModeManager
                 tiles.add(new Tile(5 , 5, GamePiece.PLAYER2));
                 tiles.add(new Tile(6 , 6, GamePiece.PLAYER2));
                 break;
+
+            case 59: // 10x10
+
+                tiles.add(new Tile(2 , 1, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 , 3, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 , 4, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 , 5, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 1, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 3, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 1, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 5, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(3 , 1, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 2, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(3 , 5, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(0 , 0, GamePiece.BLOCK));
+                tiles.add(new Tile(5 , 2, GamePiece.BLOCK));
+                tiles.add(new Tile(5 , 3, GamePiece.BLOCK));
+                tiles.add(new Tile(5 , 4, GamePiece.BLOCK));
+
+
+                break;
+
+            case 60: // 10x10
+
+                tiles.add(new Tile(0 , 0, GamePiece.PLAYER1));
+                tiles.add(new Tile(2 , 1, GamePiece.PLAYER1));
+                tiles.add(new Tile(3 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(4 , 3, GamePiece.PLAYER1));
+                tiles.add(new Tile(5 , 4, GamePiece.PLAYER1));
+                tiles.add(new Tile(6 , 5, GamePiece.PLAYER1));
+                tiles.add(new Tile(7 , 1, GamePiece.PLAYER1));
+                tiles.add(new Tile(8 , 2, GamePiece.PLAYER1));
+                tiles.add(new Tile(9 , 3, GamePiece.PLAYER1));
+
+                tiles.add(new Tile(3 , 1, GamePiece.PLAYER2));
+                tiles.add(new Tile(2 , 2, GamePiece.PLAYER2));
+                tiles.add(new Tile(1 , 3, GamePiece.PLAYER2));
+                tiles.add(new Tile(4 , 4, GamePiece.PLAYER2));
+                tiles.add(new Tile(5 , 5, GamePiece.PLAYER2));
+
+                tiles.add(new Tile(6 , 6, GamePiece.BLOCK));
+                tiles.add(new Tile(5 , 2, GamePiece.BLOCK));
+
+
+                break;
         }
 
         return tiles;
@@ -1345,6 +1414,11 @@ public class LevelsModeManager
                 return 10;
             case 58:
                 return 11;
+            case 59:
+                return 10;
+            case 60:
+                return 9;
+
 
         }
         return -1;
@@ -1470,6 +1544,10 @@ public class LevelsModeManager
                 return 16;
             case 58:
                 return 8;
+            case 59:
+                return 5;
+            case 60:
+                return 5;
         }
         return -1;
     }
@@ -1594,6 +1672,10 @@ public class LevelsModeManager
                 return 10;
             case 58:
                 return 8;
+            case 59:
+                return 10;
+            case 60:
+                return 10;
         }
         return -1;
     }

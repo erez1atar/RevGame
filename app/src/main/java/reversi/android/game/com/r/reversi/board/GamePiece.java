@@ -5,5 +5,5 @@ package reversi.android.game.com.r.reversi.board;
  */
 public enum GamePiece
 {
-    EMPTY, PLAYER1, PLAYER2 , OPTION
+    EMPTY, PLAYER1, PLAYER2 , OPTION, BLOCK
 }

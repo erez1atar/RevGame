@@ -58,7 +58,7 @@ public class GameModel implements IModel
         if(row < 0 || row >= numOfRows || col < 0 || col >= numOfCols )
         {
             Log.d("getElement", "invalid index " + row + " " + col);
-            App.Instance.getGoogleAnalytics().TrackErrorElementEvent(row, col);
+            //App.Instance.getGoogleAnalytics().TrackErrorElementEvent(row, col);
             return null;
         }
         return game.get(row).get(col);

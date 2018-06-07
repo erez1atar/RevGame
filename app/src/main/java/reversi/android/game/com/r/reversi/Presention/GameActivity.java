@@ -687,6 +687,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 dialog.setContentView(R.layout.win_level_dialog);
 
                 TextView text = (TextView)dialog.findViewById(R.id.win_level_dialog_text);
+                final boolean isLastLevel = App.getLevelsModeManager().isLastLevel(App.getActiveLevel());
                 if(App.getLevelsModeManager().isLastLevel(App.getActiveLevel()))
                 {
                     text.setText("More Level Coming soon!");
@@ -727,6 +728,10 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                             public void onAdClosed() {
                                 //requestNewInterstitial();
                                 finish();
+                                if(isLastLevel) {
+                                    InnerEndGame();
+                                    return;
+                                }
                                 getToNextLevel();
                             }
                         });
@@ -734,6 +739,10 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                             mInterstitialAd.show();
                         } else {
                             finish();
+                            if(isLastLevel) {
+                                InnerEndGame();
+                                return;
+                            }
                             getToNextLevel();
                         }
                     }

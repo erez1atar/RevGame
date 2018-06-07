@@ -89,7 +89,7 @@ public class GoogleAnalyticsHelper
                 .build());
     }
 
-    public void TrackErrorElementEvent(int row, int col)
+    /*public void TrackErrorElementEvent(int row, int col)
     {
         if(App.Instance.getIsDeveloperMode())
         {
@@ -99,7 +99,7 @@ public class GoogleAnalyticsHelper
                 .setCategory("ERROR")
                 .setAction("invalid_item_" + row + "_" + col)
                 .build());
-    }
+    }*/
 
     public void TrackVideoRewarded()
     {
