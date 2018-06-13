@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 
+import reversi.android.game.com.r.reversi.R;
+
 /**
  * TODO: document your custom view class.
  */

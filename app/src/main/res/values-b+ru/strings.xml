@@ -78,9 +78,9 @@
     <string name="win_after_player_no_moves_and_unlock_lvl">Ты победил !\n  Уровень разблокировки %d</string>
     <string name="win_after_player_no_moves_level">Ты победил !</string>
 
-    <string name="base_won_after_any_no_moves_str">"Any player have legal moves available\nAccording to the current result\n\n %s Won !"</string>
-    <string name="win_after_any_no_moves_and_unlock_lvl">Any player have legal moves available\nAccording to the current result\n\n You Won !\n You have unlock level %d</string>
-    <string name="win_after_any_no_moves_level">Any player have legal moves available\nAccording to the current result\n\n You Won !</string>
+    <string name="base_won_after_any_no_moves_str">"There are no legal moves available for both players\nAccording to the current result\n\n %s Won !"</string>
+    <string name="win_after_any_no_moves_and_unlock_lvl">There are no legal moves available for both players\nAccording to the current result\n\n You Won !\n You have unlock level %d</string>
+    <string name="win_after_any_no_moves_level">There are no legal moves available for both players\nAccording to the current result\n\n You Won !</string>
 
 
 </resources>
