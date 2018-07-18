@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import io.fabric.sdk.android.services.common.Crash;
 import reversi.android.game.com.r.reversi.Connection.EventBus;
 import reversi.android.game.com.r.reversi.Features.ReversyMediaPlayer;
 import reversi.android.game.com.r.reversi.R;
@@ -41,6 +40,7 @@ import reversi.android.game.com.r.reversi.board.Player;
 import reversi.android.game.com.r.reversi.board.Tile;
 import reversi.android.game.com.r.reversi.controllers.GameResult;
 import reversi.android.game.com.r.reversi.controllers.IController;
+import reversi.android.game.com.r.reversi.utility.AnimationHelper;
 import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.BitmapContainer;
 import reversi.android.game.com.r.reversi.utility.DialogUtility;
@@ -97,6 +97,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     private Animation scaleIn;
     private Animation rotate;
     private Animation pulse;
+    private LinearLayout bottomMenu = null;
+    private LinearLayout playersPanel = null;
 
     private boolean animationRunning = false;
 
@@ -319,6 +321,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 }
             }
         });
+        this.runBoardInAnimation();
     }
 
     private void initTextViews()
@@ -349,10 +352,10 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         int border_res = 0;
         int border_dark_res = 0;
 
-        LinearLayout playersPanel = (LinearLayout)findViewById(R.id.player1Lay);
+        playersPanel = (LinearLayout)findViewById(R.id.player1Lay);
         LinearLayout player1Panel = (LinearLayout)findViewById(R.id.game_player_1_stat_panel);
         LinearLayout player2Panel = (LinearLayout)findViewById(R.id.game_player_2_stat_panel);
-        LinearLayout menu = (LinearLayout)findViewById(R.id.menu_game);
+        bottomMenu = (LinearLayout)findViewById(R.id.menu_game);
 
         if(App.getUserDefault().getUIString().equals("BLUE")) {
             border_res = R.drawable.border_blue;
@@ -364,7 +367,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         }
         player1Panel.setBackgroundResource(border_res);
         player2Panel.setBackgroundResource(border_res);
-        menu.setBackgroundResource(border_dark_res);
+        bottomMenu.setBackgroundResource(border_dark_res);
     }
 
     private void initAnimation()
@@ -501,6 +504,12 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             }
         });
 
+    }
+
+    private void runBoardInAnimation() {
+        AnimationHelper.runAnimationsSequence(gameBoard,new int[]{R.anim.board_in_animation_p1 , R.anim.board_in_animation_p2});
+        AnimationHelper.runAnimationsSequence(bottomMenu,new int[]{R.anim.bottom_bars_in_animation_p1, R.anim.bottom_bars_in_animation_p2});
+        AnimationHelper.runAnimationsSequence(playersPanel,new int[]{R.anim.bottom_bars_in_animation_p1, R.anim.bottom_bars_in_animation_p2});
     }
 
     private void initGreatMoveAnim()
@@ -958,7 +967,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         for(int i = 0 ; i < viewsBlink.size() ; ++i)
         {
             GameElementView view = viewsBlink.get(i);
-            view.setImage(BitmapContainer.get(GamePiece.EMPTY,App.getUserDefault().getUIString()));
+            view.clearView();
             //view.clearAnimation();
         }
         viewsBlink.clear();

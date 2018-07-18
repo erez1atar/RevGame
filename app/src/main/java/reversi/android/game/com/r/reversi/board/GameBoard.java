@@ -52,6 +52,21 @@ public class GameBoard extends GridLayout
         {
             View view = getChildAt(i);
             setCustomParam((GameElementView)view);
+            int col = i % numOfCol;
+            int diffCol = Math.abs(col - (int)(numOfCol * 0.5));
+            int alphaByCol = diffCol * (75 / (int)(numOfCol * 0.5));
+
+            int row = 0;
+            int idx = i;
+            for(;idx > numOfCol ; idx = idx - numOfCol){
+                row++;
+            }
+
+            int diffRow = Math.abs(row - (int)(numOfRows * 0.5));
+            int alphaByRow = diffRow * (75 / (int)(numOfRows * 0.5));
+
+
+            ((GameElementView) view).setAlphaToImage(255 - alphaByCol - alphaByRow);
         }
     }
 
@@ -94,12 +109,12 @@ public class GameBoard extends GridLayout
     private void setCustomParam(GameElementView view)
     {
         GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-        param.height = height / numOfRows - 8;
-        param.width = width / numOfCol - 8;
-        param.rightMargin = 4;
-        param.topMargin = 4;
-        param.leftMargin = 4;
-        param.bottomMargin = 4;
+        param.height = height / numOfRows - 2;
+        param.width = width / numOfCol - 2;
+        param.rightMargin = 1;
+        param.topMargin = 1;
+        param.leftMargin = 1;
+        param.bottomMargin = 1;
         param.setGravity(Gravity.CENTER);
         param.columnSpec = GridLayout.spec(view.getCol());
         param.rowSpec = GridLayout.spec(view.getRow());

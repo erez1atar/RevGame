@@ -28,6 +28,7 @@ public class GameElementView extends RelativeLayout
     private int col;
     private Context context = null;
     private ImageView image = null;
+    private float alpha = 0;
 
     public GameElementView(Context context, String color)
     {
@@ -63,6 +64,14 @@ public class GameElementView extends RelativeLayout
         image.setImageBitmap(bitmap);
 
         this.addView(image);
+    }
+
+    public void clearView() {
+        this.removeAllViews();
+    }
+
+    public void setAlphaToImage(int alpha) {
+        this.getBackground().setAlpha(alpha);
     }
 
     public void setImageWithChangeAnimation(Bitmap bitmap) {

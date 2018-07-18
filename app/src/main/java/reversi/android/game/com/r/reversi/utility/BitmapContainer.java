@@ -23,7 +23,7 @@ public class BitmapContainer
         bitmapContainerGreen.put(GamePiece.PLAYER1, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.black_new));
         bitmapContainerGreen.put(GamePiece.PLAYER2, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.white_ball));
         bitmapContainerGreen.put(GamePiece.EMPTY, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.blank_white));
-        bitmapContainerGreen.put(GamePiece.OPTION, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.blank_gray));
+        bitmapContainerGreen.put(GamePiece.OPTION, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.clue));
         bitmapContainerGreen.put(GamePiece.BLOCK, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.block));
     }
 
@@ -33,7 +33,7 @@ public class BitmapContainer
         bitmapContainerBlue.put(GamePiece.PLAYER1, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.black_new));
         bitmapContainerBlue.put(GamePiece.PLAYER2, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.white_ball));
         bitmapContainerBlue.put(GamePiece.EMPTY, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.blank_white_blue));
-        bitmapContainerBlue.put(GamePiece.OPTION, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.blank_gray_blue));
+        bitmapContainerBlue.put(GamePiece.OPTION, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.clue));
         bitmapContainerBlue.put(GamePiece.BLOCK, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.block));
     }
 
