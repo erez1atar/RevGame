@@ -39,6 +39,7 @@ import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.Features.ReversyMediaPlayer;
 import reversi.android.game.com.r.reversi.Routers.GameStateRouter;
 import reversi.android.game.com.r.reversi.Settings.SettingsActivity;
+import reversi.android.game.com.r.reversi.utility.AnimationHelper;
 import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.DialogUtility;
 import reversi.android.game.com.r.reversi.utility.DifficultyManager;
@@ -92,8 +93,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         settings.setTypeface(type);
         reversi = (TextView)findViewById(R.id.reversi) ;
         reversi.setTypeface(type);
-        TextView style = (TextView)findViewById(R.id.pick_style) ;
-        style.setTypeface(type);
 
         App.getLevelsModeManager().updateCurrentLevelIfMaxLevelsChanged();
 
@@ -107,10 +106,29 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 
     }
 
+    private void runInAnimation() {
+
+        reversi.startAnimation(flip);
+
+
+        AnimationHelper.runAnimationsSequence(hostButton,new int[]{R.anim.board_in_animation_from_right_p1, R.anim.board_in_animation_from_right_p2, R.anim.heart_pulse}, null);
+        AnimationHelper.runAnimationsSequence(startButton,new int[]{R.anim.board_in_animation_from_right_p1, R.anim.board_in_animation_from_right_p2, R.anim.heart_pulse}, null);
+        AnimationHelper.runAnimationsSequence(joinButton,new int[]{R.anim.board_in_animation_from_right_p1, R.anim.board_in_animation_from_right_p2,R.anim.heart_pulse},null);
+        AnimationHelper.runAnimationsSequence(computerModeGame,new int[]{R.anim.board_in_animation_from_right_p1, R.anim.board_in_animation_from_right_p2,R.anim.heart_pulse},null);
+        AnimationHelper.runAnimationsSequence(levelModeGame,new int[]{R.anim.board_in_animation_from_right_p1, R.anim.board_in_animation_from_right_p2,R.anim.heart_pulse},null);
+
+        AnimationHelper.runAnimationsSequence(settings,new int[]{R.anim.board_in_animation_from_left_p1, R.anim.board_in_animation_from_left_p2,R.anim.heart_pulse},null);
+        AnimationHelper.runAnimationsSequence(credits,new int[]{R.anim.board_in_animation_from_left_p1, R.anim.board_in_animation_from_left_p2,R.anim.heart_pulse}, null);
+        AnimationHelper.runAnimationsSequence(rateBtn,new int[]{R.anim.board_in_animation_from_left_p1, R.anim.board_in_animation_from_left_p2,R.anim.heart_pulse}, null);
+    }
+
     private void changeUI() {
         int button_res = 0;
         if(App.getUserDefault().getUIString().equals("BLUE")) {
             button_res = R.drawable.button_syle_blue;
+        }
+        else if(App.getUserDefault().getUIString().equals("RED")) {
+            button_res = R.drawable.button_style_red;
         }
         else {
             button_res = R.drawable.button_syle;
@@ -130,6 +148,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
     {
         Button blue = (Button)findViewById(R.id.pic_blue);
         Button green = (Button)findViewById(R.id.pic_green);
+        Button red = (Button)findViewById(R.id.pic_red);
         blue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,6 +161,14 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
             @Override
             public void onClick(View v) {
                 App.getUserDefault().setUIString("GREEN");
+                MainActivity.this.changeUI();
+            }
+        });
+
+        red.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                App.getUserDefault().setUIString("RED");
                 MainActivity.this.changeUI();
             }
         });
@@ -257,9 +284,17 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
                 });
 
                 final Spinner spinner = (Spinner)dialog.findViewById(R.id.start_game_spinner_difficulty);
-                boolean isBlueStyle = App.getUserDefault().getUIString().equals("BLUE");
+                String style = App.getUserDefault().getUIString();
 
-                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(MainActivity.this,isBlueStyle ? R.layout.spinner_item_blue : R.layout.spinner_item, getResources().getStringArray(R.array.difficulty));
+                int spinner_style = R.layout.spinner_item_blue;
+                if(style.equals("GREEN")) {
+                    spinner_style = R.layout.spinner_item;
+                }
+                else if(style.equals("RED")) {
+                    spinner_style = R.layout.spinner_item_red;
+                }
+
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(MainActivity.this, spinner_style, getResources().getStringArray(R.array.difficulty));
                 String difficultyDefault = App.Instance.getDifficultyManager().getDifficulty();
                 spinner.setAdapter(spinnerArrayAdapter);
                 if(difficultyDefault.compareTo(DifficultyManager.Difficulty.EASY_LEVEL_STR) == 0)
@@ -431,18 +466,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         IntentFilter filter = new IntentFilter();
         filter.addAction(getString(R.string.game_state));
         localBroadcastManager.registerReceiver(receiver, filter);
-
-        if(rateBtn.getVisibility() == View.VISIBLE){
-            rateBtn.startAnimation(pulse);
-        }
-        hostButton.startAnimation(pulse);
-        startButton.startAnimation(pulse);
-        joinButton.startAnimation(pulse);
-        computerModeGame.startAnimation(pulse);
-        levelModeGame.startAnimation(pulse);
-        credits.startAnimation(pulse);
-        settings.startAnimation(pulse);
-        reversi.startAnimation(flip);
+        this.runInAnimation();
     }
 
     @Override

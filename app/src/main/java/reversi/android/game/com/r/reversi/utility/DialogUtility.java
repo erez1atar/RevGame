@@ -25,12 +25,18 @@ public class DialogUtility {
 
             dialog.findViewById(R.id.dialog_head).setBackgroundResource(R.drawable.dialog_shape_blue);
         }
+        else if(App.getUserDefault().getUIString().equals("RED")) {
+            dialog.findViewById(R.id.dialog_head).setBackgroundResource(R.drawable.dialog_shape_red);
+        }
         else {
             dialog.findViewById(R.id.dialog_head).setBackgroundResource(R.drawable.dialog_shape);
         }
         for(int i = 0 ; i < btns.length ; i++) {
             if(App.getUserDefault().getUIString().equals("BLUE")) {
                 btns[i].setBackgroundResource(R.drawable.btn_rounded_backgorund_blue);
+            }
+            else if(App.getUserDefault().getUIString().equals("RED")) {
+                btns[i].setBackgroundResource(R.drawable.btn_rounded_backgorund_red);
             }
             else {
                 btns[i].setBackgroundResource(R.drawable.btn_rounded_backgorund);

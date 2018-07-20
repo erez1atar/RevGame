@@ -16,16 +16,17 @@ public class BitmapContainer
 {
     private static HashMap<GamePiece, Bitmap> bitmapContainerGreen;
     private static HashMap<GamePiece, Bitmap> bitmapContainerBlue;
+    private static HashMap<GamePiece, Bitmap> bitmapContainerRed;
 
     static
-    {
-        bitmapContainerGreen = new HashMap<>();
-        bitmapContainerGreen.put(GamePiece.PLAYER1, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.black_new));
-        bitmapContainerGreen.put(GamePiece.PLAYER2, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.white_ball));
-        bitmapContainerGreen.put(GamePiece.EMPTY, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.blank_white));
-        bitmapContainerGreen.put(GamePiece.OPTION, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.clue));
-        bitmapContainerGreen.put(GamePiece.BLOCK, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.block));
-    }
+{
+    bitmapContainerGreen = new HashMap<>();
+    bitmapContainerGreen.put(GamePiece.PLAYER1, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.black_new));
+    bitmapContainerGreen.put(GamePiece.PLAYER2, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.white_ball));
+    bitmapContainerGreen.put(GamePiece.EMPTY, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.blank_white));
+    bitmapContainerGreen.put(GamePiece.OPTION, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.clue));
+    bitmapContainerGreen.put(GamePiece.BLOCK, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.block));
+}
 
     static
     {
@@ -37,11 +38,25 @@ public class BitmapContainer
         bitmapContainerBlue.put(GamePiece.BLOCK, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.block));
     }
 
+    static
+    {
+        bitmapContainerRed = new HashMap<>();
+        bitmapContainerRed.put(GamePiece.PLAYER1, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.black_new));
+        bitmapContainerRed.put(GamePiece.PLAYER2, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.white_ball));
+        bitmapContainerRed.put(GamePiece.EMPTY, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.blank_white_red));
+        bitmapContainerRed.put(GamePiece.OPTION, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.clue));
+        bitmapContainerRed.put(GamePiece.BLOCK, BitmapFactory.decodeResource(App.Instance.getResources(), R.drawable.block));
+    }
+
     public static Bitmap get(GamePiece element,String color)
     {
         if(color.equals("BLUE")) {
             return bitmapContainerBlue.get(element);
-        }else {
+        }
+        else if(color.equals("RED")) {
+            return bitmapContainerRed.get(element);
+        }
+        else {
             return bitmapContainerGreen.get(element);
         }
     }

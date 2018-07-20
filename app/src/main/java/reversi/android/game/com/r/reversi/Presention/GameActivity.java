@@ -95,7 +95,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     private ImageView noMoves;
     private Animation fadeIn;
     private Animation scaleIn;
-    private Animation rotate;
+    private Animation fadeInNoMoves;
+    private Animation scaleInNoMoves;
     private Animation pulse;
     private LinearLayout bottomMenu = null;
     private LinearLayout playersPanel = null;
@@ -361,6 +362,10 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             border_res = R.drawable.border_blue;
             border_dark_res = R.drawable.border_dark_blue;
         }
+        else if(App.getUserDefault().getUIString().equals("RED")) {
+            border_res = R.drawable.border_red;
+            border_dark_res = R.drawable.border_dark_red;
+        }
         else {
             border_res = R.drawable.border;
             border_dark_res = R.drawable.border_dark;
@@ -497,7 +502,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                     }
                 }
                 if(numOfPlayer2 > (listOfChanges.size() / 2)) { // check if most of the tile is of player2, trying to avoid startgame
-                    if ((listOfChanges.size() >= numOfRows * 0.6 && (numOfRows <= 10)) || ((listOfChanges.size() >= numOfRows) && (numOfRows > 10))) {
+                    if ((listOfChanges.size() >= numOfRows * 0.7 && (numOfRows <= 10)) || ((listOfChanges.size() >= numOfRows * 0.8) && (numOfRows > 10))) {
                         startGreatMoveAnim();
                     }
                 }
@@ -507,9 +512,9 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     }
 
     private void runBoardInAnimation() {
-        AnimationHelper.runAnimationsSequence(gameBoard,new int[]{R.anim.board_in_animation_p1 , R.anim.board_in_animation_p2});
-        AnimationHelper.runAnimationsSequence(bottomMenu,new int[]{R.anim.bottom_bars_in_animation_p1, R.anim.bottom_bars_in_animation_p2});
-        AnimationHelper.runAnimationsSequence(playersPanel,new int[]{R.anim.bottom_bars_in_animation_p1, R.anim.bottom_bars_in_animation_p2});
+        AnimationHelper.runAnimationsSequence(gameBoard,new int[]{R.anim.board_in_animation_from_right_p1, R.anim.board_in_animation_from_right_p2},null);
+        AnimationHelper.runAnimationsSequence(bottomMenu,new int[]{R.anim.bottom_bars_in_animation_p1, R.anim.bottom_bars_in_animation_p2},null);
+        AnimationHelper.runAnimationsSequence(playersPanel,new int[]{R.anim.bottom_bars_in_animation_p1, R.anim.bottom_bars_in_animation_p2},null);
     }
 
     private void initGreatMoveAnim()
@@ -529,9 +534,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
     private void startGreatMoveAnim() {
         if(!animationRunning) {
             animationRunning = true;
-            fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_out);
-            rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.one_rotation);
-            scaleIn =  AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_in);
+            fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_out_no_moves);
+            scaleIn =  AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_in_no_moves);
             fadeIn.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
@@ -540,20 +544,9 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    greatView.startAnimation(rotate);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {}
-            });
-
-            rotate.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {}
-                @Override
-                public void onAnimationEnd(Animation animation) {
                     greatView.startAnimation(scaleIn);
                 }
+
                 @Override
                 public void onAnimationRepeat(Animation animation) {}
             });
@@ -587,9 +580,9 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             public void run() {
                 if(!animationRunning) {
                     animationRunning = true;
-                    fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_out);
-                    scaleIn =  AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_in);
-                    fadeIn.setAnimationListener(new Animation.AnimationListener() {
+                    fadeInNoMoves = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_out_no_moves);
+                    scaleInNoMoves =  AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_in_no_moves);
+                    fadeInNoMoves.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
                             noMoves.setVisibility(View.VISIBLE);
@@ -597,7 +590,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
 
                         @Override
                         public void onAnimationEnd(Animation animation) {
-                            noMoves.startAnimation(scaleIn);
+                            noMoves.startAnimation(scaleInNoMoves);
                         }
 
                         @Override
@@ -605,7 +598,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                     });
 
 
-                    scaleIn.setAnimationListener(new Animation.AnimationListener() {
+                    scaleInNoMoves.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
                             Log.d("start anim", "start");
@@ -622,7 +615,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                         @Override
                         public void onAnimationRepeat(Animation animation) {}
                     });
-                    noMoves.startAnimation(fadeIn);
+                    noMoves.startAnimation(fadeInNoMoves);
                 }
             }
         });

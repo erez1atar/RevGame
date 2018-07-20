@@ -37,26 +37,33 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="#3EC7FF"
+                android:background="@drawable/btn_rounded_backgorund_blue"
                 android:id="@+id/pic_blue"
                 android:layout_weight="1"/>
 
-            <TextView
+            <android.support.v4.widget.Space
                 android:layout_width="0dp"
-                android:text="Pick Style"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:id="@+id/pick_style"
-                android:textColor="@android:color/white"
-                android:textAlignment="center"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="0.5"/>
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="#427A40"
+                android:background="@drawable/btn_rounded_backgorund"
                 android:id="@+id/pic_green"
+                android:layout_weight="1"/>
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/btn_rounded_backgorund_red"
+                android:id="@+id/pic_red"
                 android:layout_weight="1"/>
 
             <android.support.v4.widget.Space
