@@ -33,4 +33,9 @@ public class ConnectionManager implements IConnectionManager
     public boolean isMoveTurnOnNoAvailable() {
         return false;
     }
+
+    @Override
+    public void setBoardSize(int rows, int cols) {
+
+    }
 }

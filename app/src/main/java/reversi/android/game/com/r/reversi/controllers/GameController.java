@@ -131,6 +131,7 @@ public class GameController implements IController
         int midCol = numOfCols / 2;
         if(App.getIsLevelsMode())
         {
+            App.getStatsManager().updateLossLevel(App.getActiveLevel()); // update the loss already , if the user exit the app in middle of game
             LevelsModeManager levelsModeManager = App.getLevelsModeManager();
             App.Instance.getGoogleAnalytics().TrackLevelStartEvent(App.getActiveLevel());
             initTiles = levelsModeManager.getStartGameDetails(App.getActiveLevel());
@@ -213,6 +214,7 @@ public class GameController implements IController
         {
             int level = App.getActiveLevel();
             // dont report to analytics its test
+            App.getStatsManager().updateWinLevel(App.getActiveLevel());
             iPresent.winLevel(players[1], GameResult.END_GAME_PLAYER_NO_AVAILABLE_MOVES);
 
             App.getLevelsModeManager().trySetGreatestLevel(level + 1);
@@ -322,6 +324,7 @@ public class GameController implements IController
 
                                  if(iPresent != null)
                                 {
+                                    App.getStatsManager().updateWinLevel(App.getActiveLevel());
                                      iPresent.winLevel(players[1], endGameResult);
                                 }
                                 App.getLevelsModeManager().trySetGreatestLevel(level + 1);

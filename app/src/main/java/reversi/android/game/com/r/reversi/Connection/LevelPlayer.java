@@ -22,6 +22,8 @@ import reversi.android.game.com.r.reversi.utility.App;
 
 public class LevelPlayer implements IConnectionManager {
     ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private int numOfRows = 0;
+    private int numOfCols = 0;
 
     @Override
     public void startHostGame() {}
@@ -104,8 +106,31 @@ public class LevelPlayer implements IConnectionManager {
     public class CustomComparator implements Comparator<PointWithEnemies> {
         @Override
         public int compare(PointWithEnemies o1, PointWithEnemies o2) {
-            return o2.enemies - o1.enemies;
+            int point2Rank = o2.enemies + getExtraRank(o2.row, o2.col);
+            int point1Rank = o1.enemies + getExtraRank(o1.row, o1.col);;
+            return point2Rank - point1Rank;
         }
+    }
+
+    private int getExtraRank(int pointRow,int pointCol) {
+
+        if(pointRow == numOfRows  - 1  && pointCol == numOfCols  - 1 ) {
+            return numOfRows / 2;
+        }
+
+        if(pointRow == 0 && pointCol == numOfCols  - 1 ) {
+            return numOfRows / 2;
+        }
+
+        if(pointRow == numOfRows - 1  && 0 == pointCol) {
+            return numOfRows / 2;
+        }
+
+        if(pointRow == 0 && 0 == pointCol) {
+            return numOfRows / 2;
+        }
+        return 0;
+
     }
     @Override
     public void disconnect() {}
@@ -113,5 +138,11 @@ public class LevelPlayer implements IConnectionManager {
     @Override
     public boolean isMoveTurnOnNoAvailable() {
         return true;
+    }
+
+    @Override
+    public void setBoardSize(int rows, int cols) {
+        numOfRows = rows;
+        numOfCols = cols;
     }
 }

@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import reversi.android.game.com.r.reversi.Connection.EventBus;
+import reversi.android.game.com.r.reversi.Connection.IConnectionManager;
 import reversi.android.game.com.r.reversi.Features.ReversyMediaPlayer;
 import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.Routers.GameStateRouter;
@@ -45,6 +46,7 @@ import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.BitmapContainer;
 import reversi.android.game.com.r.reversi.utility.DialogUtility;
 import reversi.android.game.com.r.reversi.utility.GoogleAnalyticsHelper;
+import reversi.android.game.com.r.reversi.utility.StatsManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdListener;
@@ -175,7 +177,7 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
 
         Crashlytics.log(Log.DEBUG,"[GAME_ACTIVITY]","levels mode="+ String.valueOf(App.getIsLevelsMode()) + " rows " + String.valueOf(numOfRows) + "col " + numOfCols);
         Crashlytics.log(Log.DEBUG,"[GAME_ACTIVITY]","levels mode="+ String.valueOf(App.getIsLevelsMode()) + " lvl " + App.getActiveLevel());
-        initController(computerMode);
+        initController(computerMode, numOfRows, numOfCols);
         initBoard();
         Boolean retryGame = getIntent().getBooleanExtra("retry", false);
         if(retryGame)
@@ -273,7 +275,8 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
         mInterstitialAd.loadAd(adRequest);
     }
 
-    private void initController(Boolean computerMode) {
+    private void initController(Boolean computerMode, int rows, int cols) {
+        IConnectionManager connectionManager = null;
         if(multiPlayerGame)
         {
             if(computerMode)
@@ -281,13 +284,15 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
                 if(App.getIsLevelsMode())
                 {
                     App.createNewModel(App.getLevelsModeManager().getBoardSize(App.getActiveLevel()));
-                    controller = App.getController(this, App.getLevelPlayer());
+                    connectionManager = App.getLevelPlayer();
+                    connectionManager.setBoardSize(App.getLevelsModeManager().getBoardSize(App.getActiveLevel()), App.getLevelsModeManager().getBoardSize(App.getActiveLevel()));
                 }
                 else {
                     numOfRows = App.getUserDefault().getBoardSize();
                     numOfCols = App.getUserDefault().getBoardSize();
                     App.createNewModel(App.getUserDefault().getBoardSize());
-                    controller = App.getController(this, App.getComputerPlayer());
+                    connectionManager = App.getComputerPlayer();
+                    connectionManager.setBoardSize(App.getUserDefault().getBoardSize(), App.getUserDefault().getBoardSize());
 
                 }
                 opponentName = getResources().getString(R.string.computer_string);
@@ -296,14 +301,17 @@ public class GameActivity extends Activity implements IPresent,RewardedVideoAdLi
             {
                 App.createNewModel(getResources().getInteger(R.integer.numOfRows));
                 App.Instance.getGoogleAnalytics().TrackGameTypeEvent(GoogleAnalyticsHelper.MULTI_PLAYER_GAME_SECCES);
-                controller = App.getController(this, App.getConnectionManager());
+                connectionManager = App.getConnectionManager();
+                connectionManager.setBoardSize(getResources().getInteger(R.integer.numOfRows), getResources().getInteger(R.integer.numOfRows));
             }
         }
         else
         {
             App.createNewModel(getResources().getInteger(R.integer.numOfRows));
-            controller = App.getController(this , App.getDummyConnection());
+            connectionManager = App.getDummyConnection();
+            connectionManager.setBoardSize(getResources().getInteger(R.integer.numOfRows), getResources().getInteger(R.integer.numOfRows));
         }
+        controller = App.getController(this , connectionManager);
     }
 
     private void initBoard() {

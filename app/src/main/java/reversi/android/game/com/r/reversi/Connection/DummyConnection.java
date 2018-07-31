@@ -25,4 +25,9 @@ public class DummyConnection implements IConnectionManager
     public boolean isMoveTurnOnNoAvailable() {
         return true;
     }
+
+    @Override
+    public void setBoardSize(int rows, int cols) {
+
+    }
 }

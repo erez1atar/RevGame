@@ -17,6 +17,7 @@ import com.crashlytics.android.core.CrashlyticsListener;
 
 import io.fabric.sdk.android.services.common.Crash;
 import reversi.android.game.com.r.reversi.Presention.GameActivity;
+import reversi.android.game.com.r.reversi.Presention.LevelsStatsActivity;
 import reversi.android.game.com.r.reversi.R;
 import reversi.android.game.com.r.reversi.utility.App;
 import reversi.android.game.com.r.reversi.utility.GoogleAnalyticsHelper;
@@ -27,6 +28,17 @@ public class ScrollerMap extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scroller_map);
+
+        Button stats = findViewById(R.id.statstics_btn);
+        stats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ScrollerMap.this, LevelsStatsActivity.class));
+            }
+        });
+        Animation statsAnim = AnimationUtils.loadAnimation(this, R.anim.levels_btn_anim);
+        statsAnim.setRepeatCount(Animation.INFINITE);
+        stats.setAnimation(statsAnim);
 
 
     }

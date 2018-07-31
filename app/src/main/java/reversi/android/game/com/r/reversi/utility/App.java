@@ -36,6 +36,7 @@ public class App extends Application
 {
     private Tracker mTracker;
     private GoogleAnalyticsHelper googleAnalyticsHelper;
+    private static StatsManager statsManager = null;
     public static App Instance;
     private static GameModel model;
     private static GameController controller;
@@ -147,6 +148,15 @@ public class App extends Application
             levelPlayer = new LevelPlayer();
         }
         return levelPlayer;
+    }
+
+    public static StatsManager getStatsManager()
+    {
+        if(statsManager == null)
+        {
+            statsManager = new StatsManager();
+        }
+        return statsManager;
     }
 
     public static boolean getIsLevelsMode()

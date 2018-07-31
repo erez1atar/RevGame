@@ -10,5 +10,6 @@ public interface IConnectionManager
     void sendTurnData(TurnData turnData);
     void disconnect();
     boolean isMoveTurnOnNoAvailable();
+    void setBoardSize(int rows, int cols);
 
 }
