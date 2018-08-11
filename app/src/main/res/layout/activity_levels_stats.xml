@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/main_backgound"
-    tools:context="reversi.android.game.com.r.reversi.Presention.LevelsStatsActivity">
+    tools:context="games.e.reversi.Presention.LevelsStatsActivity">
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
@@ -25,6 +25,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/crown"
             android:id="@+id/list_left_crown"
+            android:rotation="-45"
             android:layout_weight="0.5"/>
 
         <TextView
@@ -46,6 +47,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/crown"
             android:id="@+id/list_right_crown"
+            android:rotation="45"
             android:layout_weight="0.5"/>
 
 

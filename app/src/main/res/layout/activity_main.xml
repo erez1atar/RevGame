@@ -183,7 +183,7 @@
                 android:scaleX="0.8"
                 android:scaleY="0.8"
                 android:textColor="#FFFFFF"
-                android:id="@+id/reversi"
+                android:id="@+id/games.e.reversi"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:text="@string/reversi_string"

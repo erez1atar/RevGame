@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="reversi.android.game.com.r.reversi.Presention.CreditsActivity">
+    tools:context="games.e.reversi.Presention.CreditsActivity">
 
     <TextView
         android:layout_width="match_parent"

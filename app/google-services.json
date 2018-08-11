@@ -8,7 +8,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:424329362578:android:881ab92458b3d3e2",
         "android_client_info": {
-          "package_name": "reversi.android.game.com.r.reversi"
+          "package_name": "games.e.reversi"
         }
       },
       "oauth_client": [],
